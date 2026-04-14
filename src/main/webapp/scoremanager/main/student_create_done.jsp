@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+    <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-</body>
-</html>
+<c:import url="/common/base.jsp">
+    <c:param name="title">
+       学生登録
+    </c:param>
+    <h2>登録完了</h2>
+</c:import>    
