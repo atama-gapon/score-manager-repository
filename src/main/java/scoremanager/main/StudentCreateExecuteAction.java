@@ -27,6 +27,7 @@ public class StudentCreateExecuteAction extends Action {
 
         // ログイン中の先生の学校を取得
         School school = (School) req.getSession().getAttribute("school");
+        
 
         // Student オブジェクトに詰める
         Student s = new Student();
@@ -36,7 +37,14 @@ public class StudentCreateExecuteAction extends Action {
         s.setClassNum(classNum);
    
         s.setSchool(school);
-
+//////////////////ログイン機能ないときの対策//////////////////////////////
+        if (school == null) {
+            school = new School();
+            school.setCd("oom"); // ← DB の SCHOOL_CD に合わせる
+        }
+        
+        s.setSchool(school);
+//////////////////////////////////////
         // DAOで保存
         StudentDao dao = new StudentDao();
         boolean result = dao.save(s);
