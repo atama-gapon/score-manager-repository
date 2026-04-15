@@ -17,8 +17,9 @@ public class SubjectDao extends Dao {
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("select * from subject where cd=? school_cd=?");
+			statement = connection.prepareStatement("select * from subject where cd=? and school_cd=?");
 			statement.setString(1, cd);
+			statement.setString(2, school.getCd());
 			ResultSet resultSet = statement.executeQuery();
 			SchoolDao schoolDao = new SchoolDao();
 			if (resultSet.next()) {
@@ -103,9 +104,48 @@ public class SubjectDao extends Dao {
 		return list;
 	}
 	
-	public boolean save(Subject subject) {
-		return false;
+	public boolean save(Subject subject) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
 		
+		try {
+			statement = connection.prepareStatement("insert into subject(school_cd, cd, name) values(?, ?, ?);");
+			statement.setString(1, subject.getSchool().getCd());
+			statement.setString(2, subject.getCd());
+			statement.setString(3, subject.getName());
+
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean delete(Subject subject) {

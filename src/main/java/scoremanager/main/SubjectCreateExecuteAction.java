@@ -17,18 +17,12 @@ public class SubjectCreateExecuteAction extends Action {
 		
 		Map<String, String> errors = new HashMap<>();
 		
-		// 入力値のチェック
-		if (cd == "") {
-			
-		}
-		
-		if (name == "") {
-			
-		}
-		
 // 【科目コードが3文字でなかった場合】
-		if (cd.length() == 3) {
+		if (!(cd.length() == 3)) {
+			System.out.println("3文字でない");
 			errors.put("cd_length", "科目コードは3文字で入力してください");
+			errors.put("cd", cd);
+			errors.put("name", name);
 			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
 		}
@@ -48,8 +42,22 @@ public class SubjectCreateExecuteAction extends Action {
 //		School school = teacher.getSchool()
 		// 【/本番環境の処理】
 
-		Subject subject = sDao.get(name, school);
+		Subject subject = sDao.get(cd, school);
 		
+// 【DBへの書き込みを辞め、「科目コードが重複しています」と表示する】
+		if (subject != null) {
+			errors.put("cd_length", "科目コードが重複しています");
+			req.setAttribute("errors", errors);
+			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
+		}
+		
+// 【DBに科目を保存する】
+		Subject subject2 = new Subject();
+		subject2.setCd(cd);
+		subject2.setName(name);
+		subject2.setSchool(school);
+		sDao.save(subject2);
+		req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
 		
 	}
 }

@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-</body>
-</html>
+<c:import url="/common/base.jsp">
+    <c:param name="title">
+        得点管理システム
+    </c:param>
+
+    <c:param name="scripts"></c:param>
+
+    <c:param name="content">
+        <section class="me-4">
+            <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">科目登録完了</h2>
+            <p><a href="subject_create.jsp">戻る</a></p>
+		</section>
+	</c:param>
+</c:import>
