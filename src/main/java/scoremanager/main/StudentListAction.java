@@ -76,7 +76,7 @@ public class StudentListAction extends Action {
 			entYearSet.add(i);
 		}
 		
-		 List<Student> students = new ArrayList<>();
+		List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		
 		// クラスのみ入力 → エラー
