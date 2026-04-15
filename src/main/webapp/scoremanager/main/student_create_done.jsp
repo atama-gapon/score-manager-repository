@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-</body>
-</html>
+<c:import url="/common/base.jsp">
+    <c:param name="title">学生登録</c:param>
+    <c:param name="content">登録が完了しました。
+        <a href = "menu.jsp">メニューに戻る</a>
+    </c:param>
+</c:import>

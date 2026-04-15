@@ -79,6 +79,21 @@ public class StudentListAction extends Action {
 		List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		
+		// クラスのみ入力 → エラー
+        if ((classNum != null && !classNum.isEmpty()) && entYear == 0) {
+            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
+            req.getRequestDispatcher("student_list.jsp").forward(req, res);
+            return;
+        }
+
+        // クラス + 在学中 で入学年度なし → エラー
+        if ((classNum != null && !classNum.isEmpty()) && entYear == 0 && isAttend) {
+            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
+            req.getRequestDispatcher("student_list.jsp").forward(req, res);
+            return;
+        }
+		
+		
 		if (entYear != 0 && !classNum.equals("0")) {
 			// 入学年度とクラス番号を指定された場合
 			students = sDao.filter(school, entYear, classNum, isAttend);
