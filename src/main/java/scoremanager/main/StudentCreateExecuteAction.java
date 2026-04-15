@@ -19,8 +19,16 @@ public class StudentCreateExecuteAction extends Action {
         String classNum = req.getParameter("classNum");
 
         // 入力チェック
+        
+        if (no == null || no.isEmpty() || name == null || name.isEmpty()) {
+            req.setAttribute("message", "このフィールドに入力してください");
+            req.getRequestDispatcher("student_create.jsp").forward(req, res);
+            return;
+        }
+
+        // ② 入学年度 未入力チェック（代替フロー②）
         if (entYearStr == null || entYearStr.isEmpty()) {
-            req.setAttribute("message", "入学年度を入力してください");
+            req.setAttribute("message", "入学年度を選択してください");
             req.getRequestDispatcher("student_create.jsp").forward(req, res);
             return;
         }
@@ -47,6 +55,13 @@ public class StudentCreateExecuteAction extends Action {
 //////////////////////////////////////
         // DAOで保存
         StudentDao dao = new StudentDao();
+
+        // ③ 学生番号重複チェック（代替フロー③）
+        if (dao.get(no) != null) {
+            req.setAttribute("message", "学生番号が重複しています");
+            req.getRequestDispatcher("student_create.jsp").forward(req, res);
+            return;
+        }
         boolean result = dao.save(s);
 
         if (!result) {
