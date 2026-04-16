@@ -22,12 +22,12 @@ public class StudentUpdateAction extends Action {
         StudentDao sDao = new StudentDao();
         Student student = sDao.get(no);
 
-        // 学校情報（ログイン時に入っていない場合の保険）
         School school = (School) req.getSession().getAttribute("school");
         if (school == null) {
             school = new School();
             school.setCd("oom");
         }
+
         LocalDate todaysDate = LocalDate.now();
         int year = todaysDate.getYear();
 
@@ -41,13 +41,7 @@ public class StudentUpdateAction extends Action {
         List<String> classNumSet = cNumDao.filter(school);
         req.setAttribute("class_num_set", classNumSet);
 
-
-        // クラス一覧取得
-        ClassNumDao cDao = new ClassNumDao();
-        List<String> classList = cDao.filter(school);
-
         req.setAttribute("student", student);
-        req.setAttribute("classList", classList);
 
         req.getRequestDispatcher("student_update.jsp").forward(req, res);
     }

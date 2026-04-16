@@ -1,36 +1,78 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
-    <c:param name="title">学生情報変更</c:param>
+    <c:param name="title" value="学生情報変更" />
+    <c:param name="scripts" value="" />
     <c:param name="content">
-        <form action="StudentUpdateExecute.action" method="post">
-            <input type="hidden" name="no" value="${student.no}">
 
-            氏名：<input type="text" name="name" value="${student.name}"><br>
-
-            <label class="form-label">入学年度</label>
-<select class="form-select" name="entYear">
-    <c:forEach var="year" items="${ ent_year_set }">
-        <option value="${ year }" 
-            <c:if test="${ year == student.entYear }">selected</c:if>>
-            ${ year }
-        </option>
-    </c:forEach>
-</select>
-
-            クラス：
-            <select name="classNum">
-                <c:forEach var="c" items="${classList}">
-                    <option value="${c}" ${c == student.classNum ? "selected" : ""}>${c}</option>
-                </c:forEach>
-            </select><br>
+        <section class="me-4">
+            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
+                学生情報変更
+            </h2>
 
             <c:if test="${not empty message}">
-                <p style="color:red">${message}</p>
+                <div class="text-danger px-4">${message}</div>
             </c:if>
 
-            <button type="submit">変更</button>
-        </form>
+				<div class="mb-3">
+				    <label class="form-label">入学年度</label>
+				    <div>${student.entYear}</div>
+				    <input type="hidden" name="entYear" value="${student.entYear}">
+				</div>
+
+				
+
+				<div class="mb-3">
+				    <label class="form-label">学生番号</label>
+				    <div>${student.no}</div>
+				    <input type="hidden" name="no" value="${student.no}">
+				</div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">氏名</label>
+                    <input type="text" class="form-control"
+                           name="name"
+                           value="${student.name}"
+                           placeholder="氏名を入力してください"
+                           required>
+                </div>
+
+                <div class="mb-3">
+			    <label class="form-label">クラス</label>
+			    <select class="form-select" name="classNum">
+			        <c:forEach var="c" items="${class_num_set}">
+			            <option value="${c}"
+			                <c:if test="${c == student.classNum}">selected</c:if>>
+			                ${c}
+			            </option>
+			        </c:forEach>
+			    </select>
+			</div>
+			
+
+                <div class="mb-3 form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="attend-check"
+                           name="is_attend"
+                           value="t"
+                           <c:if test="${student.isAttend()}">checked</c:if>>
+                    <label class="form-check-label" for="attend-check">
+                        在学中
+                    </label>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">変更</button>
+                    <a href="StudentList.action" class="btn btn-secondary ms-2">戻る</a>
+                </div>
+
+            </form>
+
+        </section>
+
     </c:param>
 </c:import>
