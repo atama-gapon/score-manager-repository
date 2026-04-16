@@ -68,7 +68,7 @@ public class StudentUpdateExecuteAction extends Action {
         Student s = new Student();
         s.setNo(no);
         s.setName(name);
-        s.setEntYear(entYear);   // ← 修正ポイント
+        s.setEntYear(entYear);   
         s.setClassNum(classNum);
         s.setAttend(true);
         s.setSchool(school);
