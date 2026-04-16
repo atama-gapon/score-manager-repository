@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.School;
 import bean.Subject;
@@ -17,23 +19,25 @@ public class TestListSubjectDao extends Dao {
 	
 	
 	private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
-		List<TestListSubject> list = new ArrayList<>();
+		Map<String, TestListSubject> map = new HashMap<>();
 		try {
-			while(rSet.next()) {
-				TestListSubject subject = new TestListSubject();
+			String studentNo = rSet.getString("no");
 
-				subject.setEntYear(rSet.getInt("ent_year"));
-				subject.setStudentName(rSet.getString("name"));
-				subject.setStudentNo(rSet.getString("no"));
-				subject.setClassNum(rSet.getString("class_num"));
-				subject.putPoint(rSet.getInt("test_no"), rSet.getInt("point"));
-				list.add(subject);
-			}
+            // マップにまだその学生がいなければ、新しく作成して登録
+            if (!map.containsKey(studentNo)) {
+                TestListSubject subject = new TestListSubject();
+                subject.setEntYear(rSet.getInt("ent_year"));
+                subject.setStudentName(rSet.getString("name"));
+                subject.setStudentNo(studentNo);
+                subject.setClassNum(rSet.getString("class_num"));
+                map.put(studentNo, subject);
+            }
+			map.get(studentNo).putPoint(rSet.getInt("test_no"), rSet.getInt("point"));
 		} catch (SQLException | NullPointerException e) {
 			e.printStackTrace();
 		}
 		
-		return list;
+		return new ArrayList<>(map.values());
 	}
 	
 	
