@@ -14,7 +14,7 @@ import bean.Test;
 
 
 public class TestDao extends Dao {
-	private String baseSql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point from student s join test t on s.no = t.student_no where s.school_cd=?";
+	private String baseSql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point from student s left join test t on s.no = t.student_no where s.school_cd=?";
 	//取得した学生番号、科目、学校情報、回数を元に得点情報を取得する
 	public Test get(Student student, Subject subject, School school, int no) throws Exception {
 		Test test = new Test();
@@ -67,6 +67,7 @@ public class TestDao extends Dao {
 		    while (rSet.next()) {
 		        Test test = new Test();
 		        Student student = new Student();
+		        student.setEntYear(rSet.getInt("ent_year"));
 		        student.setNo(rSet.getString("student_no"));
 		        test.setStudent(student);
 		        
@@ -126,6 +127,7 @@ public class TestDao extends Dao {
 	}
     // 得点更新
 	public boolean save(List<Test> list) throws Exception {
+		
 		
 	}
 	
