@@ -127,8 +127,28 @@ public class TestDao extends Dao {
 	}
     // 得点更新
 	public boolean save(List<Test> list) throws Exception {
-		
-		
+		Connection connection = getConnection();
+		try {
+			connection.setAutoCommit(false);
+
+            for (Test test : list) {
+                
+                save(test, connection);
+            }
+
+            
+            connection.commit();
+		}catch (Exception e) {
+			// 例外の再スロー
+			connection.rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return true;
 	}
 	
 	// 得点追加
