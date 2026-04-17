@@ -42,7 +42,7 @@
                             <option value="0">----------</option>
                             <c:forEach var="subject" items="${ subjects }">
                                 <%-- 現在のsubjectと選択されていたf3が一致していた場合selectedを追記 --%>
-                                <option value="${ subject }" <c:if test="${ subject==f3 }">selected</c:if>>${ subject }</option>
+                                <option value="${ subject.cd }" <c:if test="${ subject.name==f3 }">selected</c:if>>${ subject.name }</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -51,8 +51,9 @@
                     <div class="col-2 text-center">
                         <button class="btn btn-secondary" id="filter-button">検索</button>
                     </div>
-                    <div class="col-12 mt-2 text-warning">${ errors.get("f1") }</div>
+                    <div class="col-12 mt-2 text-warning">${ message }</div>
                 </div>
+                <input type="hidden" value="sj">
             </form>
 
             <form method="get" action="TestListStudentExecute.action">
@@ -60,14 +61,14 @@
                 学生情報
                     <div class="col-4">
                         <label class="form-label" for="student-f4-select">学生番号</label>
-                        <input type="text" name="f4" value="${param.f4}" maxlength="10" placeholder="学生番号を入力してください" required>
+                        <input type="text" name="f4" value="${f4}" maxlength="10" placeholder="学生番号を入力してください" required>
                     </div>
                     <div class="col-2 text-center">
                         <button class="btn btn-secondary" id="filter-button">検索</button>
-                    </div>
-                    </div>
+                 </div>
+                 </div>
+                 <input type="hidden" value="st">
             </form>
-			<p class="text-info">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
 		</section>
 		<div>氏名：${ student.name }（${ student.no }）</div>
 		<c:choose>

@@ -1,10 +1,13 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
 import bean.Subject;
 import bean.TestListSubject;
+import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +40,28 @@ public class TestListSubjectExecuteAction extends Action {
         int entYear = Integer.parseInt(entYearStr);
         SubjectDao sDao = new SubjectDao();
         Subject subject = sDao.get(subjectCd, school);
+        
+		// ユーザーデータからユーザーが所属している学校のクラスデータを取得
+		ClassNumDao cDao = new ClassNumDao();
+// 学校コードに合致するデータを取得
+		List<String> cNumSet = cDao.filter(school);
+// ユーザーデータからユーザーが所属している学校の科目データを取得
+		SubjectDao subjectDao = new SubjectDao();
+// 科目コードに合致するデータを取得
+		List<Subject> subjects =  subjectDao.filter(school);
+// 入学年度リストを生成
+		LocalDate todaysDate = LocalDate.now();
+		int year = todaysDate.getYear();
+		// 10年前から1年後までをリストに追加
+		List<Integer> entYearSet = new ArrayList<>();
+		for (int i=year-10; i<=year+1; i++) {
+			entYearSet.add(i);
+		}
+		
+// 収集したデータをリクエストに設定
+		req.setAttribute("class_num_set", cNumSet);
+		req.setAttribute("subjects", subjects);
+		req.setAttribute("ent_year_set", entYearSet);
         
 // 入学年度、クラス、科目に合致するデータを取得
         TestListSubjectDao tDao = new TestListSubjectDao();

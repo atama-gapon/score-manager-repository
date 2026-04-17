@@ -42,16 +42,18 @@
                             <option value="0">----------</option>
                             <c:forEach var="subject" items="${ subjects }">
                                 <%-- 現在のsubjectと選択されていたf3が一致していた場合selectedを追記 --%>
-                                <option value="${ subject }" <c:if test="${ subject==f3 }">selected</c:if>>${ subject }</option>
+                                <option value="${ subject.cd }" <c:if test="${ subject.name==f3 }">selected</c:if>>${ subject.name }</option>
                             </c:forEach>
                         </select>
                     </div>
 
+
                     <div class="col-2 text-center">
                         <button class="btn btn-secondary" id="filter-button">検索</button>
                     </div>
-                    <div class="col-12 mt-2 text-warning">${ errors.get("f1") }</div>
+                    <div class="col-12 mt-2 text-warning">${ message }</div>
                 </div>
+                <input type="hidden" value="sj">
             </form>
 
             <form method="get" action="TestListStudentExecute.action">
@@ -59,17 +61,18 @@
                 学生情報
                     <div class="col-4">
                         <label class="form-label" for="student-f4-select">学生番号</label>
-                        <input type="text" name="f4" value="${param.f4}" maxlength="10" placeholder="学生番号を入力してください" required>
+                        <input type="text" name="f4" value="${f4}" maxlength="10" placeholder="学生番号を入力してください" required>
                     </div>
                     <div class="col-2 text-center">
                         <button class="btn btn-secondary" id="filter-button">検索</button>
-                    </div>
-                    </div>
+                 </div>
+                 </div>
+                 <input type="hidden" value="st">
             </form>
-			<p class="text-info">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
 		</section>
-		<div>科目：${ student.name }（${ student.no }）</div>
-
+		<div>科目：${ subject.name }</div>
+		<c:choose>
+			<c:when test="${ testListSubjects.size() > 0 }">
 		        <table class="table table-hover">
 		            <tr>
 		                <th>入学年度</th>
@@ -85,10 +88,24 @@
 		                    <td>${ tlsubject.classNum }</td>
 		                    <td>${ tlsubject.studentNo }</td>
 		                    <td>${ tlsubject.studentName }</td>
-		                    <td></td>
-		                    <td></td>
+		                    <%-- NOが1回目か2回目ではないもの、1回目がないのに2回目があるものを除去 --%>
+		                    <c:set var="count" value="0" />
+		                    <c:forEach var="point" items="${tlsubject.points}">
+		                    	<c:if test="${point.key == 1}">
+		                    		<td>${point.value}</td>
+		                    		<c:set var="count" value="${count + 1}" />
+		                    	</c:if>
+		                    	<c:if test="${(point.key == 2) && (count == 1)}">
+		                    		<td>${point.value}</td>
+		                    	</c:if>
+							</c:forEach>
 		                </tr>
 		            </c:forEach>
 		        </table>
+		    </c:when>
+		    <c:otherwise>
+		        <div>学生情報が存在しませんでした。</div>
+		    </c:otherwise>
+		</c:choose>
 	</c:param>
 </c:import>

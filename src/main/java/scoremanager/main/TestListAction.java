@@ -46,7 +46,6 @@ public class TestListAction extends Action {
 		for (int i=year-10; i<=year+1; i++) {
 			entYearSet.add(i);
 		}
-
 		
 // 収集したデータをリクエストに設定
 		req.setAttribute("class_num_set", cNumSet);

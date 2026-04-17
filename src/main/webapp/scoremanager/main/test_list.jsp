@@ -53,6 +53,7 @@
                     </div>
                     <div class="col-12 mt-2 text-warning">${ message }</div>
                 </div>
+                <input type="hidden" value="sj">
             </form>
 
             <form method="get" action="TestListStudentExecute.action">
@@ -66,6 +67,7 @@
                         <button class="btn btn-secondary" id="filter-button">検索</button>
                  </div>
                  </div>
+                 <input type="hidden" value="st">
             </form>
             
 			<p class="text-info">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
