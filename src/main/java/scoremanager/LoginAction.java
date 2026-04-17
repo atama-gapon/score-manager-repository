@@ -1,12 +1,29 @@
 package scoremanager;
 
+import bean.Teacher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
+
 
 public class LoginAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		System.out.println("テスト");
-		req.getRequestDispatcher("login.jsp").forward(req, res);;
+		
+		HttpSession session = req.getSession(false);
+
+        if (session != null) {
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+        
+            // ログイン済みなら
+            if (teacher != null ) {
+            	res.sendRedirect("main/Menu.action");
+            	return;
+            }
+        }
+        
+        
+		req.getRequestDispatcher("login.jsp").forward(req, res);
 	}
 }
+
