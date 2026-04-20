@@ -1,12 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	あ
-</body>
-</html>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+
+
+
+<c:import url="/common/base.jsp" >
+	
+	<jsp:include page="/common/navigation.jsp">
+	<c:param name="title">
+		得点管理システム
+	</c:param>
+	
+	<c:param name="scripts"></c:param>
+	
+	<c:param name="content">
+		<p>エラーが発生しました。</p>
+	</c:param>
+	</jsp:include>
+</c:import>
