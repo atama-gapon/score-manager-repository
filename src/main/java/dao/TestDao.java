@@ -125,7 +125,7 @@ public class TestDao extends Dao {
 		
 		return list;
 	}
-    // 得点更新
+    // 一括で保存するためのメソッド
 	public boolean save(List<Test> list) throws Exception {
 		Connection connection = getConnection();
 		try {
@@ -151,8 +151,33 @@ public class TestDao extends Dao {
         return true;
 	}
 	
-	// 得点追加
+	// 一括保存
 	private boolean save(Test test, Connection connection) throws Exception {
-		
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement("insert into test (student_no, subject_cd, school_cd, no, point, class_num) values(?,?,?,?,?,?)");
+			statement.setString(1, test.getStudent().getNo());
+			statement.setString(2, test.getSubject());
+			statement.setString(3, test.getSchool().getCd());
+			statement.setInt(4, test.getNo());
+			statement.setInt(5, test.getPoint());
+			statement.setString(6, test.getClassNum());
+			statement.executeUpdate();
+			
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+        return true;
 	}
 }
