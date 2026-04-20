@@ -79,6 +79,7 @@
 		                <th>科目コード</th>
 		                <th>回数</th>
 		                <th>点数</th>
+		                <th></th>
 		            </tr>
 		            <c:forEach var="tlstudent" items="${ testListStudents }">
 		                <tr>
@@ -86,6 +87,7 @@
 		                    <td>${ tlstudent.subjectCd }</td>
 		                    <td>${ tlstudent.num }</td>
 		                    <td>${ tlstudent.point }</td>
+		                    <td><a href="TestDelete.action?studentNo=${student.no}&subjectCd=${tlstudent.subjectCd}&schoolCd=${student.school.cd}&num=${tlstudent.num}">削除</a></td>
 		                </tr>
 		            </c:forEach>
 		        </table>

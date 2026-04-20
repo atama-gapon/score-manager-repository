@@ -8,10 +8,12 @@ import java.util.Map;
 
 import bean.School;
 import bean.Student;
+import bean.Teacher;
 import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 // 役割：学生の一覧を取得する処理を行うアクションクラス
@@ -23,15 +25,15 @@ public class StudentListAction extends Action {
 //		HttpSession session = req.getSession();
 //		Teacher teacher = (Teacher)session.getAttribute("user");
 //		School school = teacher.getSchool()
-		School school = new School();
-		school.setCd("oom");
-		school.setName("テスト：oom");
+//		School school = new School();
+//		school.setCd("oom");
+//		school.setName("テスト：oom");
 //		【/テスト環境の処理】
 		
 		// 【本番環境の処理】
-//		HttpSession session = req.getSession();
-//		Teacher teacher = (Teacher)session.getAttribute("user");
-//		School school = teacher.getSchool()
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher)session.getAttribute("user");
+		School school = teacher.getSchool();
 		// 【/本番環境の処理】
 
 

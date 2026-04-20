@@ -52,12 +52,52 @@ public class TeacherDao extends Dao {
 		return teacher;
 	}
 	
-	public Teacher login(String id, String password) {
-		return null;
+	public Teacher login(String id, String password) throws Exception {
 		// 一致しているか確認？
 		// 一致していなかったらnull入りのTeacher
 		// 一致していたらいろんな情報を詰め込んだTeacher
+		Teacher teacher = new Teacher();
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
 		
+		try {
+			statement = connection.prepareStatement("select * from teacher where id = ? and password = ?");
+			statement.setString(1, id);
+			statement.setString(2, password);
+			ResultSet resultSet = statement.executeQuery();
+			
+			if (resultSet.next()) {
+				teacher.setId(resultSet.getString("id"));
+				teacher.setPassword(resultSet.getString("password"));
+				teacher.setName(resultSet.getString("name"));
+				School school = new School();
+				school.setCd(resultSet.getString("school_cd")); 
+				teacher.setSchool(school);
+			}else {
+				teacher = null;
+			}
+			
+		}catch (Exception e) {
+			// 例外の再スロー
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+		}
 		
+		return teacher;
 	}
 }

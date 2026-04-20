@@ -2,24 +2,78 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<style>
+input::placeholder {
+    font-size: 15px;
+}
+
+.form-control {
+    height: 50px;
+}
+
+
+</style>
+
+
+<script>
+function togglePassword() {
+    const pw = document.getElementById("password");
+    pw.type = (pw.type === "password") ? "text" : "password";
+}
+</script>
+
+
+
 <c:import url="/common/base.jsp">
     <c:param name="title">
         得点管理システム
     </c:param>
 
     <c:param name="scripts"></c:param>
-
+	
     <c:param name="content">
         <section class="me-4">
-            <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">ログイン</h2>
-            <div class="row text-center px-4 fs-3 my-5">
-            <c:if test="${message}"><p>IDまたはパスワードが確認できませんでした</p></c:if>
-              	<form action="LoginExecute.action" method="get">
-					<input name="id" type="text">
-					<input name="password" type="text">
-					<input type="submit" value="送信">
-				</form>
-            </div>
-        </section>
-    </c:param>
+			<div class="container mt-5">
+				<div class="row justify-content-center">
+					<div class="col-md-10">
+						<div class="card shadow-sm">
+							<div class="card-header text-center fw-bold">
+								<h5>ログイン</h5>
+							</div>
+							<div class="card-body">
+								<c:if test="${message != null}">
+									<div class="mb-2">
+									 • ${message}
+									</div>
+								 </c:if>
+								<form action="LoginExecute.action" method="post">
+									<!-- ID -->
+									<div class="mb-3">
+										<input type="text" class="form-control" name="id" placeholder="ID" value="${id2}" required>
+									</div>
+									<!-- パスワード -->
+									<div class="mb-3">
+										<input type="password" class="form-control"id="password" name="password" placeholder="パスワード" required>
+									</div>
+									<!-- チェックボックス -->
+									<div class="form-check d-flex justify-content-center mb-3">
+										<input class="form-check-input me-2" type="checkbox" id="showPw" onclick="togglePassword()">
+										<label class="form-check-label" for="showPw">
+										パスワードを表示
+										</label>
+									</div>
+									<!-- ボタン -->
+									<div class="text-center">
+										<button type="submit" class="btn btn-primary px-4">
+											ログイン
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</c:param>
 </c:import>
