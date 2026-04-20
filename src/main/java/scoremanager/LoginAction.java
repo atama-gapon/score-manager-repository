@@ -6,14 +6,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
-
 public class LoginAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
 		HttpSession session = req.getSession(false);
 
         if (session != null) {
-            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            Teacher teacher = (Teacher) session.getAttribute("user");
         
             // ログイン済みなら
             if (teacher != null ) {
@@ -21,8 +20,6 @@ public class LoginAction extends Action {
             	return;
             }
         }
-        
-        
 		req.getRequestDispatcher("login.jsp").forward(req, res);
 	}
 }

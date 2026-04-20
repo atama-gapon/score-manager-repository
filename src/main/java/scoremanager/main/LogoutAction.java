@@ -8,7 +8,7 @@ import tool.Action;
 public class LogoutAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		HttpSession session = req.getSession(true);
-		session.removeAttribute("teacher");
+		session.removeAttribute("user");
 		
 		req.getRequestDispatcher("logout.jsp").forward(req, res);
 	}
