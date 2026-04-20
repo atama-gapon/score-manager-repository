@@ -5,24 +5,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
+import bean.Teacher;
 import dao.ClassNumDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
+
 
 public class StudentCreateAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        // セッションのユーザーデータを取得
-        // 【テスト環境の処理】
-        // HttpSession session = req.getSession();
-        // Teacher teacher = (Teacher)session.getAttribute("user");
-        // School school = teacher.getSchool()
-        School school = new School();
-        school.setCd("oom");
-        school.setName("テスト：oom");
-        // 【/テスト環境の処理】
+        HttpSession session = req.getSession();
 
+        // ★ user を session に確実に入れる
+        Teacher teacher = (Teacher)session.getAttribute("user");
+        if (teacher == null) {
+            teacher = (Teacher)session.getAttribute("loginUser"); // ← ログイン時の名前に合わせる
+            session.setAttribute("user", teacher);
+        }
+
+        // ★ 認証済みフラグ
+        teacher.setAuthenticated(true);
+
+        School school = teacher.getSchool();
+
+    	
+    	
+    	//         セッションのユーザーデータを取得
+//         【テスト環境の処理】
+//    	HttpSession session = req.getSession();
+//        Teacher teacher = (Teacher)session.getAttribute("user");
+//        School school = teacher.getSchool();
+
+        session.setAttribute("school", school);
         // 入学年度リスト作成
         LocalDate todaysDate = LocalDate.now();
         int year = todaysDate.getYear();
@@ -33,20 +49,15 @@ public class StudentCreateAction extends Action {
         }
         req.setAttribute("ent_year_set", entYearSet);
 
-        // 【本番環境の処理】
-        // HttpSession session = req.getSession();
-        // Teacher teacher = (Teacher)session.getAttribute("user");
-        // School school = teacher.getSchool()
-        // 【/本番環境の処理】
 
         // 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
         ClassNumDao cNumDao = new ClassNumDao();
-        // 【テスト環境の処理】
-        List<String> classNumSet = cNumDao.filter(school);
+//        【テスト環境の処理】
+//        List<String> classNumSet = cNumDao.filter(school);
         // 【/テスト環境の処理】
 
         // 【本番環境の処理】
-        // List<String> classNumSet = cNumDao.filter(school);
+         List<String> classNumSet = cNumDao.filter(school);
         // 【/本番環境の処理】
 
         req.setAttribute("class_num_set", classNumSet);

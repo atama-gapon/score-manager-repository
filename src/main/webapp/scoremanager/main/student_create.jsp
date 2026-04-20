@@ -4,54 +4,65 @@
 <c:import url="/common/base.jsp">
 <c:param name="content">
 
-<h2>学生登録</h2>
-
-<% String message = (String)request.getAttribute("message"); %>
-<% if (message != null) { %>
-    <p style="color:red;"><%= message %></p>
-<% } %>
+<h2>学生情報登録</h2>
 
 <form action="StudentCreateExecute.action" method="post">
 
+
     <!-- 入学年度 -->
-    <label class="form-label">入学年度</label>
-    <select class="form-select" name="entYear">
-        <option value="">選択してください</option>
-        <c:forEach var="year" items="${ ent_year_set }">
-            <option value="${ year }">${ year }</option>
+    <label>入学年度</label>
+    <select name="entYear" class="form-select">
+        <option value="">--------</option>
+        <c:forEach var="year" items="${ent_year_set}">
+            <option value="${year}"
+                <c:if test="${year == entYear}">selected</c:if>>
+                ${year}
+            </option>
         </c:forEach>
     </select>
 
-    <br><br>
+    <c:if test="${not empty errors.entYear}">
+        <div style="color:red">${errors.entYear}</div>
+    </c:if>
+
+    <br>
 
     <!-- 学生番号 -->
-    <label class="form-label">学生番号</label>
-    <input type="text" name="no" class="form-control">
+    <label>学生番号</label>
+    <input type="text" name="no" class="form-control" value="${no}" required>
+    <c:if test="${not empty errors.no}">
+        <div style="color:red">${errors.no}</div>
+    </c:if>
 
-    <br><br>
+    <br>
 
     <!-- 氏名 -->
-    <label class="form-label">氏名</label>
-    <input type="text" name="name" class="form-control">
+    <label>氏名</label>
+    <input type="text" name="name" class="form-control" value="${name}" required>
+    <c:if test="${not empty errors.name}">
+        <div style="color:red">${errors.name}</div>
+    </c:if>
 
-    <br><br>
+    <br>
 
     <!-- クラス -->
-    <label class="form-label">クラス</label>
-<select class="form-select" name="classNum">
-    <option value="">選択してください</option>
-    <c:forEach var="c" items="${ class_num_set }">
-        <option value="${ c }">${ c }</option>
-    </c:forEach>
-</select>
-<br><br>
+    <label>クラス</label>
+    <select name="classNum" class="form-select">
+        <option value="">--------</option>
+        <c:forEach var="c" items="${class_num_set}">
+            <option value="${c}"
+                <c:if test="${c == classNum}">selected</c:if>>
+                ${c}
+            </option>
+        </c:forEach>
+    </select>
 
+    <br>
 
-    <input type="submit" value="登録" class="btn btn-primary">
+    <button type="submit" class="btn btn-primary">登録</button>
+    <a href="menu.jsp">戻る</a>
+
 </form>
-
-<br>
-<a href="menu.jsp">終了</a>
 
 </c:param>
 </c:import>
