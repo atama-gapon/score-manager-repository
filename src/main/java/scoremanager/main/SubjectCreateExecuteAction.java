@@ -5,9 +5,11 @@ import java.util.Map;
 
 import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectCreateExecuteAction extends Action {
@@ -25,21 +27,23 @@ public class SubjectCreateExecuteAction extends Action {
 			errors.put("name", name);
 			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
+			//エラー時に戻るように(追加)
+			return;
 		}
 		
 // 【科目コードと学校コードに合致するデータを取得する】
 		SubjectDao sDao = new SubjectDao();
 		
 //		【テスト環境の処理】
-		School school = new School();
-		school.setCd("oom");
-		school.setName("テスト：oom");
+		//School school = new School();
+		//school.setCd("oom");
+		//school.setName("テスト：oom");
 //		【/テスト環境の処理】
 		
 		// 【本番環境の処理】
-//		HttpSession session = req.getSession();
-//		Teacher teacher = (Teacher)session.getAttribute("user");
-//		School school = teacher.getSchool()
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher)session.getAttribute("user");
+		School school = teacher.getSchool();
 		// 【/本番環境の処理】
 
 		Subject subject = sDao.get(cd, school);
@@ -47,8 +51,13 @@ public class SubjectCreateExecuteAction extends Action {
 // 【DBへの書き込みを辞め、「科目コードが重複しています」と表示する】
 		if (subject != null) {
 			errors.put("cd_length", "科目コードが重複しています");
+			//エラー時データを保持する(追加)
+			errors.put("cd", cd);
+			errors.put("name", name);
 			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
+			//エラー時に戻るように(追加)
+			return;
 		}
 		
 // 【DBに科目を保存する】

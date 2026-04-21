@@ -1,10 +1,15 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectUpdateExecuteAction extends Action {
@@ -12,21 +17,44 @@ public class SubjectUpdateExecuteAction extends Action {
 		// 入力された値をDBに保存する
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
+		
+		//エラーメッセージを出せるように(追加)
+		Map<String, String> errors = new HashMap<>();
+		
 		// 【科目コードと学校コードに合致するデータを取得】
 		// 【テスト環境の処理】
-		School school = new School();
-		school.setCd("oom");
-		school.setName("テスト：oom");
+		//School school = new School();
+		//school.setCd("oom");
+		//school.setName("テスト：oom");
 		// 【/テスト環境の処理】
 		
 		// 【本番環境の処理】
-//						HttpSession session = req.getSession();
-//						Teacher teacher = (Teacher)session.getAttribute("user");
-//						School school = teacher.getSchool()
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher)session.getAttribute("user");
+		School school = teacher.getSchool();
 		// 【/本番環境の処理】
+						
+		
 		
 		SubjectDao sDao = new SubjectDao();
-		Subject subject = new Subject();
+		Subject subject = sDao.get(cd, school);
+		
+		//科目が更新中に削除されたときの処理(追加)
+		if (subject == null) {
+			errors.put("cd_length", "科目が存在していません");
+			//エラーが起きた際にデータを映す。
+			Subject vSub = new Subject();
+		    vSub.setCd(cd);
+		    vSub.setName(name);
+		    vSub.setSchool(school);
+		    
+		    req.setAttribute("errors", errors);
+		    req.setAttribute("subject", vSub);
+
+			req.getRequestDispatcher("subject_update.jsp").forward(req, res);
+			return;
+		}
+		
 		subject.setCd(cd);
 		subject.setName(name);
 		subject.setSchool(school);
