@@ -58,6 +58,5 @@ public class SubjectCreateExecuteAction extends Action {
 		subject2.setSchool(school);
 		sDao.save(subject2);
 		req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
-		
 	}
 }

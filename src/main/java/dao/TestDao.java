@@ -155,4 +155,48 @@ public class TestDao extends Dao {
 	private boolean save(Test test, Connection connection) throws Exception {
 		
 	}
+	
+	// 成績削除
+//	public boolean delete(Test test) throws Exception {
+//		Connection connection = getConnection();
+//		PreparedStatement statement = null;
+//		int count = 0;
+//		
+//		try {
+//			statement = connection.prepareStatement("");
+//			statement.setString(1, subject.getSchool().getCd());
+//			statement.setString(2, subject.getCd());
+//
+//			count = statement.executeUpdate();
+//
+//		} catch (Exception e) {
+//			// 例外の再スロー
+//			e.printStackTrace();
+//			throw e;
+//		} finally {
+//			if (statement != null) {
+//				try {
+//					statement.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					throw e;
+//				}
+//			}
+//			
+//			if (connection != null) {
+//				try {
+//					connection.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					throw e;
+//				}
+//			}
+//		}
+//		
+//		if (count > 0) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 }

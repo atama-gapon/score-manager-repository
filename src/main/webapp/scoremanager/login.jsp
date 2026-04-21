@@ -22,8 +22,6 @@ function togglePassword() {
 }
 </script>
 
-
-
 <c:import url="/common/base.jsp">
     <c:param name="title">
         得点管理システム

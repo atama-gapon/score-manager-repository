@@ -97,15 +97,131 @@ public class ClassNumDao extends Dao {
 		return list;
 	}
 	
-	// 追加課題であるクラス管理で使用するメソッドのため、割愛します。
-	public boolean save(ClassNum classNum) {
-		return false;
+	public boolean save(ClassNum classNum) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
 		
+		try {
+			statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
+			statement.setString(1, classNum.getClass_num());
+			statement.setString(2, classNum.getSchool().getCd());
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean save(ClassNum classNum, String newClassNum) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
+		
+		try {
+			statement = connection.prepareStatement("update class_num set class_num=? where class_num=? and school_cd=?");
+			statement.setString(1, newClassNum);
+			statement.setString(2, classNum.getClass_num());
+			statement.setString(3, classNum.getSchool().getCd());
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
-	// 追加課題であるクラス管理で使用するメソッドのため、割愛します。
-	public boolean save(ClassNum classNum, String newClassNum) {
-		return false;
+	public boolean delete(ClassNum classNum) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
 		
+		try {
+			statement = connection.prepareStatement("delete from class_num where school_cd=? and class_num=?;");
+			statement.setString(1, classNum.getSchool().getCd());
+			statement.setString(2, classNum.getClass_num());
+
+			count = statement.executeUpdate();
+
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
