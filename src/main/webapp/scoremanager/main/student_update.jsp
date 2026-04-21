@@ -77,7 +77,7 @@
                 <!-- ボタン -->
                 <div class="mt-4">
                     <input type="submit" name="login" value="変更" class="btn btn-primary">
-                    <a href="StudentList.action" class="btn btn-secondary ms-2">戻る</a>
+                    <a href="StudentList.action">戻る</a>
                 </div>
 
             </form>

@@ -6,10 +6,12 @@ import java.util.List;
 
 import bean.School;
 import bean.Student;
+import bean.Teacher;
 import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 
@@ -24,13 +26,29 @@ public class StudentUpdateAction extends Action {
         // 学生情報を1件取ってくる
         StudentDao sDao = new StudentDao();
         Student student = sDao.get(no);
+        HttpSession session = req.getSession();
 
-        // school がセッションに無いときの保険
-        School school = (School) req.getSession().getAttribute("school");
-        if (school == null) {
-            school = new School();
-            school.setCd("oom");
+        // ★ user を session に確実に入れる
+        Teacher teacher = (Teacher)session.getAttribute("user");
+        if (teacher == null) {
+            teacher = (Teacher)session.getAttribute("loginUser"); // ← ログイン時の名前に合わせる
+            session.setAttribute("user", teacher);
         }
+
+        // ★ 認証済みフラグ
+        teacher.setAuthenticated(true);
+
+        School school = teacher.getSchool();
+
+    	
+    	
+    	//         セッションのユーザーデータを取得
+//         【テスト環境の処理】
+//    	HttpSession session = req.getSession();
+//        Teacher teacher = (Teacher)session.getAttribute("user");
+//        School school = teacher.getSchool();
+
+        session.setAttribute("school", school);
 
         // 入学年度のリストを作る（プルダウン用）
         LocalDate todaysDate = LocalDate.now();
