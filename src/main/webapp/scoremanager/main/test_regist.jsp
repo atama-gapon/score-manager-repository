@@ -84,10 +84,10 @@
 				                    <td>${ test.student.name }</td>
 				                    <td>
 					                    <input type="number" name="point"
-					                    		value="${test.point}" class="form-control" 
+					                    		value="${test.point == -1 ? '' : test.point}" class="form-control" 
 	                                       		style="width: 100px;">
-	                                       		<c:if test="${not empty message_over}">
-									    			<div class="error-text">${message_over}</div>
+	                                       		<c:if test="${not empty message_over && (test.point < 0 || test.point > 100)}">
+									    			<div class="text-warning">${message_over}</div>
 												</c:if>
 					                    <input type="hidden" name="student_no_list" value="${test.student.no}">
 					                    
