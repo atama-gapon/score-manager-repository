@@ -27,7 +27,7 @@ public class TestDeleteAction extends Action {
 		StudentDao studentDao = new StudentDao();
 		Student student = studentDao.get(studentNo);
 		SubjectDao subjectDao = new SubjectDao();
-		Subject subject = subjectDao.get(schoolCd, school);
+		Subject subject = subjectDao.get(subjectCd, school);
 		
 		TestDao testDao = new TestDao();
 		Test test = testDao.get(student, subject, school, no);
