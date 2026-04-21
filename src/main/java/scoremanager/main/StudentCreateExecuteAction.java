@@ -2,7 +2,9 @@ package scoremanager.main;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bean.School;
 import bean.Student;
@@ -23,16 +25,14 @@ public class StudentCreateExecuteAction extends Action {
         String name = req.getParameter("name");
         String classNum = req.getParameter("classNum");
 
-        // ログイン中の先生の学校を取得
+        // ログイン中の先生の学校
         School school = (School) req.getSession().getAttribute("school");
-
-        // ログイン機能がないときの対策
         if (school == null) {
-            school = new School();
-            school.setCd("oom");
+            res.sendRedirect("../login.jsp");
+            return;
         }
 
-        // エラー時に毎回必要な共通処理（年度リスト & クラスリスト）
+        // 年度リスト
         LocalDate todaysDate = LocalDate.now();
         int year = todaysDate.getYear();
 
@@ -42,41 +42,58 @@ public class StudentCreateExecuteAction extends Action {
         }
         req.setAttribute("ent_year_set", entYearSet);
 
+        // クラスリスト
         ClassNumDao cNumDao = new ClassNumDao();
         List<String> classNumSet = cNumDao.filter(school);
         req.setAttribute("class_num_set", classNumSet);
 
-        // ① 未入力チェック
-        if (no == null || no.isEmpty() || name == null || name.isEmpty()) {
-            req.setAttribute("message", "このフィールドに入力してください");
-            req.getRequestDispatcher("student_create.jsp").forward(req, res);
-            return;
-        }
+        // DAO
+        StudentDao dao = new StudentDao();
 
-        // ② 入学年度 未選択
+        // エラーを入れる箱
+        Map<String, String> errors = new HashMap<>();
+
+        // 入学年度
         if (entYearStr == null || entYearStr.isEmpty()) {
-            req.setAttribute("message", "入学年度を選択してください");
+            errors.put("entYear", "入学年度を選択してください");
+        }
+
+        // 学生番号
+        if (no == null || no.isEmpty()) {
+            errors.put("no", "学生番号を入力してください");
+        }
+
+        // 氏名
+        if (name == null || name.isEmpty()) {
+            errors.put("name", "氏名を入力してください");
+        }
+
+        // 重複チェック（DAO に合わせて get(no) を使う）
+        if (no != null && !no.isEmpty() && dao.get(no) != null) {
+            errors.put("no", "学生番号が重複しています");
+        }
+
+        // エラーがあれば戻す
+        if (!errors.isEmpty()) {
+
+            // 入力値保持
+            req.setAttribute("entYear", entYearStr);
+            req.setAttribute("no", no);
+            req.setAttribute("name", name);
+            req.setAttribute("classNum", classNum);
+
+            req.setAttribute("errors", errors);
             req.getRequestDispatcher("student_create.jsp").forward(req, res);
             return;
         }
 
-        // Student オブジェクトに詰める
+        // Student オブジェクト
         Student s = new Student();
         s.setNo(no);
         s.setName(name);
         s.setEntYear(Integer.parseInt(entYearStr));
         s.setClassNum(classNum);
-        s.setSchool(school);
-
-        // DAO
-        StudentDao dao = new StudentDao();
-
-        // ③ 学生番号重複チェック
-        if (dao.get(no) != null) {
-            req.setAttribute("message", "学生番号が重複しています");
-            req.getRequestDispatcher("student_create.jsp").forward(req, res);
-            return;
-        }
+        s.setSchool(school); // ← DAO の save() が school_cd を使うので必須
 
         // 保存
         boolean result = dao.save(s);

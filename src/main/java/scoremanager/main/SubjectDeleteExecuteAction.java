@@ -16,7 +16,6 @@ public class SubjectDeleteExecuteAction extends Action {
 		School school = teacher.getSchool();
 		// 科目コード、学校コードに合致する科目を削除する
 		String cd = req.getParameter("cd");
-		// 【科目コードと学校コードに合致するデータを取得】
 
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = new Subject();

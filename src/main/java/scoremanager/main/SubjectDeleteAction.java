@@ -11,7 +11,6 @@ import tool.Action;
 
 public class SubjectDeleteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		
 		// 【セッションからユーザーデータ（教員データ）を取得】
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");

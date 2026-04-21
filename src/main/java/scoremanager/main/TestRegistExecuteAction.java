@@ -16,13 +16,13 @@ public class TestRegistExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 1. パラメータの取得
-        String entYearStr = request.getParameter("entyear"); 
-        String classNum = request.getParameter("classnum");  
-        String subjectcd = request.getParameter("subject_cd");
-        String numStr = request.getParameter("num");
+        String entYearStr = request.getParameter("f1"); 
+        String classNum = request.getParameter("f2");  
+        String subjectcd = request.getParameter("f3");
+        String numStr = request.getParameter("f4");
         
-        String Search = request.getParameter("search");
-        String Regist = request.getParameter("regist");
+
+        
         
         if (entYearStr == null || entYearStr.isEmpty() ||
         	    classNum == null || classNum.isEmpty() ||
@@ -30,7 +30,9 @@ public class TestRegistExecuteAction extends Action {
         	    numStr == null || numStr.isEmpty()) {
 
         	    request.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
-        	    request.getRequestDispatcher("student_create.jsp").forward(request, response);
+        	    request.setAttribute("f1", entYearStr);
+                request.setAttribute("f2", classNum);
+        	    request.getRequestDispatcher("test_regist.jsp").forward(request, response);
         	    return;
         	}
         
@@ -48,22 +50,26 @@ public class TestRegistExecuteAction extends Action {
         Subject subject = subDao.get(subjectcd, school);
         
         TestDao tDao = new TestDao();
-        
-        if (Search != null) {
-        	List<Test> test = tDao.filter(entYear, classNum, subject, num, school);
+        String Regist = request.getParameter("regist");
+        if (request.getParameter("search") != null) {
         	
-        	request.setAttribute("entyear", entYear);
-            request.setAttribute("classnum", classNum);
-            request.setAttribute("subject_cd", subjectcd);
+        	List<Test> test = tDao.filter(entYear, classNum, subject, num, school);
+        	request.setAttribute("f1", entYearStr); 
+        	request.setAttribute("f2", classNum);     
+        	request.setAttribute("f3", subjectcd);    
+        	request.setAttribute("f4", numStr);
+        	request.setAttribute("tests", test); 
+            
+            
             request.setAttribute("num", num);
-            request.setAttribute("subject", subject); 
-            request.setAttribute("tests", test);
+            request.setAttribute("subject", subject);
             
             request.getRequestDispatcher("test_regist.jsp").forward(request, response);
             
         }else if(Regist != null) {
+        	System.out.println("登録処理を開始しました！");
         	String[] points = request.getParameterValues("point");
-            String[] students = request.getParameterValues("student_no");
+            String[] students = request.getParameterValues("student_no_list");
             
             List<Test> save = new ArrayList<>();
             
@@ -80,7 +86,7 @@ public class TestRegistExecuteAction extends Action {
                     
                     
                     if (point < 0 || point > 100) {
-                        request.setAttribute("message", "0〜100の範囲で入力してください");
+                        request.setAttribute("message_over", "0〜100の範囲で入力してください");
                         
                         this.execute(request, response);
                         return;
