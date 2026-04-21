@@ -40,7 +40,8 @@ public class StudentUpdateAction extends Action {
 
         School school = teacher.getSchool();
 
-    	
+        session.setAttribute("school", school);
+
     	
     	//         セッションのユーザーデータを取得
 //         【テスト環境の処理】
@@ -48,7 +49,6 @@ public class StudentUpdateAction extends Action {
 //        Teacher teacher = (Teacher)session.getAttribute("user");
 //        School school = teacher.getSchool();
 
-        session.setAttribute("school", school);
 
         // 入学年度のリストを作る（プルダウン用）
         LocalDate todaysDate = LocalDate.now();
