@@ -11,15 +11,8 @@
 
     <c:param name="content">
         <section class="me-4">
-        <!-- 名前変更
-        		 科目更新完了→科目 -->
-            <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">科目情報変更</h2>
-	        
-	        <p class="mb-3 fw-normal bg-success py-2 px-4 text-center" style="--bs-bg-opacity: .6" >更新が完了しました</p>
-			
-			<br><br>
-			<a href="SubjectList.action">科目一覧</a>
-			
+            <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">クラス情報削除</h2>
+	        <p><a href="ClassList.action">クラス一覧</a></p>
 		</section>
 	</c:param>
 </c:import>

@@ -62,6 +62,45 @@ public class StudentDao extends Dao {
 		return student;
 	}
 	
+	// 指定したクラス番号の中に学生がいるか
+	public boolean hasStudentInClass(String classNum) throws Exception {
+		boolean isFound = false;
+		
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+
+		try {
+			statement = connection.prepareStatement("select * from student where class_num = ?");
+			statement.setString(1, classNum);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				isFound = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		return isFound;
+	}
+	
 	// 処理内容：フィルター後のリストへの格納
 	private List<Student> postFilter(ResultSet resultSet, School school) {
 		List<Student> list = new ArrayList<>();

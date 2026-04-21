@@ -17,10 +17,13 @@
             </div>
 			<c:choose>
 			    <c:when test="${ subjects.size() > 0 }">
-			        <div>検索結果：${ subjects.size() }件</div>
+			        <!-- 画面設計になかったので
+			         <div>検索結果：${ subjects.size() }件</div> -->
 			        <table class="table table-hover">
 			            <tr>
-			                <th>科目番号</th>
+			            	<!-- 名前の変更 
+			            		科目番号→科目コード -->
+			                <th>科目コード</th>
 			                <th>科目名</th>
 			                <th></th>
 			                <th></th>
@@ -36,7 +39,16 @@
 			        </table>
 			    </c:when>
 			    <c:otherwise>
-			        <div>科目情報が存在しませんでした。</div>
+			    	<table class="table table-hover">
+			    		<tr>
+							<th>科目コード</th>
+			            	<th>科目名</th>
+			            	<th></th>
+			            	<th></th>
+			        	</tr>
+			        </table>
+			        <!-- 画面設計と違ったので
+			        <div>科目情報が存在しませんでした。</div> -->
 			    </c:otherwise>
 			</c:choose>
 		</section>
