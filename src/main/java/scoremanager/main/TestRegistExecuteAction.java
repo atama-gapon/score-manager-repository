@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
-import bean.Student;
 import bean.Subject;
 import bean.Test;
 import dao.SubjectDao;
@@ -52,6 +51,7 @@ public class TestRegistExecuteAction extends Action {
         TestDao tDao = new TestDao();
         String Regist = request.getParameter("regist");
         if (request.getParameter("search") != null) {
+        	request.setAttribute("message_over", null);
         	
         	List<Test> test = tDao.filter(entYear, classNum, subject, num, school);
         	request.setAttribute("f1", entYearStr); 
@@ -67,46 +67,58 @@ public class TestRegistExecuteAction extends Action {
             request.getRequestDispatcher("test_regist.jsp").forward(request, response);
             
         }else if(Regist != null) {
-        	System.out.println("登録処理を開始しました！");
+        	request.setAttribute("message_over", null);
+        	
         	String[] points = request.getParameterValues("point");
             String[] students = request.getParameterValues("student_no_list");
             
-            List<Test> save = new ArrayList<>();
-            
-            if (points != null && students != null) {
-                for (int i = 0; i < students.length; i++) {
-                    String pStr = points[i];
+            List<Test> testList = tDao.filter(entYear, classNum, subject, num, school);
+            List<Test> saveList = new ArrayList<>();
+            boolean over = false;
+
+            if (points != null) {
+                for (int i = 0; i < testList.size(); i++) {
+                	String pStr = points[i];
                     
                     
                     if (pStr == null || pStr.isEmpty()) {
+                        over = true;
+                        
+                        testList.get(i).setPoint(-1); 
                         continue;
                     }
+                    int p = Integer.parseInt(points[i]);
                     
-                    int point = Integer.parseInt(pStr);
                     
-                    
-                    if (point < 0 || point > 100) {
-                        request.setAttribute("message_over", "0〜100の範囲で入力してください");
-                        
-                        this.execute(request, response);
-                        return;
+                    testList.get(i).setPoint(p);
+
+                    if (p < 0 || p > 100) {
+                        over = true;
+                    } else {
+                        saveList.add(testList.get(i));
                     }
-                    
-                   
-                    Test test = new Test();
-                    Student student = new Student();
-                    student.setNo(students[i]);
-                    test.setStudent(student);
-                    test.setClassNum(classNum);
-                    test.setSubject(subjectcd);
-                    test.setSchool(school);
-                    test.setNo(num);
-                    test.setPoint(point);
-                    
-                    save.add(test);
                 }
             }
-            tDao.save(save);
+	        if (over) {
+	            request.setAttribute("message_over", "0〜100の範囲で入力してください");
+	            
+	            request.setAttribute("tests", testList);
+	            
+	            request.setAttribute("f1", entYearStr);
+	            request.setAttribute("f2", classNum);
+	            request.setAttribute("f3", subjectcd);
+	            request.setAttribute("f4", numStr);
+	            request.setAttribute("tests", testList);
+	            request.setAttribute("num", num);
+	            request.setAttribute("subject", subject);
+	
+	            request.getRequestDispatcher("test_regist.jsp").forward(request, response);
+	            return;
+	        }
+	    
+            
+            
+            tDao.save(saveList);
             request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
         }
         

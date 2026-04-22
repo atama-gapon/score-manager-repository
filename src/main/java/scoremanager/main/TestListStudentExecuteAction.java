@@ -7,6 +7,7 @@ import java.util.List;
 import bean.School;
 import bean.Student;
 import bean.Subject;
+import bean.Teacher;
 import bean.TestListStudent;
 import dao.ClassNumDao;
 import dao.StudentDao;
@@ -14,18 +15,19 @@ import dao.SubjectDao;
 import dao.TestListStudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class TestListStudentExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         // セッションのユーザーデータを取得
         // 【テスト環境の処理】
-        // HttpSession session = req.getSession();
-        // Teacher teacher = (Teacher)session.getAttribute("user");
-        // School school = teacher.getSchool()
-        School school = new School();
-        school.setCd("oom");
-        school.setName("テスト：oom");
+         HttpSession session = req.getSession();
+         Teacher teacher = (Teacher)session.getAttribute("user");
+         School school = teacher.getSchool();
+//        School school = new School();
+//        school.setCd("oom");
+//        school.setName("テスト：oom");
         // 【/テスト環境の処理】
 		
 // 入力された学生番号の学生の成績データを取得する
