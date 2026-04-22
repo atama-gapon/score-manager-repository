@@ -32,6 +32,7 @@ public class StudentListAction extends Action {
 		
 		// 【本番環境の処理】
 		HttpSession session = req.getSession();
+		
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
 		// 【/本番環境の処理】
@@ -58,7 +59,7 @@ public class StudentListAction extends Action {
 		String classNum = req.getParameter("f2");
 		String isAttendStr = req.getParameter("f3");
 		
-		int entYear = 0;
+			int entYear = 0;
 		// エラー対策
 		if (entYearStr != null) {
 			entYear = Integer.parseInt(entYearStr);
@@ -67,7 +68,7 @@ public class StudentListAction extends Action {
 		boolean isAttend = false;
 		// 在学フラグが送信されていた場合
 		if (isAttendStr != null) {
-			isAttend = true;
+				isAttend = true;
 		}
 
 		LocalDate todaysDate = LocalDate.now();
@@ -78,7 +79,7 @@ public class StudentListAction extends Action {
 			entYearSet.add(i);
 		}
 		
-		List<Student> students = new ArrayList<>();
+			List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		
 		// クラスのみ入力 → エラー
@@ -96,7 +97,7 @@ public class StudentListAction extends Action {
         }
 		
 		
-		if (entYear != 0 && !classNum.equals("0")) {
+		 if (entYear != 0 && !classNum.equals("0")) {
 			// 入学年度とクラス番号を指定された場合
 			students = sDao.filter(school, entYear, classNum, isAttend);
 		} else if (entYear != 0 && classNum.equals("0")) {
@@ -104,17 +105,18 @@ public class StudentListAction extends Action {
 			students = sDao.filter(school, entYear, isAttend);
 		} else if (entYear == 0 && classNum == null || entYear == 0 && classNum.equals("0")) {
 			// 指定なしの場合
-			students = sDao.filter(school, isAttend);
-		} else {
+					students = sDao.filter(school, isAttend);
+			} else {
 			errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
 			req.setAttribute("errors", errors);
-			students = sDao.filter(school, isAttend);
+				students = sDao.filter(school, isAttend);
 		}
 
 		req.setAttribute("f1", entYear);
 		req.setAttribute("f2", classNum);
-		req.setAttribute("f3", isAttend);
-		req.setAttribute("students", students);
+	 	req.setAttribute("f3", isAttend);
+		
+	 	req.setAttribute("students", students);
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("ent_year_set", entYearSet);
 

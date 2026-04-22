@@ -12,57 +12,41 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
-
 public class StudentCreateAction extends Action {
+
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         HttpSession session = req.getSession();
 
-        // ★ user を session に確実に入れる
+        // user が入ってない時の保険
         Teacher teacher = (Teacher)session.getAttribute("user");
-        if (teacher == null) {
-            teacher = (Teacher)session.getAttribute("loginUser"); // ← ログイン時の名前に合わせる
-            session.setAttribute("user", teacher);
-        }
+            if (teacher == null) {
+        teacher = (Teacher)session.getAttribute("loginUser");
+                session.setAttribute("user", teacher);
+            }
 
-        // ★ 認証済みフラグ
-        teacher.setAuthenticated(true);
+        // 認証済み扱いにしておく
+            teacher.setAuthenticated(true);
 
         School school = teacher.getSchool();
-
-    	
-    	
-    	//         セッションのユーザーデータを取得
-//         【テスト環境の処理】
-//    	HttpSession session = req.getSession();
-//        Teacher teacher = (Teacher)session.getAttribute("user");
-//        School school = teacher.getSchool();
-
         session.setAttribute("school", school);
-        // 入学年度リスト作成
-        LocalDate todaysDate = LocalDate.now();
-        int year = todaysDate.getYear();
+
+        // 入学年度の候補をざっと作る
+                LocalDate today = LocalDate.now();
+        int year = today.getYear();
 
         List<Integer> entYearSet = new ArrayList<>();
-        for (int i = year - 10; i <= year + 1; i++) {
-            entYearSet.add(i);
-        }
+            for (int i = year - 10; i <= year + 1; i++) {
+        entYearSet.add(i);
+            }
         req.setAttribute("ent_year_set", entYearSet);
 
-
-        // 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
+        // クラス一覧を学校から取得
         ClassNumDao cNumDao = new ClassNumDao();
-//        【テスト環境の処理】
-//        List<String> classNumSet = cNumDao.filter(school);
-        // 【/テスト環境の処理】
-
-        // 【本番環境の処理】
-         List<String> classNumSet = cNumDao.filter(school);
-        // 【/本番環境の処理】
-
+                List<String> classNumSet = cNumDao.filter(school);
         req.setAttribute("class_num_set", classNumSet);
 
-        // ★ ここが重要：student_create.jsp に遷移する
-        req.getRequestDispatcher("student_create.jsp").forward(req, res);
+        // 画面へ
+                req.getRequestDispatcher("student_create.jsp").forward(req, res);
     }
 }

@@ -6,7 +6,6 @@
     <!-- ページのタイトル -->
    <c:import url="/common/base.jsp">
     <c:param name="title" value="学生情報変更" />
-    <c:param name="scripts" value="" />
     <c:param name="content">
         <section class="me-4">
 
