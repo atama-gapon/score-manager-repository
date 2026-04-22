@@ -24,6 +24,7 @@ public class TestDeleteAction extends Action {
 		String subjectCd = req.getParameter("subjectCd");
 		String schoolCd = req.getParameter("schoolCd");
 		int no = Integer.parseInt(req.getParameter("num"));
+
 		StudentDao studentDao = new StudentDao();
 		Student student = studentDao.get(studentNo);
 		SubjectDao subjectDao = new SubjectDao();
@@ -31,8 +32,10 @@ public class TestDeleteAction extends Action {
 		
 		TestDao testDao = new TestDao();
 		Test test = testDao.get(student, subject, school, no);
-		req.setAttribute("test", test);
 
+		req.setAttribute("test", test);
+		req.setAttribute("subjectCd", subjectCd);
+		req.setAttribute("no", no);
 		req.getRequestDispatcher("test_delete.jsp").forward(req, res);
 	}
 }

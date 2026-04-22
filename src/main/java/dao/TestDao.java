@@ -20,7 +20,7 @@ public class TestDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement("select point from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
+			statement = connection.prepareStatement("select * from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
 			statement.setString(1, student.getNo());
 			statement.setString(2, subject.getCd());
 			statement.setString(3, school.getCd());
@@ -28,7 +28,14 @@ public class TestDao extends Dao {
 			ResultSet resultSet = statement.executeQuery();
 			
 			if (resultSet.next()) {
+				
+				test.setStudent(student);
+				test.setNo(no);
+				test.setClassNum(resultSet.getString("class_num"));
 				test.setPoint(resultSet.getInt("point"));
+				
+				test.setSubject(subject.getCd()); 
+		        test.setSchool(school);
 				
 				
 			} else {
@@ -205,46 +212,49 @@ public class TestDao extends Dao {
 	}
 	
 	// 成績削除
-//	public boolean delete(Test test) throws Exception {
-//		Connection connection = getConnection();
-//		PreparedStatement statement = null;
-//		int count = 0;
-//		
-//		try {
-//			statement = connection.prepareStatement("");
-//			statement.setString(1, subject.getSchool().getCd());
-//			statement.setString(2, subject.getCd());
-//
-//			count = statement.executeUpdate();
-//
-//		} catch (Exception e) {
-//			// 例外の再スロー
-//			e.printStackTrace();
-//			throw e;
-//		} finally {
-//			if (statement != null) {
-//				try {
-//					statement.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//					throw e;
-//				}
-//			}
-//			
-//			if (connection != null) {
-//				try {
-//					connection.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//					throw e;
-//				}
-//			}
-//		}
-//		
-//		if (count > 0) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+	public boolean delete(Test test) throws Exception {
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		int count = 0;
+		
+		try {
+			// 修正が必要な箇所
+			statement = connection.prepareStatement("delete from test where student_no=? and subject_cd=? and school_cd=? and no=?");
+			statement.setString(1, test.getStudent().getNo()); 
+	        statement.setString(2, test.getSubject());        
+	        statement.setString(3, test.getSchool().getCd());  
+	        statement.setInt(4, test.getNo());
+
+			count = statement.executeUpdate();
+			System.out.println("削除された件数: " + count);
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
