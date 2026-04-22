@@ -71,5 +71,6 @@ public class TestListSubjectExecuteAction extends Action {
 		req.setAttribute("subject", subject);
 		req.setAttribute("testListSubjects", testListSubjects);
 		req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
+		return;
 	}
 }

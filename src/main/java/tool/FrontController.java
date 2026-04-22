@@ -2,11 +2,13 @@ package tool;
 
 import java.io.IOException;
 
+import bean.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 // 役割：フロントコントローラとなるサーブレット
 @WebServlet(urlPatterns = {"*.action"})
@@ -30,11 +32,18 @@ public class FrontController extends HttpServlet {
 			
 			// アクションのクラス名を使って、インスタンスを生成
 			Action action = (Action)Class.forName(name).getDeclaredConstructor().newInstance();
+
+		    HttpSession session = req.getSession();
+		    Teacher teacher = (Teacher) session.getAttribute("user");
 			
-			// 遷移先URLを取得
-			action.execute(req, res);
-//			String url = action.execute(req, res);
-//			req.getRequestDispatcher(url).forward(req, res);
+		    // ログインされていないかつ、ログイン実行からのアクセスではない場合、ログイン画面に遷移する
+		    if (teacher == null && !(name.equals("scoremanager.LoginExecuteAction"))) {
+		    	action = (Action)Class.forName("scoremanager.LoginAction").getDeclaredConstructor().newInstance();
+		    	action.execute(req, res);
+			} else {
+				action.execute(req, res);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 

@@ -15,7 +15,7 @@
         		科目削除→科目情報削除 -->
             <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">科目情報削除</h2>
 	        <form action="SubjectDeleteExecute.action" method="get">
-	        	<p>「${subject.name}(${subject.cd })」を削除してもよろしいですか？</p>
+	        	<p>「${subject.name}(${subject.cd})」を削除してもよろしいですか</p>
 	        	<input type="submit" class="btn btn-danger px-3"  value="削除">
 	        	<input name="cd" type="hidden" value='${ subject.cd }'>
 	        </form>

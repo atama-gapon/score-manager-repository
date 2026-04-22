@@ -2,6 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<style>
+input::placeholder {
+    font-size: 15px;
+}
+
+.form-control {
+    height: 35px;
+}
+</style>
+
 <c:import url="/common/base.jsp">
     <c:param name="title">
         得点管理システム
@@ -12,9 +22,8 @@
     <c:param name="content">
         <section class="me-4">
             <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">クラス情報変更</h2>
-            <p></p>
-            
 	        <form action="ClassUpdateExecute.action" method="get">
+				<label class="form-label">科目コード</label>
 	        	<label for="class_num">クラス番号</label>
 	        	<input id="class_num" class="form-control" name="class_num" value="${class_num}" type="text" maxlength="5" placeholder="クラス番号を入力してください" required>
 	        	<div class="text-warning">${ errors.get("class_num_duplication") }</div>

@@ -20,7 +20,8 @@ public class LoginAction extends Action {
             	return;
             }
         }
-		req.getRequestDispatcher("login.jsp").forward(req, res);
+        res.sendRedirect(req.getContextPath() + "/scoremanager/login.jsp");
+//		req.getRequestDispatcher("/scoremanager/login.jsp").forward(req, res);
+		return;
 	}
 }
-

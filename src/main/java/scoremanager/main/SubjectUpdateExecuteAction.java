@@ -14,28 +14,17 @@ import tool.Action;
 
 public class SubjectUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher)session.getAttribute("user");
+		School school = teacher.getSchool();
+		
 		// 入力された値をDBに保存する
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
 		
 		//エラーメッセージを出せるように(追加)
 		Map<String, String> errors = new HashMap<>();
-		
-		// 【科目コードと学校コードに合致するデータを取得】
-		// 【テスト環境の処理】
-		//School school = new School();
-		//school.setCd("oom");
-		//school.setName("テスト：oom");
-		// 【/テスト環境の処理】
-		
-		// 【本番環境の処理】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
-		// 【/本番環境の処理】
-						
-		
-		
+
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = sDao.get(cd, school);
 		
