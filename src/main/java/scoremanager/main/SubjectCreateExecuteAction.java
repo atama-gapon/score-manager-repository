@@ -14,37 +14,28 @@ import tool.Action;
 
 public class SubjectCreateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+// 【セッションからユーザーデータを取得】
+		HttpSession session = req.getSession();
+		Teacher teacher = (Teacher)session.getAttribute("user");
+		School school = teacher.getSchool();
+		
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
-		
+
 		Map<String, String> errors = new HashMap<>();
 		
 // 【科目コードが3文字でなかった場合】
 		if (!(cd.length() == 3)) {
-			System.out.println("3文字でない");
 			errors.put("cd_length", "科目コードは3文字で入力してください");
-			errors.put("cd", cd);
-			errors.put("name", name);
 			req.setAttribute("errors", errors);
+			req.setAttribute("cd", cd);
+			req.setAttribute("name", name);
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
-			//エラー時に戻るように(追加)
 			return;
 		}
 		
 // 【科目コードと学校コードに合致するデータを取得する】
 		SubjectDao sDao = new SubjectDao();
-		
-//		【テスト環境の処理】
-		//School school = new School();
-		//school.setCd("oom");
-		//school.setName("テスト：oom");
-//		【/テスト環境の処理】
-		
-		// 【本番環境の処理】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
-		// 【/本番環境の処理】
 
 		Subject subject = sDao.get(cd, school);
 		
