@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!-- baseを継承 -->
 
 <c:import url="/common/base.jsp">
-<!-- baseを継承 -->
     <c:param name="title" value="学生情報変更" />
     <c:param name="content">
     <!-- 内容 -->

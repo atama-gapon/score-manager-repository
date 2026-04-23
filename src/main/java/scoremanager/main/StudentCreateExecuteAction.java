@@ -19,10 +19,10 @@ public class StudentCreateExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
     	// 入力値の取得
-    	String entYearStr = req.getParameter("entYear");
+    	String entYearStr = req.getParameter("ent_year");
     	String no = req.getParameter("no");
     	String name = req.getParameter("name");
-    	String classNum = req.getParameter("classNum");
+    	String classNum = req.getParameter("class_num");
 
     	// ログイン中の先生の学校情報を確認
     	School school = (School) req.getSession().getAttribute("school");
@@ -46,33 +46,29 @@ public class StudentCreateExecuteAction extends Action {
     	List<String> classNumSet = cNumDao.filter(school);
    			req.setAttribute("class_num_set", classNumSet);
 
-    	// 入力値を画面に戻すためにセット
-    	req.setAttribute("entYear", entYearStr);
-    	
-    	req.setAttribute("no", no);
-    	req.setAttribute("name", name);
-    		req.setAttribute("classNum", classNum);
+   		// 入力値を戻す
+   			req.setAttribute("ent_year", entYearStr);
+   			req.setAttribute("no", no);
+   			req.setAttribute("name", name);
+   			req.setAttribute("class_num", classNum);
 
-    	// バリデーション用
-    	StudentDao dao = new StudentDao();
-    		Map<String, String> errors = new HashMap<>();
+   			// バリデーション
+   			Map<String, String> errors = new HashMap<>();
+   			StudentDao dao = new StudentDao();
 
-    	// 入学年度が選ばれていない場合
-    	if (entYearStr == null || entYearStr.isEmpty()) {
-    	    errors.put("entYear", "入学年度を選択してください");
-    	}
+   			if (entYearStr == null || entYearStr.isEmpty()) {
+   			    errors.put("ent_year", "入学年度を選択してください");
+   			}
 
-    	// 学生番号が既に登録されている場合
-    	if (no != null && !no.isEmpty() && dao.get(no) != null) {
-    	    errors.put("no", "学生番号が重複しています");
-    	}
+   			if (no != null && !no.isEmpty() && dao.get(no) != null) {
+   			    errors.put("no", "学生番号が重複しています");
+   			}
 
-    	// エラーがあれば入力画面に戻す
-    	if (!errors.isEmpty()) {
-    	    req.setAttribute("errors", errors);
-    	    req.getRequestDispatcher("student_create.jsp").forward(req, res);
-    	    return;
-    	}
+   			if (!errors.isEmpty()) {
+   			    req.setAttribute("errors", errors);
+   			    req.getRequestDispatcher("student_create.jsp").forward(req, res);
+   			    return;
+   			}
 
     	// 登録処理
     	Student s = new Student();
