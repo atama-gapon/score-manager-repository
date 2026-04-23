@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class TestDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement("select * from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ?");
+			statement = connection.prepareStatement("select * from test where student_no = ? and subject_cd = ? and school_cd = ? and no = ? and no >= 0");
 			statement.setString(1, student.getNo());
 			statement.setString(2, subject.getCd());
 			statement.setString(3, school.getCd());
@@ -107,14 +108,7 @@ public class TestDao extends Dao {
 
 	    // ポイント：SELECT句に検索条件（科目コードと回数）を定数として含める
 	    // これにより postFilter の引数を増やさずに、中身を補完できます
-	    String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, "
-	            + "t.subject_cd, t.no as test_no, t.point, "
-	            + "? as filter_sub, ? as filter_num " 
-	            + "from student s "
-	            + "left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? "
-	            + "where s.school_cd = ? and s.ent_year = ? and s.class_num = ? "
-	            + "and s.is_attend = true " // ★これ（在学中のみ）を追加
-	            + "order by s.no asc";
+	    String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? and t.no >= 0 where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
 
 	    try {
 	        statement = connection.prepareStatement(sql);
@@ -218,15 +212,23 @@ public class TestDao extends Dao {
 		int count = 0;
 		
 		try {
-			// 修正が必要な箇所
-			statement = connection.prepareStatement("delete from test where student_no=? and subject_cd=? and school_cd=? and no=?");
-			statement.setString(1, test.getStudent().getNo()); 
-	        statement.setString(2, test.getSubject());        
-	        statement.setString(3, test.getSchool().getCd());  
-	        statement.setInt(4, test.getNo());
+			LocalDateTime now = LocalDateTime.now();
+			
+			int num = (now.getMonthValue() * 10000000 
+			               + now.getDayOfMonth() * 100000 
+			               + now.getHour() * 1000 
+			               + now.getMinute() * 10 
+			               + now.getSecond() / 6) * -1;
+			
+			statement = connection.prepareStatement("update test set no = ? where student_no=? and subject_cd=? and school_cd=? and no=?");
+			statement.setInt(1,	num );
+			statement.setString(2, test.getStudent().getNo()); 
+	        statement.setString(3, test.getSubject());        
+	        statement.setString(4, test.getSchool().getCd());  
+	        statement.setInt(5, test.getNo());
 
 			count = statement.executeUpdate();
-			System.out.println("削除された件数: " + count);
+			
 		} catch (Exception e) {
 			// 例外の再スロー
 			e.printStackTrace();
