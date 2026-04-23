@@ -212,11 +212,13 @@ public class TestDao extends Dao {
 		int count = 0;
 		
 		try {
-			int num = 0;
-			int uniqueNum = LocalDateTime.now().hashCode();
-			if (uniqueNum > 0) {
-			    num = uniqueNum * -1;
-			}
+			LocalDateTime now = LocalDateTime.now();
+			
+			int num = (now.getMonthValue() * 10000000 
+			               + now.getDayOfMonth() * 100000 
+			               + now.getHour() * 1000 
+			               + now.getMinute() * 10 
+			               + now.getSecond() / 6) * -1;
 			
 			statement = connection.prepareStatement("update test set no = ? where student_no=? and subject_cd=? and school_cd=? and no=?");
 			statement.setInt(1,	num );
