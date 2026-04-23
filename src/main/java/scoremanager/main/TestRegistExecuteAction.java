@@ -4,17 +4,19 @@ import java.util.List;
 
 import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import bean.Test;
 import dao.SubjectDao;
 import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
-
+//成績登録・検索を実行するactionクラス
 public class TestRegistExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // 1. パラメータの取得
+        //パラメータの取得
         String entYearStr = request.getParameter("f1"); 
         String classNum = request.getParameter("f2");  
         String subjectcd = request.getParameter("f3");
@@ -22,7 +24,7 @@ public class TestRegistExecuteAction extends Action {
         
 
         
-        
+        //入力チェック
         if (entYearStr == null || entYearStr.isEmpty() ||
         	    classNum == null || classNum.isEmpty() ||
         	    subjectcd == null || subjectcd.equals("0") ||
@@ -35,25 +37,31 @@ public class TestRegistExecuteAction extends Action {
         	    return;
         	}
         
-        School school = (School) request.getSession().getAttribute("school");
-
-        if (school == null) {
-            school = new School();
-            school.setCd("oom");
-        }
+        //セッションからログインユーザーの情報を取得
+        HttpSession session = request.getSession();
+        Teacher teacher = (Teacher)session.getAttribute("user");
+        School school = teacher.getSchool();
+        
         
         int entYear = Integer.parseInt(entYearStr);
         int num = Integer.parseInt(numStr);
         
+        //科目コードから科目オブジェクトを取得
         SubjectDao subDao = new SubjectDao();
         Subject subject = subDao.get(subjectcd, school);
         
         TestDao tDao = new TestDao();
         String Regist = request.getParameter("regist");
+        
+        //検索が押された場合の処理
         if (request.getParameter("search") != null) {
+        	//エラーメッセージをリセット
         	request.setAttribute("message_over", null);
         	
+        	//条件に合致する成績リストを取得
         	List<Test> test = tDao.filter(entYear, classNum, subject, num, school);
+        	
+        	//jspに値をセット
         	request.setAttribute("f1", entYearStr); 
         	request.setAttribute("f2", classNum);     
         	request.setAttribute("f3", subjectcd);    
@@ -65,22 +73,26 @@ public class TestRegistExecuteAction extends Action {
             request.setAttribute("subject", subject);
             
             request.getRequestDispatcher("test_regist.jsp").forward(request, response);
-            
+        //登録ボタンが押された場合の処理    
         }else if(Regist != null) {
+        	//エラーメッセージをリセット
         	request.setAttribute("message_over", null);
         	
+        	//入力された点数を取得
         	String[] points = request.getParameterValues("point");
-            String[] students = request.getParameterValues("student_no_list");
             
+            //現在の表示リストを再取得して、入力値を反映させる
             List<Test> testList = tDao.filter(entYear, classNum, subject, num, school);
+            //保存
             List<Test> saveList = new ArrayList<>();
+            //範囲外の値を入力した場合
             boolean over = false;
 
             if (points != null) {
                 for (int i = 0; i < testList.size(); i++) {
                 	String pStr = points[i];
                     
-                    
+                    //点数が未入力の場合
                     if (pStr == null || pStr.isEmpty()) {
                         over = true;
                         
@@ -91,14 +103,16 @@ public class TestRegistExecuteAction extends Action {
                     
                     
                     testList.get(i).setPoint(p);
-
+                    //点数が0～100以内かを判定
                     if (p < 0 || p > 100) {
                         over = true;
                     } else {
+                    	//正常な値であったら保存
                         saveList.add(testList.get(i));
                     }
                 }
             }
+            //範囲外が一つでもあった場合、警告文を出す
 	        if (over) {
 	            request.setAttribute("message_over", "0〜100の範囲で入力してください");
 	            
@@ -117,7 +131,7 @@ public class TestRegistExecuteAction extends Action {
 	        }
 	    
             
-            
+            //データーベースに一括で保存
             tDao.save(saveList);
             request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
         }
