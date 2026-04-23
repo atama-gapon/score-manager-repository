@@ -12,7 +12,7 @@
     <c:param name="content">
         <section class="me-4">
             <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績削除完了</h2>
-	        <p><a href="TestDeleteAction?f4=${ studentno }">成績一覧</a></p>
+	        <p><a href="TestListStudentExecute.action?f4=${student_no}">成績一覧</a></p>
 		</section>
 	</c:param>
 </c:import>

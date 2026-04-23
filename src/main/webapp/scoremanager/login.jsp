@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<%-- セッションに "user" が存在するか確認 --%>
+<c:if test="${not empty sessionScope.user}">
+    <%-- リダイレクト処理 --%>
+    <c:redirect url="main/Menu.action" />
+</c:if>
+
 <style>
 input::placeholder {
     font-size: 15px;
