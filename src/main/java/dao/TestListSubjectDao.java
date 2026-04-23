@@ -53,7 +53,7 @@ public class TestListSubjectDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		String condition = " and s.ent_year = ? and s.class_num = ? and t.subject_cd = ?";
+		String condition = " and s.ent_year = ? and s.class_num = ? and t.subject_cd = ? and t.no >= 0";
 		String order = " order by s.no,t.no";
 		try {
 			statement = connection.prepareStatement(baseSql + condition + order);
