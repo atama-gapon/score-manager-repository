@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,9 +212,11 @@ public class TestDao extends Dao {
 		int count = 0;
 		
 		try {
-			java.time.LocalTime now = java.time.LocalTime.now();
-		    int timeNum = now.getHour() * 10000 + now.getMinute() * 100 + now.getSecond();
-		    int num = timeNum * -1;
+			int num = 0;
+			int uniqueNum = LocalDateTime.now().hashCode();
+			if (uniqueNum > 0) {
+			    num = uniqueNum * -1;
+			}
 			
 			statement = connection.prepareStatement("update test set no = ? where student_no=? and subject_cd=? and school_cd=? and no=?");
 			statement.setInt(1,	num );
