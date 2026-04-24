@@ -83,7 +83,7 @@
 				                    <td>${ test.student.no }</td>
 				                    <td>${ test.student.name }</td>
 				                    <td>
-					                    <input type="number" name="point"
+					                    <input type="number" name="point_${test.student.no}"
 					                    		value="${test.point == -1 ? '' : test.point}" class="form-control" 
 	                                       		style="width: 100px;">
 	                                       		<c:if test="${not empty message_over && (test.point < 0 || test.point > 100)}">
