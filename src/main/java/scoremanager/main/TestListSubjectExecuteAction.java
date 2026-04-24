@@ -6,24 +6,24 @@ import java.util.List;
 
 import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import bean.TestListSubject;
 import dao.ClassNumDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class TestListSubjectExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         // セッションのユーザーデータを取得
         // 【テスト環境の処理】
-        // HttpSession session = req.getSession();
-        // Teacher teacher = (Teacher)session.getAttribute("user");
-        // School school = teacher.getSchool()
-        School school = new School();
-        school.setCd("oom");
-        school.setName("テスト：oom");
+         HttpSession session = req.getSession();
+         Teacher teacher = (Teacher)session.getAttribute("user");
+         School school = teacher.getSchool();
+        
         // 【/テスト環境の処理】
         
 // 入力内容のチェック
@@ -62,6 +62,10 @@ public class TestListSubjectExecuteAction extends Action {
 		req.setAttribute("class_num_set", cNumSet);
 		req.setAttribute("subjects", subjects);
 		req.setAttribute("ent_year_set", entYearSet);
+		
+		req.setAttribute("f1", entYearStr);
+		req.setAttribute("f2", classNum);
+		req.setAttribute("f3", subjectCd);
         
 // 入学年度、クラス、科目に合致するデータを取得
         TestListSubjectDao tDao = new TestListSubjectDao();

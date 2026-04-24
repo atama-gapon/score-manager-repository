@@ -135,6 +135,10 @@ public class TestRegistExecuteAction extends Action {
             
             //データーベースに一括で保存
             tDao.save(saveList);
+            request.setAttribute("f1", entYearStr);
+            request.setAttribute("f2", classNum);
+            request.setAttribute("f3", subjectcd);
+            request.setAttribute("f4", numStr);
             request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
         }
         

@@ -18,7 +18,9 @@
             </p>
            <div class="mx-3 mt-4">
                
-                <a href="TestRegist.action" class="btn btn-link">戻る</a>
+                <a href="TestRegist.action?f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}&search=true" class="btn btn-link">
+				    戻る
+				</a>
                 
                 
                 <a href="TestList.action" class="ms-3">成績参照</a>

@@ -61,7 +61,8 @@ public class TestListStudentExecuteAction extends Action {
 				req.setAttribute("class_num_set", cNumSet);
 				req.setAttribute("subjects", subjects);
 				req.setAttribute("ent_year_set", entYearSet);
-		
+				
+				req.setAttribute("f4", no);
 // 入力欄に取得したデータを初期値としてセットし、一覧で表示する
 		req.setAttribute("student", student);
 		req.setAttribute("testListStudents", testListStudents);
