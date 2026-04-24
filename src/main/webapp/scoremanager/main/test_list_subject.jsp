@@ -70,9 +70,10 @@
                  <input type="hidden" value="st">
             </form>
 		</section>
-		<div>科目：${ subject.name }</div>
 		<c:choose>
 			<c:when test="${ testListSubjects.size() > 0 }">
+					<div>科目：${ subject.name }</div>
+			
 		        <table class="table table-hover">
 		            <tr>
 		                <th>入学年度</th>

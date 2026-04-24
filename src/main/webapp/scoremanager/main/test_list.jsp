@@ -20,7 +20,7 @@
                         <select class="form-select" id="student-f1-select" name="f1">
                             <option value="0">----------</option>
                             <c:forEach var="year" items="${ ent_year_set }">
-                                <%-- 現在のyearと選択されていたf1が一致していた場合selectedを追記 --%>
+                                
                                 <option value="${ year }" <c:if test="${ year==f1 }">selected</c:if>>${ year }</option>
                             </c:forEach>
                         </select>
@@ -30,7 +30,7 @@
                         <select class="form-select" id="student-f2-select" name="f2">
                             <option value="0">----------</option>
                             <c:forEach var="num" items="${ class_num_set }">
-                                <%-- 現在のnumと選択されていたf2が一致していた場合selectedを追記 --%>
+                                
                                 <option value="${ num }" <c:if test="${ num==f2 }">selected</c:if>>${ num }</option>
                             </c:forEach>
                         </select>
@@ -41,7 +41,7 @@
                         <select class="form-select" id="student-f3-select" name="f3">
                             <option value="0">----------</option>
                             <c:forEach var="subject" items="${ subjects }">
-                                <%-- 現在のsubjectと選択されていたf3が一致していた場合selectedを追記 --%>
+                                
                                 <option value="${ subject.cd }" <c:if test="${ subject.name==f3 }">selected</c:if>>${ subject.name }</option>
                             </c:forEach>
                         </select>
