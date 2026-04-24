@@ -41,7 +41,9 @@ function togglePassword() {
 							<div class="card-body">
 								<c:if test="${message != null}">
 									<div class="mb-2">
-									 • ${message}
+									<ul>
+										<li>${message}</li>
+									</ul>
 									</div>
 								 </c:if>
 								<form action="LoginExecute.action" method="post">
@@ -55,7 +57,7 @@ function togglePassword() {
 									</div>
 									<!-- チェックボックス -->
 									<div class="form-check d-flex justify-content-center mb-3">
-										<input class="form-check-input me-2" type="checkbox" id="showPw" onclick="togglePassword()">
+										<input class="form-check-input me-2" type="checkbox" id="showPw" name="chk_d_ps" onclick="togglePassword()">
 										<label class="form-check-label" for="showPw">
 										パスワードを表示
 										</label>
