@@ -7,6 +7,7 @@ import tool.Action;
 
 public class LogoutAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+// セッションからユーザーデータを削除
 		HttpSession session = req.getSession(true);
 		session.removeAttribute("user");
 		

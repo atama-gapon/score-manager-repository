@@ -11,17 +11,19 @@ import tool.Action;
 
 public class SubjectDeleteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// 【セッションからユーザーデータ（教員データ）を取得】
+// 【セッションからユーザーデータを取得】
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
 		
-
-// 【科目コードと学校コードに合致するデータを取得】
 		String cd = req.getParameter("cd");
+		
+// 【科目の詳細データを取得】
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = sDao.get(cd, school);
-		req.setAttribute("subject", subject);
+		
+		req.setAttribute("cd", cd);
+		req.setAttribute("name", subject.getName());
 		req.getRequestDispatcher("subject_delete.jsp").forward(req, res);
 	}
 }

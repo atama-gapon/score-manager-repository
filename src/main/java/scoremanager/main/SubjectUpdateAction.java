@@ -11,14 +11,19 @@ import tool.Action;
 
 public class SubjectUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+// 【セッションからユーザーデータを取得】
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
 		
 		String cd = req.getParameter("cd");
+		
+// 【科目の詳細データを取得】
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = sDao.get(cd, school);
-		req.setAttribute("subject", subject);
+
+		req.setAttribute("cd", cd);
+		req.setAttribute("name", subject.getName());
 		req.getRequestDispatcher("subject_update.jsp").forward(req, res);
 	}
 }

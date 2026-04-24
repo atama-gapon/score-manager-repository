@@ -16,10 +16,7 @@ input::placeholder {
 .form-control {
     height: 50px;
 }
-
-
 </style>
-
 
 <script>
 function togglePassword() {
@@ -29,11 +26,8 @@ function togglePassword() {
 </script>
 
 <c:import url="/common/base.jsp">
-    <c:param name="title">
-        得点管理システム
-    </c:param>
-
-    <c:param name="scripts"></c:param>
+	<c:param name="title">得点管理システム</c:param>
+	<c:param name="scripts"></c:param>
 	
     <c:param name="content">
         <section class="me-4">
@@ -55,11 +49,11 @@ function togglePassword() {
 								<form action="LoginExecute.action" method="post">
 									<!-- ID -->
 									<div class="mb-3">
-										<input type="text" class="form-control" name="id" placeholder="ID" value="${id2}" required>
+										<input type="text" class="form-control" name="id" placeholder="ID" value="${id}" maxlength="10" inputmode="latin" required>
 									</div>
 									<!-- パスワード -->
 									<div class="mb-3">
-										<input type="password" class="form-control"id="password" name="password" placeholder="パスワード" required>
+										<input type="password" class="form-control"id="password" name="password" placeholder="パスワード" maxlength="30" inputmode="latin" required>
 									</div>
 									<!-- チェックボックス -->
 									<div class="form-check d-flex justify-content-center mb-3">
