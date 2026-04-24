@@ -230,7 +230,7 @@ public class TestDao extends Dao {
 			count = statement.executeUpdate();
 			
 		} catch (Exception e) {
-			// 例外の再スロー
+		
 			e.printStackTrace();
 			throw e;
 		} finally {

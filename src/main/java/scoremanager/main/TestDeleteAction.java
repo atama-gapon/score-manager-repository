@@ -15,20 +15,25 @@ import tool.Action;
 
 public class TestDeleteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-// 【セッションからユーザーデータ（教員データ）を取得】
+		//セッションからログインユーザーのデータを取得
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
 		
+		//パラメーターを取得
+		//削除対象のキー
 		String studentNo = req.getParameter("studentNo");
 		String subjectCd = req.getParameter("subjectCd");
-		String schoolCd = req.getParameter("schoolCd");
+		
 		int no = Integer.parseInt(req.getParameter("num"));
-
+		
+		
 		StudentDao studentDao = new StudentDao();
 		Student student = studentDao.get(studentNo);
+		
 		SubjectDao subjectDao = new SubjectDao();
 		Subject subject = subjectDao.get(subjectCd, school);
+		
 		
 		TestDao testDao = new TestDao();
 		Test test = testDao.get(student, subject, school, no);

@@ -50,7 +50,9 @@ public class StudentListAction extends Action {
 //		List<String> list = cNumDao.filter(school);
 		// 【/本番環境の処理】
 
-
+		
+		
+		
 // 【セッションのユーザーデータから、ユーザーが所属している学校の生徒一覧用データを取得】
 // &【選択された情報をもとに学校の生徒データを取得】
 		StudentDao sDao = new StudentDao();
@@ -59,7 +61,7 @@ public class StudentListAction extends Action {
 		String classNum = req.getParameter("f2");
 		String isAttendStr = req.getParameter("f3");
 		
-			int entYear = 0;
+		int entYear = 0;
 		// エラー対策
 		if (entYearStr != null) {
 			entYear = Integer.parseInt(entYearStr);
@@ -79,22 +81,24 @@ public class StudentListAction extends Action {
 			entYearSet.add(i);
 		}
 		
-			List<Student> students = new ArrayList<>();
+		List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		
-		// クラスのみ入力 → エラー
-        if ((classNum != null && !classNum.isEmpty()) && entYear == 0) {
-            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
-            req.getRequestDispatcher("student_list.jsp").forward(req, res);
-            return;
-        }
-
-        // クラス + 在学中 で入学年度なし → エラー
-        if ((classNum != null && !classNum.isEmpty()) && entYear == 0 && isAttend) {
-            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
-            req.getRequestDispatcher("student_list.jsp").forward(req, res);
-            return;
-        }
+		//ここが誤作動の原因だった
+		//元々104行メ空のエラー対策のみでよかった。
+//		// クラスのみ入力 → エラー
+//        if ((classNum != null && !classNum.isEmpty()) && entYear == 0) {
+//            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
+//            req.getRequestDispatcher("student_list.jsp").forward(req, res);
+//            return;
+//        }
+//
+//        // クラス + 在学中 で入学年度なし → エラー
+//        if ((classNum != null && !classNum.isEmpty()) && entYear == 0 && isAttend) {
+//            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
+//            req.getRequestDispatcher("student_list.jsp").forward(req, res);
+//            return;
+//        }
 		
 		
 		 if (entYear != 0 && !classNum.equals("0")) {
