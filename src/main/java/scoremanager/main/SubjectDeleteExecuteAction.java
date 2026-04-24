@@ -11,12 +11,14 @@ import tool.Action;
  
 public class SubjectDeleteExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+// 【セッションからユーザーデータを取得】
 		HttpSession session = req.getSession();
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
-		// 科目コード、学校コードに合致する科目を削除する
+		
 		String cd = req.getParameter("cd");
-
+		
+// 【DBから科目を削除する】
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = new Subject();
 		subject.setCd(cd);

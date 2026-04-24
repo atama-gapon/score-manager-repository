@@ -21,11 +21,11 @@ public class SubjectCreateExecuteAction extends Action {
 		
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
-
+		
 		Map<String, String> errors = new HashMap<>();
 		
 // 【科目コードが3文字でなかった場合】
-		if (!(cd.length() == 3)) {
+		if (cd.length() != 3) {
 			errors.put("cd_length", "科目コードは3文字で入力してください");
 			req.setAttribute("errors", errors);
 			req.setAttribute("cd", cd);
@@ -36,27 +36,25 @@ public class SubjectCreateExecuteAction extends Action {
 		
 // 【科目コードと学校コードに合致するデータを取得する】
 		SubjectDao sDao = new SubjectDao();
-
 		Subject subject = sDao.get(cd, school);
 		
-// 【DBへの書き込みを辞め、「科目コードが重複しています」と表示する】
+// 【科目コードが重複していた場合】
 		if (subject != null) {
-			errors.put("cd_length", "科目コードが重複しています");
-			//エラー時データを保持する(追加)
-			errors.put("cd", cd);
-			errors.put("name", name);
+			errors.put("cd_duplication", "科目コードが重複しています");
 			req.setAttribute("errors", errors);
+			req.setAttribute("cd", cd);
+			req.setAttribute("name", name);
 			req.getRequestDispatcher("subject_create.jsp").forward(req, res);
-			//エラー時に戻るように(追加)
 			return;
 		}
 		
 // 【DBに科目を保存する】
-		Subject subject2 = new Subject();
-		subject2.setCd(cd);
-		subject2.setName(name);
-		subject2.setSchool(school);
-		sDao.save(subject2);
+		subject = new Subject();
+		subject.setCd(cd);
+		subject.setName(name);
+		subject.setSchool(school);
+		sDao.save(subject);
+		
 		req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
 	}
 }
