@@ -120,8 +120,13 @@
 		            </c:forEach>
 		        </table>
 		    </c:when>
-		    <c:otherwise>
-		        <div>学生情報が存在しませんでした。</div>
+		    
+			        
+		        <c:if test="${empty message}">
+		            <div class="alert alert-danger mt-3">${message}</div>
+		        </c:if>
+		    
+		        <div　class="mt-3">学生情報が存在しませんでした。</div>
 		    </c:otherwise>
 		</c:choose>
 	</c:param>

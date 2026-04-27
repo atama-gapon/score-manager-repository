@@ -48,8 +48,15 @@
                             <button type="submit" class="btn btn-secondary btn-sm px-3">検索</button>
                         </div>
                     </div>
+                    <input type="hidden" name="f1" value="${f1}">
+					<input type="hidden" name="f2" value="${f2}">
+					<input type="hidden" name="f3" value="${f3}">
                 </form>
-
+				<c:if test="${not empty message}">
+	            <div class=" mt-3 text-warning">
+	                ${message}
+	            </div>
+	        	</c:if>
                 <hr class="my-4 text-secondary opacity-25">
 
                 <form method="get" action="TestListStudentExecute.action" class="mb-0">
@@ -69,13 +76,13 @@
                 </form>
             </div>
             </div>    
-
+			
             <c:if test="${empty testListSubjects && empty testListStudents}">
                 <div class="mx-3 mt-4 text-info">
                     科目情報を選択または学生情報を入力して検索ボタンをクリックしてください
                 </div>
             </c:if>
-
+            
             <%-- ここに検索結果のテーブル等が表示される --%>
             
         </section>
