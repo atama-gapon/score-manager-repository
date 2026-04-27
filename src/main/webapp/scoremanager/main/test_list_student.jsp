@@ -16,8 +16,8 @@
 			    <div class="border mx-3 mb-3 py-3 px-4 rounded shadow-sm">
 			        <div class="row">
 			            <div class="col-auto">
-			                <div class="fw-bold" style="width: 80px;">科目情報</div>
-			            </div>
+						    <div class="text-center mt-4" style="width: 80px;">科目情報</div>
+						</div>
 			
 			            <div class="col">
 			                <div class="row g-3 align-items-end">
@@ -52,7 +52,7 @@
 			                    </div>
 			
 			                    <div class="col-md-2">
-			                        <button class="btn btn-secondary">検索</button>
+			                        <button class="btn btn-secondary" >検索</button>
 			                    </div>
 			                </div>
 			            </div>
@@ -66,17 +66,19 @@
 
             <form method="get" action="TestListStudentExecute.action">
 			    <div class="border mx-3 mb-3 py-3 px-4 rounded shadow-sm">
-					<div class="d-flex align-items-start">
-					    <div class="fw-bold me-3" style="line-height: 2.4;">学生情報</div>
-					
-					    <div>
-					        <label class="form-label mb-1" for="f4">学生番号</label>
-					        <div class="d-flex">
-					            <input type="text" id="f4" name="f4" value="${f4}" class="form-control me-2" style="width: 300px;" maxlength="10" placeholder="学生番号を入力してください" required>
-					            <button class="btn btn-secondary">検索</button>
-					        </div>
-					    </div>
-					</div>
+			        <div class="d-flex align-items-start">
+			            <div class="col-auto me-4">
+			                <div class="text-center mt-4" style="width: 80px;">学生情報</div>
+			            </div>
+			        
+			            <div>
+			                <label class="form-label mb-1" for="f4">学生番号</label>
+			                <div class="d-flex">
+			                    <input type="text" id="f4" name="f4" value="${f4}" class="form-control me-2" style="width: 300px;" maxlength="10" placeholder="学生番号を入力してください" required>
+			                    <button class="btn btn-secondary">検索</button>
+			                </div>
+			            </div>
+			        </div>
 			    </div>
 			</form>
 		</section>
