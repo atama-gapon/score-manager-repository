@@ -76,7 +76,7 @@
 		</section>
 		<c:choose>
 			<c:when test="${ testListSubjects.size() > 0 }">
-					<div class="mt-3">科目：${ subject.name }</div>
+				<div class="mt-3">科目：${ subject.name }</div>
 			
 		        <table class="table table-hover">
 		            <tr>
@@ -119,15 +119,16 @@
 		                </tr>
 		            </c:forEach>
 		        </table>
-		    </c:when>
-		    
-			        
-		        <c:if test="${empty message}">
-		            <div class="alert alert-danger mt-3">${message}</div>
-		        </c:if>
-		    
-		        <div　class="mt-3">学生情報が存在しませんでした。</div>
+		 	</c:when>
+		    <c:otherwise>
+		        <div class="mt-3">学生情報が存在しませんでした。</div>
 		    </c:otherwise>
 		</c:choose>
+		        
+        <c:if test="${not empty message}">
+		    <div class="alert alert-danger mt-3">${message}</div>
+		</c:if>
+			    
+	        
 	</c:param>
 </c:import>
