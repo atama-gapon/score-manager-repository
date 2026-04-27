@@ -46,8 +46,7 @@
                             </c:forEach>
                         </select>
                     </div>
-
-
+					
                     <div class="col-2 text-center">
                         <button class="btn btn-secondary" id="filter-button">検索</button>
                     </div>
@@ -69,7 +68,7 @@
                  </div>
                  <input type="hidden" value="st">
             </form>
-            
+
 			<p class="text-info">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</p>
 		</section>
 	</c:param>
