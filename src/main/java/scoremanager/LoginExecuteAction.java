@@ -20,7 +20,7 @@ public class LoginExecuteAction extends Action {
 // IDかPWかのいずれかが正しくない場合
 		if (teacher == null) {
 			req.setAttribute("message", "ログインに失敗しました。IDまたはパスワードが正しくありません。");
-			req.setAttribute("id", id);
+			req.setAttribute("id2", id);
 			req.getRequestDispatcher("login.jsp").forward(req, res);
 			return;
 		}
