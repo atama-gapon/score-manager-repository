@@ -72,10 +72,11 @@
                         <c:if test="${student.isAttend()}">checked</c:if>>
                     <label class="form-check-label" for="attend-check">在学中</label>
                 </div>
-
+                               
                 <!-- ボタン -->
                 <div class="mt-4">
-                    <input type="submit" name="login" value="変更" class="btn btn-primary">
+                    <input type="submit" name="login" value="変更" class="btn btn-primary"><br>
+                     <p></p>
                     <a href="StudentList.action">戻る</a>
                 </div>
 

@@ -17,7 +17,9 @@ input::placeholder {
     height: 50px;
 }
 
-
+li {
+  text-align: center; /* テキストを中央寄せ */
+}
 </style>
 
 
@@ -48,18 +50,18 @@ function togglePassword() {
 								<c:if test="${message != null}">
 									<div class="mb-2">
 									<ul>
-										<li>${message}</li>
+										<li >${message}</li>
 									</ul>
 									</div>
 								 </c:if>
 								<form action="LoginExecute.action" method="post">
 									<!-- ID -->
 									<div class="mb-3">
-										<input type="text" class="form-control" name="id" placeholder="ID" value="${id2}" required>
+										<input type="text" class="form-control" maxlength="10" name="id" placeholder="ID" value="${id2}" required>
 									</div>
 									<!-- パスワード -->
 									<div class="mb-3">
-										<input type="password" class="form-control"id="password" name="password" placeholder="パスワード" required>
+										<input type="password" class="form-control" maxlength="30" id="password" name="password" placeholder="パスワード" required>
 									</div>
 									<!-- チェックボックス -->
 									<div class="form-check d-flex justify-content-center mb-3">
@@ -70,7 +72,7 @@ function togglePassword() {
 									</div>
 									<!-- ボタン -->
 									<div class="text-center">
-										<button type="submit" class="btn btn-primary px-4">
+										<button type="submit" name="login" class="btn btn-primary px-4">
 											ログイン
 										</button>
 									</div>
