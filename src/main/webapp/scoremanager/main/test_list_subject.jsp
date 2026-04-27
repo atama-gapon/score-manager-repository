@@ -78,7 +78,6 @@
 		    <%-- データが存在する場合 --%>
 		    <c:when test="${ testListSubjects.size() > 0 }">
 		        <div class="mt-3">科目：${ subject.name }</div>
-		
 		        <table class="table table-hover">
 		            <thead>
 		                <tr>
@@ -135,5 +134,11 @@
 		        <div class="mt-3">学生情報が存在しませんでした。</div>
 		    </c:otherwise>
 		</c:choose>
+		        
+        <c:if test="${not empty message}">
+		    <div class="alert alert-danger mt-3">${message}</div>
+		</c:if>
+			    
+	        
 	</c:param>
 </c:import>
