@@ -168,13 +168,14 @@ public class TestDao extends Dao {
 		PreparedStatement statement = null;
 		try {
 			statement = connection.prepareStatement(
-	            "update test set point = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?"
+	            "update test set point = ?, class_num = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?"
 	        );
 	        statement.setInt(1, test.getPoint());
-	        statement.setString(2, test.getStudent().getNo());
-	        statement.setString(3, test.getSubject());
-	        statement.setInt(4, test.getNo());
-	        statement.setString(5, test.getSchool().getCd());
+	        statement.setString(2, test.getClassNum());
+	        statement.setString(3, test.getStudent().getNo());
+	        statement.setString(4, test.getSubject());
+	        statement.setInt(5, test.getNo());
+	        statement.setString(6, test.getSchool().getCd());
 	        
 	        int rowCount = statement.executeUpdate();
 	        if (rowCount == 0) {
