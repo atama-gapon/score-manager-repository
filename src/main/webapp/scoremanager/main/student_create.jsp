@@ -21,7 +21,10 @@
             </c:forEach>
         </select>
     <c:if test="${not empty errors.ent_year}">
-        <div style="color:orange">${errors.ent_year}</div>
+    	<!-- 修正箇所
+    		bootstrapにあるクラスに変更 
+    		style="color:orange" → class="col-12 mt-2 text-warning" -->
+        <div class="col-12 mt-2 text-warning">${errors.ent_year}</div>
     </c:if>
 
     <br>
@@ -36,7 +39,10 @@
                placeholder="学生番号を入力してください"
                required>
     <c:if test="${not empty errors.no}">
-        <div style="color:orange">${errors.no}</div>
+    	<!-- 修正箇所
+    		bootstrapにあるクラスに変更 
+    		style="color:orange" → class="col-12 mt-2 text-warning" -->
+        <div class="col-12 mt-2 text-warning">${errors.no}</div>
     </c:if>
 
     <br>
@@ -67,11 +73,22 @@
     </div>
 
     <!-- ボタン -->
-    <button type="submit" name="end" class="btn btn-primary">
-        登録
+    <!-- 修正箇所
+     ボタンの色:primary→secondary 
+     文字:登録→登録して終了
+    -->
+    
+    <button type="submit" name="end" class="btn btn-secondary">
+        登録して終了
     </button>
-
-    <a href="menu.jsp">戻る</a>
+	<!-- 修正箇所
+	改行を入れた -->
+	<br>
+	<p></p>
+	
+	<!-- 修正箇所
+		遷移っするURLを「メニュー画面」から「学生管理画面」へ変更 -->
+    <a href="StudentList.action">戻る</a>
 
 </form>
 

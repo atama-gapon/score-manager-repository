@@ -12,14 +12,17 @@
                 <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
                 学生情報登録
             </h2>
-			<div class="px-4">
-			    <div class="bg-success bg-opacity-25 py-3 px-4 rounded d-flex align-items-center">
-			        <p class="fs-5 mb-0">登録が完了しました</p>
-			    </div>
-				<a href = "StudentCreate.action">戻る</a>
-				<br><br>
+				<!-- 修正箇所
+					<div></div>をなくし形や色を調整した。
+					「戻る」と「学生一覧」の位置を修正した -->
+			    <p class="mb-3 fw-normal bg-success py-2 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
+			    
+			    <br><br>
+			    
+				<a href = "StudentCreate.action">戻る</a>　　　　　
+				
 			    <a href="StudentList.action">学生一覧</a>
-			</div>
+			
         </section>
 
     </c:param>

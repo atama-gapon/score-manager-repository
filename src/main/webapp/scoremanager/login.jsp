@@ -16,6 +16,13 @@ input::placeholder {
 .form-control {
     height: 50px;
 }
+<<<<<<< HEAD
+
+li {
+  text-align: center; /* テキストを中央寄せ */
+}
+=======
+>>>>>>> branch 'main' of https://github.com/atama-gapon/score-manager-repository.git
 </style>
 
 <script>
@@ -28,7 +35,6 @@ function togglePassword() {
 <c:import url="/common/base.jsp">
 	<c:param name="title">得点管理システム</c:param>
 	<c:param name="scripts"></c:param>
-	
     <c:param name="content">
         <section class="me-4">
 			<div class="container mt-5">
@@ -42,18 +48,26 @@ function togglePassword() {
 								<c:if test="${message != null}">
 									<div class="mb-2">
 									<ul>
-										<li>${message}</li>
+										<li >${message}</li>
 									</ul>
 									</div>
 								 </c:if>
 								<form action="LoginExecute.action" method="post">
 									<!-- ID -->
 									<div class="mb-3">
+<<<<<<< HEAD
+										<input type="text" class="form-control" maxlength="10" name="id" placeholder="ID" value="${id2}" required>
+=======
 										<input type="text" class="form-control" name="id" placeholder="ID" value="${id}" maxlength="10" inputmode="latin" required>
+>>>>>>> branch 'main' of https://github.com/atama-gapon/score-manager-repository.git
 									</div>
 									<!-- パスワード -->
 									<div class="mb-3">
+<<<<<<< HEAD
+										<input type="password" class="form-control" maxlength="30" id="password" name="password" placeholder="パスワード" required>
+=======
 										<input type="password" class="form-control"id="password" name="password" placeholder="パスワード" maxlength="30" inputmode="latin" required>
+>>>>>>> branch 'main' of https://github.com/atama-gapon/score-manager-repository.git
 									</div>
 									<!-- チェックボックス -->
 									<div class="form-check d-flex justify-content-center mb-3">
@@ -64,7 +78,7 @@ function togglePassword() {
 									</div>
 									<!-- ボタン -->
 									<div class="text-center">
-										<button type="submit" class="btn btn-primary px-4">
+										<button type="submit" name="login" class="btn btn-primary px-4">
 											ログイン
 										</button>
 									</div>
