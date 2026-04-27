@@ -22,13 +22,21 @@ public class StudentUpdateExecuteAction extends Action {
         String name = req.getParameter("name");
         String entYearStr = req.getParameter("ent_year");
         String classNum = req.getParameter("class_num");
+        //チェックボックスから受け取った値を受け取れるように追加(修正)
+        String isAttendStr = req.getParameter("is_attend");
 
         // 入力エラー時に値を戻すためにセット
         req.setAttribute("no", no);
         req.setAttribute("name", name);
         req.setAttribute("entYear", entYearStr);
         req.setAttribute("classNum", classNum);
-
+        
+        //チェックボックスがチェック/未チェックなのか判定(修正)
+        boolean isAttend = false;
+		if (isAttendStr != null) {
+		    isAttend = true;
+		}
+        
         // 氏名が空ならエラー
         if (name == null || name.isEmpty()) {
             req.setAttribute("message", "このフィールドを入力してください");
@@ -74,7 +82,8 @@ public class StudentUpdateExecuteAction extends Action {
         s.setName(name);
         s.setEntYear(entYear);
         s.setClassNum(classNum);
-        s.setAttend(true); // 在学中はtrue
+        //常時「true」が送られていたので受け取った値をセットできるように変更(修正)
+        s.setAttend(isAttend); // 在学中はtrue
         s.setSchool(school);
 
         // DB に保存（更新）
