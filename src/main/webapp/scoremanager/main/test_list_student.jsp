@@ -70,9 +70,11 @@
                  <input type="hidden" value="st">
             </form>
 		</section>
-		<div>氏名：${ student.name }（${ student.no }）</div>
+							<div>氏名：${ student.name }（${ student.no }）</div>
+		
 		<c:choose>
 			<c:when test="${ testListStudents.size() > 0 }">
+			
 		        <table class="table table-hover">
 		            <tr>
 		                <th>科目名</th>

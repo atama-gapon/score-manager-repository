@@ -78,8 +78,8 @@ public class TestRegistExecuteAction extends Action {
         	//エラーメッセージをリセット
         	request.setAttribute("message_over", null);
         	
-        	//入力された点数を取得
-        	String[] points = request.getParameterValues("point");
+        	
+        	String[] studentList = request.getParameterValues("student_no_list");
             
             //現在の表示リストを再取得して、入力値を反映させる
             List<Test> testList = tDao.filter(entYear, classNum, subject, num, school);
@@ -88,10 +88,12 @@ public class TestRegistExecuteAction extends Action {
             //範囲外の値を入力した場合
             boolean over = false;
 
-            if (points != null) {
-                for (int i = 0; i < testList.size(); i++) {
-                	String pStr = points[i];
-                    
+            if ( studentList != null) {
+                for (int i = 0; i < studentList.length; i++) {
+                	String stNo = studentList[i];
+                	
+                	String pStr = request.getParameter("point_" + stNo);
+                	
                     //点数が未入力の場合
                     if (pStr == null || pStr.isEmpty()) {
                         over = true;
@@ -99,7 +101,7 @@ public class TestRegistExecuteAction extends Action {
                         testList.get(i).setPoint(-1); 
                         continue;
                     }
-                    int p = Integer.parseInt(points[i]);
+                    int p = Integer.parseInt(pStr);
                     
                     
                     testList.get(i).setPoint(p);
@@ -133,6 +135,10 @@ public class TestRegistExecuteAction extends Action {
             
             //データーベースに一括で保存
             tDao.save(saveList);
+            request.setAttribute("f1", entYearStr);
+            request.setAttribute("f2", classNum);
+            request.setAttribute("f3", subjectcd);
+            request.setAttribute("f4", numStr);
             request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
         }
         
