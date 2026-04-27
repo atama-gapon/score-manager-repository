@@ -3,11 +3,8 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:import url="/common/base.jsp">
-    <c:param name="title">
-        得点管理システム
-    </c:param>
-
-    <c:param name="scripts"></c:param>
+	<c:param name="title">得点管理システム</c:param>
+	<c:param name="scripts"></c:param>
 
     <c:param name="content">
         <section class="me-4">
@@ -36,6 +33,13 @@
                 <div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
                     style="height: 10rem; background-color: #ddb;">
                     <a href="ClassList.action">クラス管理</a>
+                </div>
+            </div>
+            <!-- 二行目 -->
+            <div class="row text-center px-4 fs-3 my-5">
+                <div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
+                    style="height: 10rem; background-color: #ccc;">
+                    <a href="UserList.action">ユーザ管理</a>
                 </div>
             </div>
         </section>

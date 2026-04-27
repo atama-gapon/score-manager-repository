@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.School;
 import bean.Teacher;
@@ -48,7 +50,6 @@ public class TeacherDao extends Dao {
 				}
 			}
 		}
-		
 		return teacher;
 	}
 	
@@ -65,13 +66,16 @@ public class TeacherDao extends Dao {
 			statement.setString(1, id);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
+			SchoolDao schoolDao = new SchoolDao();
 			
 			if (resultSet.next()) {
 				teacher.setId(resultSet.getString("id"));
 				teacher.setPassword(resultSet.getString("password"));
 				teacher.setName(resultSet.getString("name"));
 				School school = new School();
-				school.setCd(resultSet.getString("school_cd")); 
+				school.setCd(resultSet.getString("school_cd"));
+				school.setName(schoolDao.get(school.getCd()).getName());
+				
 				teacher.setSchool(school);
 			}else {
 				teacher = null;
@@ -99,5 +103,50 @@ public class TeacherDao extends Dao {
 		}
 		
 		return teacher;
+	}
+	
+	
+	// 学校コードに合致する教師の一覧を取得
+	public List<Teacher> filter(School school) throws Exception {
+		List<Teacher> list = new ArrayList<>();
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		
+		try {
+			statement = connection.prepareStatement("select * from teacher where school_cd = ?");
+			statement.setString(1, school.getCd());
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				Teacher teacher = new Teacher();
+				teacher.setId(resultSet.getString("id"));
+				teacher.setName(resultSet.getString("name"));
+				teacher.setSchool(school);
+				list.add(teacher);
+			}
+		} catch (Exception e) {
+			// 例外の再スロー
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				}
+			}
+		}
+		
+		return list;
 	}
 }

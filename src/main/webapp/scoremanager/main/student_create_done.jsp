@@ -15,7 +15,7 @@
 				<!-- 修正箇所
 					<div></div>をなくし形や色を調整した。
 					「戻る」と「学生一覧」の位置を修正した -->
-			    <p class="mb-3 fw-normal bg-success py-2 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
+			    <p class="mb-3 fw-normal bg-success py-1 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
 			    
 			    <br><br>
 			    

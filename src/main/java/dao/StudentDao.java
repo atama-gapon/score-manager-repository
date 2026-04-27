@@ -20,7 +20,7 @@ public class StudentDao extends Dao {
 		Student student = new Student();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-
+		
 		try {
 			statement = connection.prepareStatement("select * from student where no=?");
 			statement.setString(1, no);
