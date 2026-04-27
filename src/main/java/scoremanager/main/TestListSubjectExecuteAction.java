@@ -33,7 +33,22 @@ public class TestListSubjectExecuteAction extends Action {
         
         if (entYearStr.equals("0") || classNum.equals("0") || subjectCd.equals("0")) {
         	req.setAttribute("message", "入学年度とクラスと科目を選択してください");
-            req.getRequestDispatcher("TestList.action").forward(req, res);
+        	ClassNumDao cDao = new ClassNumDao();
+            req.setAttribute("class_num_set", cDao.filter(school)); 
+
+            SubjectDao sDao = new SubjectDao();
+            req.setAttribute("subjects", sDao.filter(school)); 
+
+            List<Integer> entYearSet = new ArrayList<>();
+            int year = LocalDate.now().getYear();
+            for (int i = year - 10; i <= year + 1; i++) {
+                entYearSet.add(i);
+            }
+            req.setAttribute("ent_year_set", entYearSet);
+        	req.setAttribute("f1", entYearStr);
+            req.setAttribute("f2", classNum);
+            req.setAttribute("f3", subjectCd);
+        	req.getRequestDispatcher("test_list.jsp").forward(req, res);
             return;
 		}
         
