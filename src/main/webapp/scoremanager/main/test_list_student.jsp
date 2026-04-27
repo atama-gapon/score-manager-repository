@@ -18,7 +18,7 @@
                 
                 <form method="get" action="TestListSubjectExecute.action" class="mb-0">
                     <div class="d-flex align-items-start">
-                        <div class="text-center mt-4" style="width: 100px;">科目情報</div>
+                        <div class="text-center mt-4" style="width: 100px; margin-right: 20px;">科目情報</div>
                         
                         <div class="d-flex align-items-end flex-wrap ms-4" style="gap: 15px;">
                             <div style="width: 140px;">
@@ -57,7 +57,7 @@
 
                 <form method="get" action="TestListStudentExecute.action" class="mb-0">
                     <div class="d-flex align-items-start">
-                        <div class="text-center mt-4" style="width: 100px; flex-shrink: 0;">学生情報</div>
+                        <div class="text-center mt-4" style="width: 100px; flex-shrink: 0; margin-right: 20px;">学生情報</div>
                         
                         <div class="ms-4">
                             <label class="form-label small mb-1" for="f4">学生番号</label>
@@ -71,9 +71,10 @@
                     </div>
                 </form>
             </div>
-            </div>  
+            </div> 
+             
 		</section>
-							<div>氏名：${ student.name }（${ student.no }）</div>
+							<div class="mt-3">氏名：${ student.name }（${ student.no }）</div>
 		
 		<c:choose>
 			<c:when test="${ testListStudents.size() > 0 }">
