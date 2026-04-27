@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<style>
+/*readonlyと指定されたtextの枠線を消す*/
+.input-control {
+    border: none;       /* 枠線を消す */
+    outline: none;      /* フォーカス時の青枠も消す */
+    background-color: transparent;
+    padding-left: 1.0rem;
+</style>
 
     <!-- ページのタイトル -->
    <c:import url="/common/base.jsp">
@@ -21,9 +29,10 @@
             <form action="StudentUpdateExecute.action" method="post" class="px-4">
 
                 <!-- 入学年度 -->
+                
                 <div class="mb-3">
-                    <label class="form-label">入学年度</label>
-                    <input type="text" class="form-control"
+                    <label class="form-label">入学年度</label><br>
+                    <input type="text" class="input-control"
                         name="ent_year"
                         value="${student.entYear}"
                         readonly>
@@ -31,8 +40,8 @@
 
                 <!-- 学生番号 -->
                 <div class="mb-3">
-                    <label class="form-label">学生番号</label>
-                    <input type="text" class="form-control"
+                    <label class="form-label">学生番号</label><br>
+                    <input type="text" class="input-control"
                         name="no"
                         value="${student.no}"
                         readonly>
@@ -63,14 +72,14 @@
                 </div>
 
                 <!-- 在学中チェック -->
-                <div class="mb-3 form-check">
+                <div class="mb-3">
+                    <label for="attend-check" class="me-1">在学中</label>
                     <input class="form-check-input"
                         type="checkbox"
                         id="attend-check"
                         name="is_attend"
                         value="t"
                         <c:if test="${student.isAttend()}">checked</c:if>>
-                    <label class="form-check-label" for="attend-check">在学中</label>
                 </div>
                                
                 <!-- ボタン -->
