@@ -98,33 +98,31 @@ public class TestDao extends Dao {
 	    return list;
 	}
 	
-	//入学年度、クラス番号、科目、回数、学校情報を指定して、得点の一覧を取得
-	// 入学年度、クラス番号、科目、回数、学校情報を指定して、得点の一覧を取得
+	//入学年度、クラス番号、科目、回数、学校番号で学生情報と得点情報を取得
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 	    List<Test> list = new ArrayList<>();
 	    Connection connection = getConnection();
 	    PreparedStatement statement = null;
 	    ResultSet resultSet = null;
 
-	    // ポイント：SELECT句に検索条件（科目コードと回数）を定数として含める
-	    // これにより postFilter の引数を増やさずに、中身を補完できます
+	    
 	    String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? and t.no >= 0 where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
 
 	    try {
 	        statement = connection.prepareStatement(sql);
-	        // パラメータセット（順番を間違えないように！）
-	        statement.setString(1, subject.getCd()); // filter_sub
-	        statement.setInt(2, num);                // filter_num
-	        statement.setString(3, subject.getCd()); // 結合用 subject_cd
-	        statement.setInt(4, num);                // 結合用 no
-	        statement.setString(5, school.getCd());  // school_cd
-	        statement.setInt(6, entYear);            // ent_year
-	        statement.setString(7, classNum);        // class_num
+	        //パラメーターをセット
+	        statement.setString(1, subject.getCd()); 
+	        statement.setInt(2, num);              
+	        statement.setString(3, subject.getCd()); 
+	        statement.setInt(4, num);            
+	        statement.setString(5, school.getCd());  
+	        statement.setInt(6, entYear);            
+	        statement.setString(7, classNum);        
 
-	        resultSet = statement.executeQuery();
+	        
 	        resultSet = statement.executeQuery();
 	        
-	        // 設計書通りの引数
+	        //取得したデータをpostfilterメソッドに送信
 	        list = postFilter(resultSet, school);
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -208,13 +206,15 @@ public class TestDao extends Dao {
 	
 	// 成績削除
 	public boolean delete(Test test) throws Exception {
+		//データベースを取得
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
 		
 		try {
+			//現在時刻を取得
 			LocalDateTime now = LocalDateTime.now();
-			
+			//現在の日時時間をマイナスで表現
 			int num = (now.getMonthValue() * 10000000 
 			               + now.getDayOfMonth() * 100000 
 			               + now.getHour() * 1000 
@@ -222,6 +222,7 @@ public class TestDao extends Dao {
 			               + now.getSecond() / 6) * -1;
 			
 			statement = connection.prepareStatement("update test set no = ? where student_no=? and subject_cd=? and school_cd=? and no=?");
+			//パラメータを取得
 			statement.setInt(1,	num );
 			statement.setString(2, test.getStudent().getNo()); 
 	        statement.setString(3, test.getSubject());        
