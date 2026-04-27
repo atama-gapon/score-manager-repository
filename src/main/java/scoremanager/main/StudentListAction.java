@@ -21,38 +21,14 @@ public class StudentListAction extends Action {
 
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 // 【セッションからユーザーデータ（教員データ）を取得】
-//		【テスト環境の処理】
-//		HttpSession session = req.getSession();
-//		Teacher teacher = (Teacher)session.getAttribute("user");
-//		School school = teacher.getSchool()
-//		School school = new School();
-//		school.setCd("oom");
-//		school.setName("テスト：oom");
-//		【/テスト環境の処理】
-		
-		// 【本番環境の処理】
 		HttpSession session = req.getSession();
-		
 		Teacher teacher = (Teacher)session.getAttribute("user");
 		School school = teacher.getSchool();
-		// 【/本番環境の処理】
-
 
 // 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
-		
 		ClassNumDao cNumDao = new ClassNumDao();
-//		【テスト環境の処理】
 		List<String> classNumSet = cNumDao.filter(school);
-//		【/テスト環境の処理】
 
-		// 【本番環境の処理】
-		// ログインユーザーの学校コードをもとにクラスの一覧を取得
-//		List<String> list = cNumDao.filter(school);
-		// 【/本番環境の処理】
-
-		
-		
-		
 // 【セッションのユーザーデータから、ユーザーが所属している学校の生徒一覧用データを取得】
 // &【選択された情報をもとに学校の生徒データを取得】
 		StudentDao sDao = new StudentDao();
@@ -84,23 +60,6 @@ public class StudentListAction extends Action {
 		List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		
-		//ここが誤作動の原因だった
-		//元々104行メ空のエラー対策のみでよかった。
-//		// クラスのみ入力 → エラー
-//        if ((classNum != null && !classNum.isEmpty()) && entYear == 0) {
-//            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
-//            req.getRequestDispatcher("student_list.jsp").forward(req, res);
-//            return;
-//        }
-//
-//        // クラス + 在学中 で入学年度なし → エラー
-//        if ((classNum != null && !classNum.isEmpty()) && entYear == 0 && isAttend) {
-//            req.setAttribute("message", "クラスを指定する場合は入学年度も指定してください");
-//            req.getRequestDispatcher("student_list.jsp").forward(req, res);
-//            return;
-//        }
-		
-		
 		 if (entYear != 0 && !classNum.equals("0")) {
 			// 入学年度とクラス番号を指定された場合
 			students = sDao.filter(school, entYear, classNum, isAttend);
@@ -109,17 +68,16 @@ public class StudentListAction extends Action {
 			students = sDao.filter(school, entYear, isAttend);
 		} else if (entYear == 0 && classNum == null || entYear == 0 && classNum.equals("0")) {
 			// 指定なしの場合
-					students = sDao.filter(school, isAttend);
-			} else {
+			students = sDao.filter(school, isAttend);
+		} else {
 			errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
 			req.setAttribute("errors", errors);
-				students = sDao.filter(school, isAttend);
+			students = sDao.filter(school, isAttend);
 		}
 
 		req.setAttribute("f1", entYear);
 		req.setAttribute("f2", classNum);
 	 	req.setAttribute("f3", isAttend);
-		
 	 	req.setAttribute("students", students);
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("ent_year_set", entYearSet);

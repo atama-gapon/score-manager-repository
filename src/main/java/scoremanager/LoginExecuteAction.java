@@ -28,7 +28,7 @@ public class LoginExecuteAction extends Action {
 // ユーザーデータをセッションに格納
 		HttpSession session = req.getSession();
 		session.setAttribute("user", teacher);
-
+		
 		res.sendRedirect("main/Menu.action");
 	}
 }
