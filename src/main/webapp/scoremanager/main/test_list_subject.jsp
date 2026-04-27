@@ -95,15 +95,27 @@
 		                    <td>${ tlsubject.studentName }</td>
 		                    
 		                    <c:set var="count" value="0" />
-		                    <c:forEach var="point" items="${tlsubject.points}">
-		                    	<c:if test="${point.key == 1}">
-		                    		<td>${point.value}</td>
-		                    		<c:set var="count" value="${count + 1}" />
-		                    	</c:if>
-		                    	<c:if test="${(point.key == 2) && (count == 1)}">
-		                    		<td>${point.value}</td>
-		                    	</c:if>
-							</c:forEach>
+		                    <td>
+							    <c:set var="Done1" value="false" />
+							    <c:forEach var="point" items="${tlsubject.points}">
+							        <c:if test="${point.key == 1}">
+							            ${point.value}
+							            <c:set var="Done1" value="true" />
+							        </c:if>
+							    </c:forEach>
+							    <c:if test="${!Done1}">-</c:if>
+							</td>
+							
+							<td>
+							    <c:set var="Done2" value="false" />
+							    <c:forEach var="point" items="${tlsubject.points}">
+							        <c:if test="${point.key == 2}">
+							            ${point.value}
+							            <c:set var="Done2" value="true" />
+							        </c:if>
+							    </c:forEach>
+							    <c:if test="${!Done2}">-</c:if>
+							</td>
 		                </tr>
 		            </c:forEach>
 		        </table>
