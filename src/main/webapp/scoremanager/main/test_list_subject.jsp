@@ -75,58 +75,64 @@
              
 		</section>
 		<c:choose>
-			<c:when test="${ testListSubjects.size() > 0 }">
-					<div class="mt-3">科目：${ subject.name }</div>
-			
+		    <%-- データが存在する場合 --%>
+		    <c:when test="${ testListSubjects.size() > 0 }">
+		        <div class="mt-3">科目：${ subject.name }</div>
+		
 		        <table class="table table-hover">
-		            <tr>
-		                <th>入学年度</th>
-		                <th>クラス</th>
-		                <th>学生番号</th>
-		                <th>氏名</th>
-		                <th>1回</th>
-		                <th>2回</th>
-		            </tr>
-		            <c:forEach var="tlsubject" items="${ testListSubjects }">
+		            <thead>
 		                <tr>
-		                    <td>${ tlsubject.entYear }</td>
-		                    <td>${ tlsubject.classNum }</td>
-		                    <td>${ tlsubject.studentNo }</td>
-		                    <td>${ tlsubject.studentName }</td>
-		                    
-		                    <c:set var="count" value="0" />
-		                    <td>
-							    <c:set var="Done1" value="false" />
-							    <c:forEach var="point" items="${tlsubject.points}">
-							        <c:if test="${point.key == 1}">
-							            ${point.value}
-							            <c:set var="Done1" value="true" />
-							        </c:if>
-							    </c:forEach>
-							    <c:if test="${!Done1}">-</c:if>
-							</td>
-							
-							<td>
-							    <c:set var="Done2" value="false" />
-							    <c:forEach var="point" items="${tlsubject.points}">
-							        <c:if test="${point.key == 2}">
-							            ${point.value}
-							            <c:set var="Done2" value="true" />
-							        </c:if>
-							    </c:forEach>
-							    <c:if test="${!Done2}">-</c:if>
-							</td>
+		                    <th>入学年度</th>
+		                    <th>クラス</th>
+		                    <th>学生番号</th>
+		                    <th>氏名</th>
+		                    <th>1回</th>
+		                    <th>2回</th>
 		                </tr>
-		            </c:forEach>
+		            </thead>
+		            <tbody>
+		                <c:forEach var="tlsubject" items="${ testListSubjects }">
+		                    <tr>
+		                        <td>${ tlsubject.entYear }</td>
+		                        <td>${ tlsubject.classNum }</td>
+		                        <td>${ tlsubject.studentNo }</td>
+		                        <td>${ tlsubject.studentName }</td>
+		
+		                        <%-- 1回目の点数表示 --%>
+		                        <td>
+		                            <c:set var="done1" value="false" />
+		                            <c:forEach var="point" items="${tlsubject.points}">
+		                                <c:if test="${point.key == 1}">
+		                                    ${point.value}
+		                                    <c:set var="done1" value="true" />
+		                                </c:if>
+		                            </c:forEach>
+		                            <c:if test="${!done1}">-</c:if>
+		                        </td>
+		
+		                        <%-- 2回目の点数表示 --%>
+		                        <td>
+		                            <c:set var="done2" value="false" />
+		                            <c:forEach var="point" items="${tlsubject.points}">
+		                                <c:if test="${point.key == 2}">
+		                                    ${point.value}
+		                                    <c:set var="done2" value="true" />
+		                                </c:if>
+		                            </c:forEach>
+		                            <c:if test="${!done2}">-</c:if>
+		                        </td>
+		                    </tr>
+		                </c:forEach>
+		            </tbody>
 		        </table>
 		    </c:when>
-		    
-			        
-		        <c:if test="${empty message}">
+		
+		    <%-- データが存在しない場合 (修正箇所) --%>
+		    <c:otherwise>
+		        <c:if test="${not empty message}">
 		            <div class="alert alert-danger mt-3">${message}</div>
 		        </c:if>
-		    
-		        <div　class="mt-3">学生情報が存在しませんでした。</div>
+		        <div class="mt-3">学生情報が存在しませんでした。</div>
 		    </c:otherwise>
 		</c:choose>
 	</c:param>
