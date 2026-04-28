@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import bean.Teacher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,11 @@ import jakarta.servlet.http.HttpSession;
 
 // 役割：フロントコントローラとなるサーブレット
 @WebServlet(urlPatterns = {"*.action"})
+@MultipartConfig( // ← これを追加しますのよ！
+	    maxFileSize = 10000000, 
+	    maxRequestSize = 10000000, 
+	    fileSizeThreshold = 10000000
+	)
 public class FrontController extends HttpServlet {
 	
 	// 各メソッド内の処理はシーケンス図の確認時に記述

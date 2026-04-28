@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.BufferedReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -325,4 +326,44 @@ public class StudentDao extends Dao {
 			return false;
 		}
 	}
+	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
+		Connection connection = getConnection();
+		
+		PreparedStatement statement = null;
+		String line;
+		int count = 0;
+		String sql1 = "insert into student(no,name,ent_year,class_num,is_attend,school_cd) values(?,?,?,?,?,?)";
+		statement = connection.prepareStatement(sql1);
+		try {
+			
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(",");
+
+				
+				
+				statement.setString(1, data[0].trim());
+				statement.setString(2, data[1].trim());
+				statement.setInt(3, Integer.parseInt(data[2].trim()));
+				statement.setString(4, data[3].trim());
+				boolean isAttend = Boolean.parseBoolean(data[4].trim());
+				statement.setBoolean(5, isAttend);
+				statement.setString(6, schoolCd);
+				count += statement.executeUpdate();
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) { }
+		}
+		
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }

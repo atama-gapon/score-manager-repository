@@ -14,6 +14,7 @@
             <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生管理</h2>
             <div class="my-2 text-end px-4">
                 <a href="StudentCreate.action">新規登録</a>
+                <a href="StudentBulk.action">一括登録</a>
             </div>
             <!-- 参考url:https://moku-moku.net/bootstrap/102 -->
             <form method="get">

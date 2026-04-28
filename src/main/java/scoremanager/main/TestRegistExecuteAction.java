@@ -91,7 +91,6 @@ public class TestRegistExecuteAction extends Action {
 	            List<Integer> entYearSet = new ArrayList<>();
 	            for (int i = year - 10; i <= year + 1; i++) {
 	                entYearSet.add(i);
-	            }
 	            request.setAttribute("ent_year_set", entYearSet);
 	            ClassNumDao cNumDao = new ClassNumDao();
                 request.setAttribute("class_num_set", cNumDao.filter(school));
@@ -118,6 +117,7 @@ public class TestRegistExecuteAction extends Action {
             request.setAttribute("f3", subjectcd);
             request.setAttribute("f4", numStr);
             request.getRequestDispatcher("test_regist_done.jsp").forward(request, response);
+	        }
         }
         
     }
