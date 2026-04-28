@@ -67,7 +67,7 @@
 			<c:choose>
 			    <c:when test="${not empty tests}">
 			        <div>科目：${subject.name} （${num}回）</div>
-			        <form action="TestRegist.action" method="post">
+			        <form action="TestRegistExecute.action" method="post">
 				        <table class="table table-hover">
 				            <tr>
 				                <th>入学年度</th>
