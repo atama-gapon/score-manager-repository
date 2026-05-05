@@ -5,18 +5,16 @@ import java.util.Map;
 
 import bean.ClassNum;
 import bean.School;
-import bean.Teacher;
+import bean.Staff;
 import dao.ClassNumDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class ClassCreateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
+		Staff staff = (Staff)req.getAttribute("staff");
+		School school = staff.getSchool();
 		
 		String class_num = req.getParameter("class_num");
 		Map<String, String> errors = new HashMap<>();
@@ -30,7 +28,7 @@ public class ClassCreateExecuteAction extends Action {
 			errors.put("class_num_duplication", "クラス番号が重複しています");
 			req.setAttribute("errors", errors);
 			req.setAttribute("class_num", class_num);
-			req.getRequestDispatcher("class_create.jsp").forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_create.jsp").forward(req, res);
 			return;
 		}
 		
@@ -39,6 +37,6 @@ public class ClassCreateExecuteAction extends Action {
 		classNum2.setClass_num(class_num);
 		classNum2.setSchool(school);
 		classNumDao.save(classNum2);
-		req.getRequestDispatcher("class_create_done.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_create_done.jsp").forward(req, res);
 	}
 }

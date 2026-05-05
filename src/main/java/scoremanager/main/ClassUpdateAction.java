@@ -8,6 +8,6 @@ public class ClassUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		String oldClassNum = req.getParameter("class_num");
 		req.setAttribute("old_class_num", oldClassNum);
-		req.getRequestDispatcher("class_update.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_update.jsp").forward(req, res);
 	}
 }

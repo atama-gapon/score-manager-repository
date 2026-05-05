@@ -4,20 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bean.School;
+import bean.Staff;
 import bean.Subject;
-import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-// 【セッションからユーザーデータを取得】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
+		Staff staff = (Staff)req.getAttribute("staff");
+		School school = staff.getSchool();
 		
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
@@ -37,7 +34,7 @@ public class SubjectUpdateExecuteAction extends Action {
 			req.setAttribute("errors", errors);
 			req.setAttribute("cd", cd);
 			req.setAttribute("name", name);
-			req.getRequestDispatcher("subject_update.jsp").forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update.jsp").forward(req, res);
 			return;
 		}
 		
@@ -47,6 +44,6 @@ public class SubjectUpdateExecuteAction extends Action {
 		subject.setSchool(school);
 		sDao.save(subject);
 		
-		req.getRequestDispatcher("subject_update_done.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update_done.jsp").forward(req, res);
 	}
 }

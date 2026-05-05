@@ -1,6 +1,6 @@
 package scoremanager;
 
-import bean.Teacher;
+import bean.Staff;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,14 +11,14 @@ public class LoginAction extends Action {
 		HttpSession session = req.getSession(false);
 		
 		if (session != null) {
-		    Teacher teacher = (Teacher) session.getAttribute("user");
+			Staff staff = (Staff) session.getAttribute("user");
 			// ログイン済みなら
-			if (teacher != null ) {
+			if (staff != null ) {
 				res.sendRedirect("main/Menu.action");
 				return;
 			}
 		}
 		
-		res.sendRedirect(req.getContextPath() + "/scoremanager/login.jsp");
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/login.jsp").forward(req, res);
 	}
 }

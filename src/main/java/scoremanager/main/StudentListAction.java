@@ -7,23 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import bean.School;
+import bean.Staff;
 import bean.Student;
-import bean.Teacher;
 import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 // 役割：学生の一覧を取得する処理を行うアクションクラス
 public class StudentListAction extends Action {
 
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-// 【セッションからユーザーデータ（教員データ）を取得】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
+		Staff staff = (Staff)req.getAttribute("staff");
+		School school = staff.getSchool();
 
 // 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
 		ClassNumDao cNumDao = new ClassNumDao();
@@ -77,11 +74,11 @@ public class StudentListAction extends Action {
 
 		req.setAttribute("f1", entYear);
 		req.setAttribute("f2", classNum);
-	 	req.setAttribute("f3", isAttend);
-	 	req.setAttribute("students", students);
+		req.setAttribute("f3", isAttend);
+		req.setAttribute("students", students);
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("ent_year_set", entYearSet);
 
-		req.getRequestDispatcher("student_list.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
 	}
 }

@@ -11,6 +11,6 @@ public class LogoutAction extends Action {
 		HttpSession session = req.getSession(true);
 		session.removeAttribute("user");
 		
-		req.getRequestDispatcher("logout.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/logout.jsp").forward(req, res);
 	}
 }

@@ -1,20 +1,17 @@
 package scoremanager.main;
 
 import bean.School;
+import bean.Staff;
 import bean.Subject;
-import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-// 【セッションからユーザーデータを取得】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
+		Staff staff = (Staff)req.getAttribute("staff");
+		School school = staff.getSchool();
 		
 		String cd = req.getParameter("cd");
 		
@@ -24,6 +21,6 @@ public class SubjectUpdateAction extends Action {
 
 		req.setAttribute("cd", cd);
 		req.setAttribute("name", subject.getName());
-		req.getRequestDispatcher("subject_update.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update.jsp").forward(req, res);
 	}
 }

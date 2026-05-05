@@ -5,32 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
+import bean.Staff;
 import bean.Subject;
-import bean.Teacher;
 import dao.ClassNumDao;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class TestListAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// 【セッションからユーザーデータ（教員データ）を取得】
-//		【テスト環境の処理】
-		HttpSession session = req.getSession();
-		Teacher teacher = (Teacher)session.getAttribute("user");
-		School school = teacher.getSchool();
-//		School school = new School();
-//		school.setCd("oom");
-//		school.setName("テスト：oom");
-//		【/テスト環境の処理】
-		
-		// 【本番環境の処理】
-//		HttpSession session = req.getSession();
-//		Teacher teacher = (Teacher)session.getAttribute("user");
-//		School school = teacher.getSchool()
-		// 【/本番環境の処理】
+		Staff staff = (Staff)req.getAttribute("staff");
+		School school = staff.getSchool();
 		
 // ユーザーデータからユーザーが所属している学校のクラスデータを取得
 		ClassNumDao cDao = new ClassNumDao();
@@ -53,6 +39,6 @@ public class TestListAction extends Action {
 		req.setAttribute("class_num_set", cNumSet);
 		req.setAttribute("subjects", subjects);
 		req.setAttribute("ent_year_set", entYearSet);
-		req.getRequestDispatcher("test_list.jsp").forward(req, res);;
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);;
 	}
 }

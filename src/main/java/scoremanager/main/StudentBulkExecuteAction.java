@@ -5,12 +5,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import bean.School;
-import bean.Teacher;
+import bean.Staff;
 import dao.StudentDao;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import tool.Action;
 
@@ -21,12 +20,12 @@ import tool.Action;
 	)
 	public class StudentBulkExecuteAction extends Action {
 	    @Override
-	    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	        HttpSession session = request.getSession();
-	        Teacher teacher = (Teacher)session.getAttribute("user");
-	        School school = teacher.getSchool();
+	    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	    	Staff staff = (Staff)req.getAttribute("staff");
+	        School school = staff.getSchool();
+	        
 	         
-	        Part csv = request.getPart("csv");
+	        Part csv = req.getPart("csv");
 	        BufferedReader br = null;
 	        
 	        try {
@@ -40,18 +39,18 @@ import tool.Action;
 	                dao.Bulk(br, school.getCd());
 	                
 	                
-	                request.getRequestDispatcher("student_bulk_done.jsp").forward(request, response);
+	                req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk_done.jsp").forward(req, res);
 	            } else {
 	                
-	                request.setAttribute("error", "ファイルを選択してください。");
-	                request.getRequestDispatcher("student_bulk.jsp").forward(request, response);
+	                req.setAttribute("error", "ファイルを選択してください。");
+	                req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk.jsp").forward(req, res);
 	            }
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            
-	            request.setAttribute("error", "登録中にエラーが発生しました：" + e.getMessage());
-	            request.getRequestDispatcher("student_bulk.jsp").forward(request, response);
+	            req.setAttribute("error", "登録中にエラーが発生しました：" + e.getMessage());
+	            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk.jsp").forward(req, res);
 	        } finally {
 	            if (br != null) {
 	                try { br.close(); 
