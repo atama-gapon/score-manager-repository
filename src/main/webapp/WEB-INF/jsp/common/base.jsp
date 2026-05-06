@@ -1,6 +1,6 @@
 <%-- 共通テンプレート --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <!DOCTYPE html>
@@ -24,23 +24,24 @@ ${param.scripts}
 			class="d-flex flex-wrap justify-content-center py-3 px-5 mb-4 border-bottom border-2 bg-primary bg-opacity-10 bg-gradient">
 			<c:import url="/WEB-INF/jsp/common/header.jsp" />
 		</header>
- 
+
 		<div class="row justify-content-center">
 			<c:choose>
 				<%-- ログイン済みの場合 --%>
 				<c:when test="${user.isAuthenticated()}">
-					<nav class="col-3" style="height:40rem;">
+					<nav class="col-3" style="height: 40rem;">
 						<c:import url="/WEB-INF/jsp/common/navigation.jsp" />
 					</nav>
-					<main class="col-9 border-start"> ${param.content} </main>
+					<main class="col-9 border-start">${param.content}</main>
 				</c:when>
 				<%-- 未ログインの場合 --%>
 				<c:otherwise>
-					<main class="col-8"> ${param.content} </main>
+					<main class="col-8">${param.content}</main>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<footer class="py-2 my-4 bg-dark bg-opacity-10 border-top border-3 align-bottom">
+		<footer
+			class="py-2 my-4 bg-dark bg-opacity-10 border-top border-3 align-bottom">
 			<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 		</footer>
 	</div>
