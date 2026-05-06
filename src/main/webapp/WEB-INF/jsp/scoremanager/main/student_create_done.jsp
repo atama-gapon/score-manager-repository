@@ -4,6 +4,8 @@
 <!-- baseを継承 -->
 
 <c:import url="/WEB-INF/jsp/common/base.jsp">
+	<c:param name="title">得点管理システム</c:param>
+	<c:param name="scripts"></c:param>
     <c:param name="title" value="学生情報変更" />
     <c:param name="content">
     <!-- 内容 -->

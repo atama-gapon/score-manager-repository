@@ -11,9 +11,9 @@
     padding-left: 1.0rem;
 </style>
 
-    <!-- ページのタイトル -->
-   <c:import url="/WEB-INF/jsp/common/base.jsp">
-    <c:param name="title" value="学生情報変更" />
+<c:import url="/WEB-INF/jsp/common/base.jsp">
+	<c:param name="title">得点管理システム</c:param>
+	<c:param name="scripts"></c:param>
     <c:param name="content">
         <section class="me-4">
 

@@ -13,11 +13,8 @@ input::placeholder {
 </style>
 
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-    <c:param name="title">
-        得点管理システム
-    </c:param>
-
-    <c:param name="scripts"></c:param>
+	<c:param name="title">得点管理システム</c:param>
+	<c:param name="scripts"></c:param>
 
     <c:param name="content">
         <section class="me-4">
