@@ -30,14 +30,14 @@ public class SubjectDao extends Dao {
 				subject = null;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -46,7 +46,7 @@ public class SubjectDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -79,14 +79,14 @@ public class SubjectDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -95,7 +95,7 @@ public class SubjectDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -129,14 +129,14 @@ public class SubjectDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -145,7 +145,7 @@ public class SubjectDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -172,14 +172,14 @@ public class SubjectDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -188,7 +188,7 @@ public class SubjectDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}

@@ -11,7 +11,7 @@ import bean.School;
 import bean.Staff;
 
 public class StaffDao extends Dao {
-	// 職員情報を取得
+	// 役割：一意に指定された職員情報を取得
 	public Staff get(String no) throws Exception {
 		Staff staff = new Staff();
 		Connection connection = getConnection();
@@ -33,8 +33,8 @@ public class StaffDao extends Dao {
 			} else {
 				staff = null;
 			}
+
 		} catch (Exception e) {
-			// 例外の再スロー
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -56,10 +56,8 @@ public class StaffDao extends Dao {
 		return staff;
 	}
 
+	// 役割：職員番号とパスワードで認証を行う
 	public Staff login(String no, String password) throws Exception {
-		// 一致しているか確認？
-		// 一致していなかったらnull入りのStaff
-		// 一致していたらいろんな情報を詰め込んだStaff
 		Staff staff = new Staff();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
@@ -81,14 +79,12 @@ public class StaffDao extends Dao {
 				School school = new School();
 				school.setCd(resultSet.getString("school_cd"));
 				school.setName(schoolDao.get(school.getCd()).getName());
-
 				staff.setSchool(school);
 			} else {
 				staff = null;
 			}
 
 		} catch (Exception e) {
-			// 例外の再スロー
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -107,7 +103,6 @@ public class StaffDao extends Dao {
 				}
 			}
 		}
-
 		return staff;
 	}
 
@@ -131,16 +126,13 @@ public class StaffDao extends Dao {
 				staff.setSchool(school);
 				list.add(staff);
 			}
-		} catch (Exception e) {
-			// 例外の再スロー
-			e.printStackTrace();
+		} catch (Exception e) {		
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}
@@ -149,12 +141,10 @@ public class StaffDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 }

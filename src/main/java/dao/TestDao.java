@@ -42,14 +42,14 @@ public class TestDao extends Dao {
 				test = null;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -58,7 +58,7 @@ public class TestDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -123,7 +123,7 @@ public class TestDao extends Dao {
 			//取得したデータをpostfilterメソッドに送信
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null)
@@ -149,7 +149,7 @@ public class TestDao extends Dao {
 		} catch (Exception e) {
 			// 例外の再スロー
 			connection.rollback();
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (connection != null) {
@@ -187,14 +187,14 @@ public class TestDao extends Dao {
 			}
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -232,14 +232,14 @@ public class TestDao extends Dao {
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -248,7 +248,7 @@ public class TestDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}

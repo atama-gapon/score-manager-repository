@@ -28,7 +28,7 @@ public class TestListStudentDao extends Dao {
 				list.add(student);
 			}
 		} catch (SQLException | NullPointerException e) {
-			e.printStackTrace();
+			
 		}
 
 		return list;
@@ -51,14 +51,14 @@ public class TestListStudentDao extends Dao {
 			list = postFilter(resultSet);
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -67,7 +67,7 @@ public class TestListStudentDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}

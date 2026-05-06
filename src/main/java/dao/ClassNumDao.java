@@ -29,14 +29,14 @@ public class ClassNumDao extends Dao {
 				classNum = null;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -45,7 +45,7 @@ public class ClassNumDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -73,14 +73,14 @@ public class ClassNumDao extends Dao {
 			}
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -89,7 +89,7 @@ public class ClassNumDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -111,14 +111,14 @@ public class ClassNumDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -127,7 +127,7 @@ public class ClassNumDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -155,14 +155,14 @@ public class ClassNumDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -171,7 +171,7 @@ public class ClassNumDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -198,14 +198,14 @@ public class ClassNumDao extends Dao {
 
 		} catch (Exception e) {
 			// 例外の再スロー
-			e.printStackTrace();
+			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}
@@ -214,7 +214,7 @@ public class ClassNumDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					
 					throw e;
 				}
 			}

@@ -11,7 +11,6 @@
 			<div class="my-2 text-end px-4">
 				<a href="StudentCreate.action">新規登録</a> <a href="StudentBulk.action">一括登録</a>
 			</div>
-			<!-- 参考url:https://moku-moku.net/bootstrap/102 -->
 			<form method="get">
 				<div class="row border mx-3 mb-3 py-2 align-items-center rounded"
 					id="filter">
@@ -39,9 +38,8 @@
 					</div>
 					<div class="col-2 form-check text-center">
 						<label class="form-check-label" for="student-f3-check">在学中
-							<%-- パラメーターf3がTrueの場合checkedを追記 --%> <input
-							class="form-check-input" type="checkbox" id="student-f3-check"
-							name="f3" value="t" <c:if test="${ f3 }">checked</c:if> />
+							<%-- パラメーターf3がTrueの場合checkedを追記 --%>
+							<input class="form-check-input" type="checkbox" id="student-f3-check" name="f3" value="t" <c:if test="${ f3 }">checked</c:if>>
 						</label>
 					</div>
 					<div class="col-2 text-center">
@@ -70,13 +68,10 @@
 								<td>${ student.name }</td>
 								<td>${ student.classNum }</td>
 								<td class="text-center">
-									<%-- 在学フラグがたっている場合「○」それ以外は「×」を表示 --%> <c:choose>
-										<c:when test="${ student.isAttend() }">
-			                                ○
-			                            </c:when>
-										<c:otherwise>
-			                                ×
-			                            </c:otherwise>
+									<%-- 在学フラグがたっている場合「○」それ以外は「×」を表示 --%>
+									<c:choose>
+										<c:when test="${ student.attend }">○</c:when>
+										<c:otherwise>×</c:otherwise>
 									</c:choose>
 								</td>
 								<td><a href="StudentUpdate.action?no=${ student.no }">変更</a></td>
