@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
+import bean.Staff;
 import bean.Student;
 import dao.ClassNumDao;
 import dao.StudentDao;
@@ -14,6 +15,9 @@ import tool.Action;
 
 public class StudentUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
+		
 		// フォームから送られてきた値を取る
 		String no = req.getParameter("no");
 		String name = req.getParameter("name");
@@ -49,13 +53,6 @@ public class StudentUpdateExecuteAction extends Action {
 
 		// 数値に変換
 		int entYear = Integer.parseInt(entYearStr);
-
-		// school がセッションに無いときの保険
-		School school = (School) req.getSession().getAttribute("school");
-		if (school == null) {
-			school = new School();
-			school.setCd("oom");
-		}
 
 		// エラー時に必要な入学年度リストを作る
 		LocalDate todaysDate = LocalDate.now();

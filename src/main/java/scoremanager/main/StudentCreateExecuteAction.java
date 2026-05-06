@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import bean.School;
+import bean.Staff;
 import bean.Student;
 import dao.ClassNumDao;
 import dao.StudentDao;
@@ -16,18 +17,13 @@ import tool.Action;
 
 public class StudentCreateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
 		// 入力値の取得
 		String entYearStr = req.getParameter("ent_year");
 		String no = req.getParameter("no");
 		String name = req.getParameter("name");
 		String classNum = req.getParameter("class_num");
-
-		// ログイン中の先生の学校情報を確認
-		School school = (School) req.getSession().getAttribute("school");
-		if (school == null) {
-			res.sendRedirect("../login.jsp");
-			return;
-		}
 
 		// 入学年度の選択肢を作成
 		LocalDate todaysDate = LocalDate.now();

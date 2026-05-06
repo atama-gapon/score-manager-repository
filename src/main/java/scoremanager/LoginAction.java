@@ -19,6 +19,6 @@ public class LoginAction extends Action {
 			}
 		}
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/login.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/index.jsp").forward(req, res);
 	}
 }
