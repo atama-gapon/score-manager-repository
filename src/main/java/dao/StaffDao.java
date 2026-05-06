@@ -29,7 +29,7 @@ public class StaffDao extends Dao {
 				staff.setFirst_name(resultSet.getString("first_name"));
 				staff.setLast_name_kana(resultSet.getString("last_name_kana"));
 				staff.setFirst_name_kana(resultSet.getString("first_name_kana"));
-				staff.setSchool((School)resultSet.getObject("school"));
+				staff.setSchool((School) resultSet.getObject("school"));
 			} else {
 				staff = null;
 			}
@@ -44,7 +44,7 @@ public class StaffDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -55,7 +55,7 @@ public class StaffDao extends Dao {
 		}
 		return staff;
 	}
-	
+
 	public Staff login(String no, String password) throws Exception {
 		// 一致しているか確認？
 		// 一致していなかったらnull入りのStaff
@@ -63,14 +63,14 @@ public class StaffDao extends Dao {
 		Staff staff = new Staff();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-		
+
 		try {
 			statement = connection.prepareStatement("select * from staff where no = ? and password = ?");
 			statement.setString(1, no);
 			statement.setString(2, password);
 			ResultSet resultSet = statement.executeQuery();
 			SchoolDao schoolDao = new SchoolDao();
-			
+
 			if (resultSet.next()) {
 				staff.setNo(resultSet.getString("no"));
 				staff.setPassword(resultSet.getString("password"));
@@ -81,13 +81,13 @@ public class StaffDao extends Dao {
 				School school = new School();
 				school.setCd(resultSet.getString("school_cd"));
 				school.setName(schoolDao.get(school.getCd()).getName());
-				
+
 				staff.setSchool(school);
-			}else {
+			} else {
 				staff = null;
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			// 例外の再スロー
 			throw e;
 		} finally {
@@ -98,7 +98,7 @@ public class StaffDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -107,21 +107,21 @@ public class StaffDao extends Dao {
 				}
 			}
 		}
-		
+
 		return staff;
 	}
-	
+
 	// 学校コードに合致する職員の一覧を取得
 	public List<Staff> filter(School school) throws Exception {
 		List<Staff> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-		
+
 		try {
 			statement = connection.prepareStatement("select * from staff where school_cd = ?");
 			statement.setString(1, school.getCd());
 			ResultSet resultSet = statement.executeQuery();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Staff staff = new Staff();
 				staff.setNo(resultSet.getString("no"));
 				staff.setLast_name(resultSet.getString("last_name"));
@@ -144,7 +144,7 @@ public class StaffDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -154,7 +154,7 @@ public class StaffDao extends Dao {
 				}
 			}
 		}
-		
+
 		return list;
 	}
 }

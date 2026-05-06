@@ -19,10 +19,10 @@ import tool.Action;
 
 public class TestListStudentExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		 Staff staff = (Staff)req.getAttribute("staff");
-		 School school = staff.getSchool();
-		
-// 入力された学生番号の学生の成績データを取得する
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
+
+		// 入力された学生番号の学生の成績データを取得する
 		String no = req.getParameter("f4");
 		StudentDao sDao = new StudentDao();
 		Student student = sDao.get(no);
@@ -31,7 +31,7 @@ public class TestListStudentExecuteAction extends Action {
 			TestListStudentDao tDao = new TestListStudentDao();
 			testListStudents = tDao.filter(student);
 		}
-		
+
 		// ユーザーデータからユーザーが所属している学校のクラスデータを取得
 		ClassNumDao cDao = new ClassNumDao();
 		// 学校コードに合致するデータを取得
@@ -39,23 +39,23 @@ public class TestListStudentExecuteAction extends Action {
 		// ユーザーデータからユーザーが所属している学校の科目データを取得
 		SubjectDao subjectDao = new SubjectDao();
 		// 科目コードに合致するデータを取得
-		List<Subject> subjects =  subjectDao.filter(school);
+		List<Subject> subjects = subjectDao.filter(school);
 		// 入学年度リストを生成
 		LocalDate todaysDate = LocalDate.now();
 		int year = todaysDate.getYear();
 		// 10年前から1年後までをリストに追加
 		List<Integer> entYearSet = new ArrayList<>();
-		for (int i=year-10; i<=year+1; i++) {
+		for (int i = year - 10; i <= year + 1; i++) {
 			entYearSet.add(i);
 		}
-		
+
 		// 収集したデータをリクエストに設定
 		req.setAttribute("class_num_set", cNumSet);
 		req.setAttribute("subjects", subjects);
 		req.setAttribute("ent_year_set", entYearSet);
-		
+
 		req.setAttribute("f4", no);
-// 入力欄に取得したデータを初期値としてセットし、一覧で表示する
+		// 入力欄に取得したデータを初期値としてセットし、一覧で表示する
 		req.setAttribute("student", student);
 		req.setAttribute("testListStudents", testListStudents);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list_student.jsp").forward(req, res);

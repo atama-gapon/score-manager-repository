@@ -36,7 +36,7 @@ public class SchoolDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -45,7 +45,7 @@ public class SchoolDao extends Dao {
 				}
 			}
 		}
-		
+
 		return school;
 	}
 }

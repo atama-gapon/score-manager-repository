@@ -6,6 +6,6 @@ import tool.Action;
 
 public class StaffListAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		
+
 	}
 }

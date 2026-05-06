@@ -17,47 +17,46 @@ import tool.Action;
 
 // 役割：学生の一覧を取得する処理を行うアクションクラス
 public class StudentListAction extends Action {
-
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff)req.getAttribute("staff");
+		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-// 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
+		// 【セッションのユーザーデータから、ユーザーが所属している学校のクラス一覧用データを取得】
 		ClassNumDao cNumDao = new ClassNumDao();
 		List<String> classNumSet = cNumDao.filter(school);
 
-// 【セッションのユーザーデータから、ユーザーが所属している学校の生徒一覧用データを取得】
-// &【選択された情報をもとに学校の生徒データを取得】
+		// 【セッションのユーザーデータから、ユーザーが所属している学校の生徒一覧用データを取得】
+		// &【選択された情報をもとに学校の生徒データを取得】
 		StudentDao sDao = new StudentDao();
 		// リクエストパラメータを受け取る
 		String entYearStr = req.getParameter("f1");
 		String classNum = req.getParameter("f2");
 		String isAttendStr = req.getParameter("f3");
-		
+
 		int entYear = 0;
 		// エラー対策
 		if (entYearStr != null) {
 			entYear = Integer.parseInt(entYearStr);
 		}
-		
+
 		boolean isAttend = false;
 		// 在学フラグが送信されていた場合
 		if (isAttendStr != null) {
-				isAttend = true;
+			isAttend = true;
 		}
 
 		LocalDate todaysDate = LocalDate.now();
 		int year = todaysDate.getYear();
 		// 10年前から1年後までをリストに追加
 		List<Integer> entYearSet = new ArrayList<>();
-		for (int i=year-10; i<=year+1; i++) {
+		for (int i = year - 10; i <= year + 1; i++) {
 			entYearSet.add(i);
 		}
-		
+
 		List<Student> students = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
-		
-		 if (entYear != 0 && !classNum.equals("0")) {
+
+		if (entYear != 0 && !classNum.equals("0")) {
 			// 入学年度とクラス番号を指定された場合
 			students = sDao.filter(school, entYear, classNum, isAttend);
 		} else if (entYear != 0 && classNum.equals("0")) {

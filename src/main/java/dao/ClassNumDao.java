@@ -11,7 +11,6 @@ import bean.ClassNum;
 import bean.School;
 
 public class ClassNumDao extends Dao {
-	
 	// 取得したクラス番号、学校情報をもとにクラス情報を返却するメソッド
 	public ClassNum get(String class_num, School school) throws Exception {
 		ClassNum classNum = new ClassNum();
@@ -41,7 +40,7 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -51,22 +50,24 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-		
+
 		return classNum;
 	}
-	
+
 	// 引数で指定された学校に所属している、クラス一覧を取得
 	public List<String> filter(School school) throws Exception {
 		List<String> list = new ArrayList<>();
-		
+
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
-		
+
 		try {
-			statement = connection.prepareStatement("select class_num from class_num where school_cd=? order by class_num");
-			statement.setString(1, school.getCd());;
+			statement = connection
+					.prepareStatement("select class_num from class_num where school_cd=? order by class_num");
+			statement.setString(1, school.getCd());
+			;
 			ResultSet resultSet = statement.executeQuery();
-			
+
 			while (resultSet.next()) {
 				list.add(resultSet.getString("class_num"));
 			}
@@ -83,7 +84,7 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -93,15 +94,15 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 	public boolean save(ClassNum classNum) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
-		
+
 		try {
 			statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
 			statement.setString(1, classNum.getClass_num());
@@ -121,7 +122,7 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -131,7 +132,7 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-		
+
 		if (count > 0) {
 			return true;
 		} else {
@@ -143,9 +144,10 @@ public class ClassNumDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
-		
+
 		try {
-			statement = connection.prepareStatement("update class_num set class_num=? where class_num=? and school_cd=?");
+			statement = connection
+					.prepareStatement("update class_num set class_num=? where class_num=? and school_cd=?");
 			statement.setString(1, newClassNum);
 			statement.setString(2, classNum.getClass_num());
 			statement.setString(3, classNum.getSchool().getCd());
@@ -164,7 +166,7 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -174,19 +176,19 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-		
+
 		if (count > 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	public boolean delete(ClassNum classNum) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
-		
+
 		try {
 			statement = connection.prepareStatement("delete from class_num where school_cd=? and class_num=?;");
 			statement.setString(1, classNum.getSchool().getCd());
@@ -207,7 +209,7 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -217,7 +219,7 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-		
+
 		if (count > 0) {
 			return true;
 		} else {

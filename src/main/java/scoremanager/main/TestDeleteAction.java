@@ -14,23 +14,22 @@ import tool.Action;
 
 public class TestDeleteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff)req.getAttribute("staff");
+		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
+
 		//パラメーターを取得
 		//削除対象のキー
 		String studentNo = req.getParameter("studentNo");
 		String subjectCd = req.getParameter("subjectCd");
-		
+
 		int no = Integer.parseInt(req.getParameter("num"));
-		
+
 		StudentDao studentDao = new StudentDao();
 		Student student = studentDao.get(studentNo);
-		
+
 		SubjectDao subjectDao = new SubjectDao();
 		Subject subject = subjectDao.get(subjectCd, school);
-		
-		
+
 		TestDao testDao = new TestDao();
 		Test test = testDao.get(student, subject, school, no);
 

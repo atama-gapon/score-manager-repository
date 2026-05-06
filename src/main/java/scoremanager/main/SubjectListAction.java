@@ -12,13 +12,13 @@ import tool.Action;
 
 public class SubjectListAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff)req.getAttribute("staff");
+		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
-// 【セッションのユーザーデータから、ユーザーが所属している学校の科目一覧用データを取得】
+
+		// 【セッションのユーザーデータから、ユーザーが所属している学校の科目一覧用データを取得】
 		SubjectDao sDao = new SubjectDao();
 		List<Subject> subjectSet = sDao.filter(school);
-		
+
 		req.setAttribute("subjects", subjectSet);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_list.jsp").forward(req, res);
 	}

@@ -15,39 +15,39 @@ import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
 	private String baseSql = "select s.ent_year, s.name, s.no, s.class_num, t.no as test_no, t.point from student s join test t on s.no = t.student_no where s.school_cd = ?";
-	
+
 	private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
-	    // 学生番号(no)をキーにして、重複を防ぐためのMapを用意
-	    Map<String, TestListSubject> map = new HashMap<>();
-	    
-	    try {
-	        while(rSet.next()) {
-	            String studentNo = rSet.getString("no");
-	            
-	            // すでにその学生のインスタンスがMapにあるか確認
-	            TestListSubject subject = map.get(studentNo);
-	            
-	            if (subject == null) {
-	                // 初めて出てきた学生なら、新しく作ってMapに入れる
-	                subject = new TestListSubject();
-	                subject.setEntYear(rSet.getInt("ent_year"));
-	                subject.setStudentName(rSet.getString("name"));
-	                subject.setStudentNo(studentNo);
-	                subject.setClassNum(rSet.getString("class_num"));
-	                map.put(studentNo, subject);
-	            }
-	            
-	            // 点数情報を追加（既存の学生でも新しい学生でもここでMapにputPointされる）
-	            subject.putPoint(rSet.getInt("test_no"), rSet.getInt("point"));
-	        }
-	    } catch (SQLException | NullPointerException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    // Mapにまとめた結果をListに変換して返す
-	    return new ArrayList<>(map.values());
+		// 学生番号(no)をキーにして、重複を防ぐためのMapを用意
+		Map<String, TestListSubject> map = new HashMap<>();
+
+		try {
+			while (rSet.next()) {
+				String studentNo = rSet.getString("no");
+
+				// すでにその学生のインスタンスがMapにあるか確認
+				TestListSubject subject = map.get(studentNo);
+
+				if (subject == null) {
+					// 初めて出てきた学生なら、新しく作ってMapに入れる
+					subject = new TestListSubject();
+					subject.setEntYear(rSet.getInt("ent_year"));
+					subject.setStudentName(rSet.getString("name"));
+					subject.setStudentNo(studentNo);
+					subject.setClassNum(rSet.getString("class_num"));
+					map.put(studentNo, subject);
+				}
+
+				// 点数情報を追加（既存の学生でも新しい学生でもここでMapにputPointされる）
+				subject.putPoint(rSet.getInt("test_no"), rSet.getInt("point"));
+			}
+		} catch (SQLException | NullPointerException e) {
+			e.printStackTrace();
+		}
+
+		// Mapにまとめた結果をListに変換して返す
+		return new ArrayList<>(map.values());
 	}
-	
+
 	public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
 		List<TestListSubject> list = new ArrayList<>();
 		Connection connection = getConnection();
@@ -76,7 +76,7 @@ public class TestListSubjectDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -86,8 +86,8 @@ public class TestListSubjectDao extends Dao {
 				}
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 }

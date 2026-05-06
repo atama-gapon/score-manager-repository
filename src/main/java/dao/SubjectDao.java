@@ -41,7 +41,7 @@ public class SubjectDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -51,23 +51,23 @@ public class SubjectDao extends Dao {
 				}
 			}
 		}
-		
+
 		return subject;
 	}
-	
+
 	public List<Subject> filter(School school) throws Exception {
 		List<Subject> list = new ArrayList<>();
-		
+
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		
+
 		try {
 			statement = connection.prepareStatement("select * from subject where school_cd = ? order by cd asc");
 			statement.setString(1, school.getCd());
 			resultSet = statement.executeQuery();
 
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Subject subject = new Subject();
 
 				subject.setCd(resultSet.getString("cd"));
@@ -90,7 +90,7 @@ public class SubjectDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -100,15 +100,15 @@ public class SubjectDao extends Dao {
 				}
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 	public boolean save(Subject subject) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
-		
+
 		try {
 			// データベースから科目を取得
 			Subject old = get(subject.getCd(), subject.getSchool());
@@ -140,7 +140,7 @@ public class SubjectDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -150,7 +150,7 @@ public class SubjectDao extends Dao {
 				}
 			}
 		}
-		
+
 		if (count > 0) {
 			return true;
 		} else {
@@ -162,7 +162,7 @@ public class SubjectDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		int count = 0;
-		
+
 		try {
 			statement = connection.prepareStatement("delete from subject where school_cd=? and cd=?;");
 			statement.setString(1, subject.getSchool().getCd());
@@ -183,7 +183,7 @@ public class SubjectDao extends Dao {
 					throw e;
 				}
 			}
-			
+
 			if (connection != null) {
 				try {
 					connection.close();
@@ -193,7 +193,7 @@ public class SubjectDao extends Dao {
 				}
 			}
 		}
-		
+
 		if (count > 0) {
 			return true;
 		} else {

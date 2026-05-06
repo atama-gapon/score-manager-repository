@@ -15,30 +15,31 @@ import tool.Action;
 
 public class TestListAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff)req.getAttribute("staff");
+		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
-// ユーザーデータからユーザーが所属している学校のクラスデータを取得
+
+		// ユーザーデータからユーザーが所属している学校のクラスデータを取得
 		ClassNumDao cDao = new ClassNumDao();
-// 学校コードに合致するデータを取得
+		// 学校コードに合致するデータを取得
 		List<String> cNumSet = cDao.filter(school);
-// ユーザーデータからユーザーが所属している学校の科目データを取得
+		// ユーザーデータからユーザーが所属している学校の科目データを取得
 		SubjectDao sDao = new SubjectDao();
-// 科目コードに合致するデータを取得
-		List<Subject> subjects =  sDao.filter(school);
-// 入学年度リストを生成
+		// 科目コードに合致するデータを取得
+		List<Subject> subjects = sDao.filter(school);
+		// 入学年度リストを生成
 		LocalDate todaysDate = LocalDate.now();
 		int year = todaysDate.getYear();
 		// 10年前から1年後までをリストに追加
 		List<Integer> entYearSet = new ArrayList<>();
-		for (int i=year-10; i<=year+1; i++) {
+		for (int i = year - 10; i <= year + 1; i++) {
 			entYearSet.add(i);
 		}
-		
-// 収集したデータをリクエストに設定
+
+		// 収集したデータをリクエストに設定
 		req.setAttribute("class_num_set", cNumSet);
 		req.setAttribute("subjects", subjects);
 		req.setAttribute("ent_year_set", entYearSet);
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);;
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);
+		;
 	}
 }

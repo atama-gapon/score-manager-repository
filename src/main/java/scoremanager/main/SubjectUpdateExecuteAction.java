@@ -13,18 +13,18 @@ import tool.Action;
 
 public class SubjectUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff)req.getAttribute("staff");
+		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
+
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
-		
+
 		Map<String, String> errors = new HashMap<>();
-		
+
 		SubjectDao sDao = new SubjectDao();
 		Subject subject = sDao.get(cd, school);
-		
-// 【変更中に別画面から対象の科目が削除された場合】
+
+		// 【変更中に別画面から対象の科目が削除された場合】
 		if (subject == null) {
 			errors.put("subject_exist", "科目が存在していません");
 			subject = new Subject();
@@ -37,13 +37,13 @@ public class SubjectUpdateExecuteAction extends Action {
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update.jsp").forward(req, res);
 			return;
 		}
-		
-// 【DBに科目を保存する】
+
+		// 【DBに科目を保存する】
 		subject.setCd(cd);
 		subject.setName(name);
 		subject.setSchool(school);
 		sDao.save(subject);
-		
+
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update_done.jsp").forward(req, res);
 	}
 }
