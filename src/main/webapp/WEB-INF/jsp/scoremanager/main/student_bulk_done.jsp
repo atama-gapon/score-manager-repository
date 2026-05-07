@@ -9,7 +9,7 @@
 		<section class="me-4">
 			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">クラス情報一括登録</h2>
 			<p>
-				<a href="ClassCreate.action">戻る</a>
+				<a href="StudentBulk.action">戻る</a>
 			</p>
 			<p>
 				<a href="ClassList.action">クラス一覧</a>

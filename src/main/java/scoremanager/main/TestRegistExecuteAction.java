@@ -84,7 +84,6 @@ public class TestRegistExecuteAction extends Action {
 				for (int i = year - 10; i <= year + 1; i++) {
 					entYearSet.add(i);
 				}
-				
 				req.setAttribute("ent_year_set", entYearSet);
 				ClassNumDao classNumDao = new ClassNumDao();
 				req.setAttribute("class_num_set", classNumDao.filter(school));
@@ -96,7 +95,6 @@ public class TestRegistExecuteAction extends Action {
 				req.setAttribute("f4", numStr);
 				req.setAttribute("num", num);
 				req.setAttribute("subject", subject);
-
 				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
 
 			} else {
@@ -107,8 +105,21 @@ public class TestRegistExecuteAction extends Action {
 				req.setAttribute("f2", classNum);
 				req.setAttribute("f3", subjectcd);
 				req.setAttribute("f4", numStr);
-				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist_done.jsp").forward(req, res);
+				req.setAttribute("tests", testList);
+				req.setAttribute("num", num);
+				req.setAttribute("subject", subject);
+
+				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
+				return;
 			}
+				
+			//データーベースに一括で保存
+			testDao.save(saveList);
+			req.setAttribute("f1", entYearStr);
+			req.setAttribute("f2", classNum);
+			req.setAttribute("f3", subjectcd);
+			req.setAttribute("f4", numStr);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist_done.jsp").forward(req, res);
 		}
 	}
 }

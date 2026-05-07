@@ -328,28 +328,32 @@ public class StudentDao extends Dao {
 	}
 
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
+		
 		Connection connection = getConnection();
 
 		PreparedStatement statement = null;
 		String line;
 		int count = 0;
-		String sql1 = "insert into student(no,name,ent_year,class_num,is_attend,school_cd) values(?,?,?,?,?,?)";
+		String sql1 = "insert into student(school_cd,no,name,ent_year,class_num,is_attend) values(?,?,?,?,?,?)";
 		statement = connection.prepareStatement(sql1);
-		try {
-
+		try {	
+			
 			while ((line = br.readLine()) != null) {
+				System.out.println("読み込んだデータ: " + line);
 				String[] data = line.split(",");
-
-				statement.setString(1, data[0].trim());
-				statement.setString(2, data[1].trim());
-				statement.setInt(3, Integer.parseInt(data[2].trim()));
-				statement.setString(4, data[3].trim());
+				
+				statement.setString(1, schoolCd);
+				statement.setString(2, data[0].trim());
+				statement.setString(3, data[1].trim());
+				statement.setInt(4, Integer.parseInt(data[2].trim()));
+				statement.setString(5, data[3].trim());
 				boolean isAttend = Boolean.parseBoolean(data[4].trim());
-				statement.setBoolean(5, isAttend);
-				statement.setString(6, schoolCd);
+				statement.setBoolean(6, isAttend);
+				
 				count += statement.executeUpdate();
+				
 			}
-
+			System.out.println(count);
 		} catch (Exception e) {
 			
 		} finally {
@@ -360,6 +364,7 @@ public class StudentDao extends Dao {
 			}
 		}
 		if (count > 0) {
+			
 			return true;
 		} else {
 			return false;
