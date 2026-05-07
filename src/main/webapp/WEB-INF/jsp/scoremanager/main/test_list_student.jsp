@@ -90,7 +90,7 @@
 			<c:choose>
 	            <c:when test="${ testListStudents.size() > 0 }">
 	                <div class="row mt-4">
-	                    <%-- 左側：成績テーブル --%>
+	           
 	                    <div class="col-lg-7">
 	                        <table class="table table-hover border">
 	                            <thead class="table-light">
@@ -118,7 +118,7 @@
 	                        </table>
 	                    </div>
 	
-	                    <%-- 右側：レーダーチャート表示エリア --%>
+	             
 	                    <div class="col-lg-5">
 	                        <div class="card shadow-sm p-3">
 	                            <h3 class="h6 text-center mb-3">成績分析レーダー</h3>
@@ -127,18 +127,17 @@
 	                    </div>
 	                </div>
 	
-	                <%-- チャート描画スクリプト --%>
+	         
 	                <script>
 	                    document.addEventListener("DOMContentLoaded", function() {
 	                        const ctx = document.getElementById('gradeRadarChart').getContext('2d');
 	                        
-	                        // JSTLからJavaScriptの配列へデータを変換
+	                    
 	                        const labels = [];
 	                        const points = [];
 	                        
 	                        <c:forEach var="item" items="${testListStudents}">
-	                            // 同じ科目が複数回ある場合、チャートが重なるため「科目名(回数)」とするか、
-	                            // もしくは最新回のみを抽出するロジックが必要ですが、ここでは全表示します。
+	                        
 	                            labels.push('${item.subjectName} (${item.num}回)');
 	                            points.push(${item.point});
 	                        </c:forEach>
