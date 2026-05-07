@@ -24,12 +24,12 @@ public class TestListStudentExecuteAction extends Action {
 
 		// 入力された学生番号の学生の成績データを取得する
 		String no = req.getParameter("f4");
-		StudentDao sDao = new StudentDao();
-		Student student = sDao.get(no);
+		StudentDao studentDao= new StudentDao();
+		Student student = studentDao.get(no);
 		List<TestListStudent> testListStudents = null;
 		if (!(student == null)) {
-			TestListStudentDao tDao = new TestListStudentDao();
-			testListStudents = tDao.filter(student);
+			TestListStudentDao testListStudentDao = new TestListStudentDao();
+			testListStudents = testListStudentDao.filter(student);
 		}
 
 		// ユーザーデータからユーザーが所属している学校のクラスデータを取得
