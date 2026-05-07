@@ -11,7 +11,8 @@ import bean.Student;
 import bean.TestListStudent;
 
 public class TestListStudentDao extends Dao {
-	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.subject_cd = s.cd where t.school_cd = ?";
+//	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.subject_cd = s.cd where t.school_cd = ?";
+	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.school_cd = s.school_cd and t.subject_cd = s.cd where t.school_cd = ?";
 
 	//SQLの結果をList<Test>に変換する
 	private List<TestListStudent> postFilter(ResultSet rSet) throws Exception {
