@@ -52,14 +52,12 @@ public class TestListStudentDao extends Dao {
 			list = postFilter(resultSet);
 		} catch (Exception e) {
 			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -68,7 +66,6 @@ public class TestListStudentDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}

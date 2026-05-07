@@ -105,7 +105,8 @@ public class TestDao extends Dao {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 
-		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? and t.no >= 0 where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
+//		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? and t.no >= 0 where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
+		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and s.school_cd = t.school_cd and t.subject_cd = ? and t.no = ? and t.no >= 0  where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
 
 		try {
 			statement = connection.prepareStatement(sql);
@@ -141,15 +142,12 @@ public class TestDao extends Dao {
 			connection.setAutoCommit(false);
 
 			for (Test test : list) {
-
 				save(test, connection);
 			}
 
 			connection.commit();
 		} catch (Exception e) {
-			// 例外の再スロー
 			connection.rollback();
-			
 			throw e;
 		} finally {
 			if (connection != null) {
@@ -176,25 +174,23 @@ public class TestDao extends Dao {
 			if (rowCount == 0) {
 				statement.close();
 				statement = connection.prepareStatement(
-						"insert into test (student_no, subject_cd, school_cd, no, point, class_num) values(?,?,?,?,?,?)");
+						"insert into test (student_no, subject_cd, school_cd, no, point, marker_staff_no, class_num) values(?,?,?,?,?,?,?)");
 				statement.setString(1, test.getStudent().getNo());
 				statement.setString(2, test.getSubject());
 				statement.setString(3, test.getSchool().getCd());
 				statement.setInt(4, test.getNo());
 				statement.setInt(5, test.getPoint());
-				statement.setString(6, test.getClassNum());
+				statement.setString(6, test.getMarker_staff_no());
+				statement.setString(7, test.getClassNum());
 				statement.executeUpdate();
 			}
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -231,8 +227,6 @@ public class TestDao extends Dao {
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-
-			
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -243,7 +237,6 @@ public class TestDao extends Dao {
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
@@ -253,7 +246,6 @@ public class TestDao extends Dao {
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
