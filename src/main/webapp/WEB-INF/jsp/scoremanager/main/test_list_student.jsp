@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <c:import url="/WEB-INF/jsp/common/base.jsp">
+	<c:param name="scripts">
+	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</c:param>
 	<c:param name="title">得点管理システム</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
@@ -80,34 +83,103 @@
 			</div>
 
 		</section>
-		<div class="mt-3">氏名：${ student.name }（${ student.no }）</div>
-
-		<c:choose>
-			<c:when test="${ testListStudents.size() > 0 }">
-
-				<table class="table table-hover">
-					<tr>
-						<th>科目名</th>
-						<th>科目コード</th>
-						<th>回数</th>
-						<th>点数</th>
-						<th></th>
-					</tr>
-					<c:forEach var="tlstudent" items="${ testListStudents }">
-						<tr>
-							<td>${ tlstudent.subjectName }</td>
-							<td>${ tlstudent.subjectCd }</td>
-							<td>${ tlstudent.num }</td>
-							<td>${ tlstudent.point }</td>
-							<td><a
-								href="TestDelete.action?studentNo=${student.no}&subjectCd=${tlstudent.subjectCd}&schoolCd=${student.school.cd}&num=${tlstudent.num}">削除</a></td>
-						</tr>
-					</c:forEach>
-				</table>
-			</c:when>
-			<c:otherwise>
-				<div>成績情報が存在しませんでした。</div>
-			</c:otherwise>
-		</c:choose>
+		<section class="mt-4">
+	        <div class="mt-3 h5">氏名：${ student.name }（${ student.no }）</div>
+	
+	
+			<c:choose>
+	            <c:when test="${ testListStudents.size() > 0 }">
+	                <div class="row mt-4">
+	                    <%-- 左側：成績テーブル --%>
+	                    <div class="col-lg-7">
+	                        <table class="table table-hover border">
+	                            <thead class="table-light">
+	                                <tr>
+	                                    <th>科目名</th>
+	                                    <th>科目コード</th>
+	                                    <th>回数</th>
+	                                    <th>点数</th>
+	                                    <th></th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <c:forEach var="tlstudent" items="${ testListStudents }">
+	                                    <tr>
+	                                        <td>${ tlstudent.subjectName }</td>
+	                                        <td>${ tlstudent.subjectCd }</td>
+	                                        <td>${ tlstudent.num }</td>
+	                                        <td>${ tlstudent.point }</td>
+	                                        <td>
+	                                            <a href="TestDelete.action?studentNo=${student.no}&subjectCd=${tlstudent.subjectCd}&schoolCd=${student.school.cd}&num=${tlstudent.num}" class="text-danger">削除</a>
+	                                        </td>
+	                                    </tr>
+	                                </c:forEach>
+	                            </tbody>
+	                        </table>
+	                    </div>
+	
+	                    <%-- 右側：レーダーチャート表示エリア --%>
+	                    <div class="col-lg-5">
+	                        <div class="card shadow-sm p-3">
+	                            <h3 class="h6 text-center mb-3">成績分析レーダー</h3>
+	                            <canvas id="gradeRadarChart" style="max-height: 400px;"></canvas>
+	                        </div>
+	                    </div>
+	                </div>
+	
+	                <%-- チャート描画スクリプト --%>
+	                <script>
+	                    document.addEventListener("DOMContentLoaded", function() {
+	                        const ctx = document.getElementById('gradeRadarChart').getContext('2d');
+	                        
+	                        // JSTLからJavaScriptの配列へデータを変換
+	                        const labels = [];
+	                        const points = [];
+	                        
+	                        <c:forEach var="item" items="${testListStudents}">
+	                            // 同じ科目が複数回ある場合、チャートが重なるため「科目名(回数)」とするか、
+	                            // もしくは最新回のみを抽出するロジックが必要ですが、ここでは全表示します。
+	                            labels.push('${item.subjectName} (${item.num}回)');
+	                            points.push(${item.point});
+	                        </c:forEach>
+	
+	                        new Chart(ctx, {
+	                            type: 'radar',
+	                            data: {
+	                                labels: labels,
+	                                datasets: [{
+	                                    label: '得点',
+	                                    data: points,
+	                                    fill: true,
+	                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+	                                    borderColor: 'rgb(54, 162, 235)',
+	                                    pointBackgroundColor: 'rgb(54, 162, 235)',
+	                                    pointBorderColor: '#fff',
+	                                    pointHoverBackgroundColor: '#fff',
+	                                    pointHoverBorderColor: 'rgb(54, 162, 235)'
+	                                }]
+	                            },
+	                            options: {
+	                                scales: {
+	                                    r: {
+	                                        angleLines: { display: true },
+	                                        suggestedMin: 0,
+	                                        suggestedMax: 100,
+	                                        ticks: { stepSize: 20 }
+	                                    }
+	                                },
+	                                plugins: {
+	                                    legend: { display: false }
+	                                }
+	                            }
+	                        });
+	                    });
+	                </script>
+	            </c:when>
+	            <c:otherwise>
+	                <div class="alert alert-warning mt-3">成績情報が存在しませんでした。</div>
+	            </c:otherwise>
+	        </c:choose>
+	    </section>
 	</c:param>
 </c:import>
