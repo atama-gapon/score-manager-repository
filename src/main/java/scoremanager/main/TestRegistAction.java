@@ -55,7 +55,7 @@ public class TestRegistAction extends Action {
 			if (entYearStr == null || entYearStr.isEmpty() ||
 					classNum == null || classNum.isEmpty() ||
 					subjectcd == null || subjectcd.equals("0") ||
-					numStr == null || numStr.isEmpty()) {
+					numStr == null || numStr.equals("0")) {
 				req.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
 				req.setAttribute("f1", entYearStr);
 				req.setAttribute("f2", classNum);
