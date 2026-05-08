@@ -43,7 +43,7 @@
 				<div
 					class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 					style="height: 10rem; background-color: #ccc;">
-					<a href="StaffStatus.action">職員状態管理</a>
+					<a href="StatusList.action">職員状態管理</a>
 				</div>
 			</div>
 			
@@ -52,6 +52,14 @@
 					class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 					style="height: 10rem; background-color: #ccc;">
 					<a href="StaffList.action">職員管理</a>
+				</div>
+			</div>
+			
+			<div class="row text-center px-4 fs-3 my-5">
+				<div
+					class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
+					style="height: 10rem; background-color: #ccc;">
+					<a href="PositionList.action">役職</a>
 				</div>
 			</div>
 			

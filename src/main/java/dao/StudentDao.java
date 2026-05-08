@@ -11,12 +11,11 @@ import java.util.List;
 import bean.School;
 import bean.Student;
 
-// 役割：学生テーブルに対して処理を行う
 public class StudentDao extends Dao {
 	private String baseSql = "select * from student where school_cd=?";
 
-	// 学生番号を指定して学生インスタンスを1件取得。
-	// 学生変更の処理内で学生の詳細データを取得する際に利用。
+	// 学生番号を指定して学生インスタンスを1件取得
+	// 学生変更の処理内で学生の詳細データを取得する際に利用
 	public Student get(String no) throws Exception {
 		Student student = new Student();
 		Connection connection = getConnection();
@@ -38,28 +37,23 @@ public class StudentDao extends Dao {
 				student = null;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return student;
 	}
 
@@ -78,14 +72,12 @@ public class StudentDao extends Dao {
 				isFound = true;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -93,13 +85,44 @@ public class StudentDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return isFound;
+	}
+	
+	public List<Integer> getEntYearList(School school) throws Exception {
+		List<Integer> list = new ArrayList<>();
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+
+		try {
+			statement = connection.prepareStatement("select distinct ent_year from student where school_cd = ? order by ent_year desc");
+			statement.setString(1, school.getCd());
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				list.add(resultSet.getInt("ent_year"));
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+		}
+		return list;
 	}
 
 	// 処理内容：フィルター後のリストへの格納
@@ -122,7 +145,6 @@ public class StudentDao extends Dao {
 		} catch (SQLException | NullPointerException e) {
 			
 		}
-
 		return list;
 	}
 
@@ -148,29 +170,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -195,29 +211,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -240,29 +250,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -299,29 +303,23 @@ public class StudentDao extends Dao {
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
@@ -362,9 +360,9 @@ public class StudentDao extends Dao {
 			try {
 				statement.close();
 			} catch (SQLException e) {
+				
 			}
 		}
-
 		if (count > 0) {
 			
 			return true;
