@@ -5,8 +5,7 @@
 	<c:param name="title">得点管理システム</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
-			学生情報登録</h2>
+		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">学生情報登録</h2>
 
 		<form action="StudentCreateExecute.action" method="post" class="px-4">
 
