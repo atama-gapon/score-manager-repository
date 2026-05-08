@@ -38,6 +38,18 @@ public class StatusUpdateExecuteAction extends Action {
                .forward(req, res);
             return;
         }
+        int sortOrder = 0;
+        try {
+            sortOrder = Integer.parseInt(sortOrderStr);
+
+            if (sortOrder < 0) {
+                errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
+            }
+
+        } catch (NumberFormatException e) {
+            errors.put("sortOrder", "並び順は数字で入力してください");
+        }
+
 
         // 入力値セット
         status.setName(name);
@@ -57,6 +69,10 @@ public class StatusUpdateExecuteAction extends Action {
         // バリデーション
         if (name == null || name.isEmpty()) {
             errors.put("name", "ステータス名を入力してください");
+        }
+     // 重複チェック
+        if (dao.existsByName(name, schoolCd)) {
+            errors.put("name", "同じ名前のステータスがすでに存在します");
         }
 
         if (!errors.isEmpty()) {

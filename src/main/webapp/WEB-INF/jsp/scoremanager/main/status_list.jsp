@@ -25,16 +25,24 @@
                             <th></th>
                         </tr>
 
-                        <c:forEach var="s" items="${ statusList }">
-                            <tr>
-                                <td>${ s.id }</td>
-                                <td>${ s.name }</td>
-                                <td>${ s.sortOrder }</td>
-                                <td>
-                                    <a href="StatusUpdate.action?id=${ s.id }">変更</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <c:forEach var="status" items="${statusList}">
+						<tr>
+						    <td>${ status.id }</td>
+						    <td>${ status.name }</td>
+						    <td>${ status.sortOrder }</td>
+						    <td>
+						        <a href="StatusUpdate.action?id=${ status.id }" class="btn btn-secondary btn-sm">
+						            変更
+						        </a>
+						
+						        <a href="StatusDelete.action?id=${ status.id }"
+						           class="btn btn-danger btn-sm ms-2">
+						            削除
+						        </a>
+						    </td>
+						</tr>
+						</c:forEach>
+
                     </table>
                 </c:when>
 
