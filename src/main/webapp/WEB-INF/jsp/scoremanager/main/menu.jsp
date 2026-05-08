@@ -43,7 +43,7 @@
 				<div
 					class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 					style="height: 10rem; background-color: #ccc;">
-					<a href="StaffStatus.action">職員状態管理</a>
+					<a href="StatusList.action">職員状態管理</a>
 				</div>
 			</div>
 			
