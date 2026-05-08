@@ -20,11 +20,10 @@ public class StatusCreateExecuteAction extends Action {
         School school = staff.getSchool();
         String schoolCd = school.getCd();
 
-        // 入力値取得
         String name = req.getParameter("name");
         String sortOrderStr = req.getParameter("sortOrder");
 
-        // 入力値保持（JSP に戻す用）
+       
         req.setAttribute("name", name);
         req.setAttribute("sortOrder", sortOrderStr);
 
@@ -39,8 +38,20 @@ public class StatusCreateExecuteAction extends Action {
         int sortOrder = 0;
         try {
             sortOrder = Integer.parseInt(sortOrderStr);
-        } catch (Exception e) {
-            errors.put("sortOrder", "数値を入力してください");
+
+            if (sortOrder < 0) {
+                errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
+            }
+
+        } catch (NumberFormatException e) {
+            errors.put("sortOrder", "並び順は数字で入力してください");
+        }
+
+        StatusDao dao = new StatusDao();
+
+        // 重複チェック
+        if (dao.existsByName(name, schoolCd)) {
+            errors.put("name", "同じ名前のステータスがすでに存在します");
         }
 
         // エラーがあれば戻す
@@ -56,7 +67,6 @@ public class StatusCreateExecuteAction extends Action {
         s.setSortOrder(sortOrder);
         s.setSchool(school);
 
-        StatusDao dao = new StatusDao();
         boolean result = dao.save(s);
 
         if (!result) {

@@ -25,7 +25,7 @@ public class StatusUpdateExecuteAction extends Action {
 		req.setAttribute("errors", errors);
 
 		StatusDao dao = new StatusDao();
-		Status status = dao.get(id, school);
+		Status status = dao.get(id);
 
 		if (status == null) {
 			errors.put("id", "ステータスが存在しません");
@@ -43,7 +43,23 @@ public class StatusUpdateExecuteAction extends Action {
 			errors.put("sortOrder", "数値を入力してください");
 		}
 
-		status.setSchool(school);
+        if (status == null) {
+            errors.put("id", "ステータスが存在しません");
+            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
+               .forward(req, res);
+            return;
+        }
+        int sortOrder = 0;
+        try {
+            sortOrder = Integer.parseInt(sortOrderStr);
+
+            if (sortOrder < 0) {
+                errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
+            }
+
+        } catch (NumberFormatException e) {
+            errors.put("sortOrder", "並び順は数字で入力してください");
+        }
 
 		// JSP に戻す用
 		req.setAttribute("status", status);
@@ -61,6 +77,25 @@ public class StatusUpdateExecuteAction extends Action {
 		// 更新処理
 		dao.update(status);
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update_done.jsp").forward(req, res);
-	}
+        // バリデーション
+        if (name == null || name.isEmpty()) {
+            errors.put("name", "ステータス名を入力してください");
+        }
+     // 重複チェック
+        if (dao.existsByName(name, school.getCd())) {
+            errors.put("name", "同じ名前のステータスがすでに存在します");
+        }
+
+        if (!errors.isEmpty()) {
+            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
+               .forward(req, res);
+            return;
+        }
+
+        // 更新処理
+        dao.update(status);
+
+        req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update_done.jsp")
+           .forward(req, res);
+    }
 }

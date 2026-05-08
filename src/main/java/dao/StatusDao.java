@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +34,25 @@ public class StatusDao extends Dao {
 
 		st.close();
 		con.close();
-
 		return list;
+	}
+
+	//同名チェック
+	public boolean existsByName(String name, String schoolCd) throws Exception {
+		Connection con = getConnection();
+		PreparedStatement st = con.prepareStatement(
+				"SELECT COUNT(*) FROM status WHERE name=? AND school_cd=?");
+		st.setString(1, name);
+		st.setString(2, schoolCd);
+
+		ResultSet rs = st.executeQuery();
+		rs.next();
+		int count = rs.getInt(1);
+
+		st.close();
+		con.close();
+
+		return count > 0;
 	}
 
 	// 1件取得
@@ -94,6 +112,34 @@ public class StatusDao extends Dao {
 		st.close();
 		con.close();
 
-		return line == 1;
+		return line==1;
 	}
+
+	public boolean delete(Status status) throws Exception {
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        int count = 0;
+
+        try {
+            statement = connection.prepareStatement(
+                "delete from status where id=? and school_cd=?"
+            );
+            statement.setInt(1, status.getId());
+            statement.setString(2, status.getSchool().cd);  
+            count = statement.executeUpdate();
+
+        } catch (Exception e) {
+            throw e;
+
+        } finally {
+            if (statement != null) {
+                try { statement.close(); } catch (SQLException e) { throw e; }
+            }
+            if (connection != null) {
+                try { connection.close(); } catch (SQLException e) { throw e; }
+            }
+        }
+
+        return count > 0;
+    }
 }
