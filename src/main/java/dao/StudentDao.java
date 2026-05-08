@@ -355,7 +355,7 @@ public class StudentDao extends Dao {
 			}
 			System.out.println(count);
 		} catch (Exception e) {
-			
+			return false;
 		} finally {
 			try {
 				statement.close();
