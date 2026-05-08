@@ -9,26 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StatusUpdateAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		String idStr = req.getParameter("id");
+		int id = Integer.parseInt(idStr);
 
-        Staff staff = (Staff) req.getAttribute("staff");
-        School school = staff.getSchool();
-        String schoolCd = school.getCd();
+		StatusDao dao = new StatusDao();
+		Status status = dao.get(id, school);
 
-        // パラメータ取得
-        String idStr = req.getParameter("id");
-        int id = Integer.parseInt(idStr);
+		req.setAttribute("status", status);
 
-        // DAO から取得（schoolCd を渡す）
-        StatusDao dao = new StatusDao();
-        Status status = dao.get(id, schoolCd);
-
-        // JSP に渡す
-        req.setAttribute("status", status);
-
-        req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-           .forward(req, res);
-    }
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp").forward(req, res);
+	}
 }

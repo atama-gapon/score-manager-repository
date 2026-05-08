@@ -54,7 +54,7 @@ public class StatusCreateExecuteAction extends Action {
         Status s = new Status();
         s.setName(name);
         s.setSortOrder(sortOrder);
-        s.setSchoolCd(schoolCd);   // ← ここが重要！
+        s.setSchool(school);
 
         StatusDao dao = new StatusDao();
         boolean result = dao.save(s);

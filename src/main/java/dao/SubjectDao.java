@@ -30,23 +30,19 @@ public class SubjectDao extends Dao {
 				subject = null;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -76,31 +72,24 @@ public class SubjectDao extends Dao {
 
 				list.add(subject);
 			}
-
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -128,29 +117,23 @@ public class SubjectDao extends Dao {
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
@@ -171,29 +154,23 @@ public class SubjectDao extends Dao {
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {

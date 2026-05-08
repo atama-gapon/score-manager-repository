@@ -9,6 +9,9 @@ public class Staff extends User implements Serializable {
 	private String last_name_kana;
 	private String first_name_kana;
 	private String password;
+
+	private Position position;
+	private Status status;
 	private School school;
 
 	public String getNo() {
@@ -57,6 +60,22 @@ public class Staff extends User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public School getSchool() {

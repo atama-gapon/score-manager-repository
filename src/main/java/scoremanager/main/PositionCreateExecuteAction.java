@@ -21,17 +21,13 @@ public class PositionCreateExecuteAction extends Action {
 
 		School school = staff.getSchool();
 
-		
 		String name = req.getParameter("name");
 		String sortOrderStr = req.getParameter("sort_order");
 
-		
 		req.setAttribute("name", name);
 		req.setAttribute("sort_order", sortOrderStr);
 
 		Map<String, String> errors = new HashMap<>();
-
-		
 
 		if (name == null || name.isEmpty()) {
 			errors.put("name", "役職名を入力してください");
@@ -46,16 +42,15 @@ public class PositionCreateExecuteAction extends Action {
 			req.setAttribute("errors", errors);
 
 			req.getRequestDispatcher(
-				"/WEB-INF/jsp/scoremanager/main/position_create.jsp"
-			).forward(req, res);
+					"/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
 
 			return;
 		}
 
 		Position p = new Position();
 
-		p.setSchoolCd(school.getCd());
-		
+		//		p.setSchoolCd(school.getCd());
+
 		p.setName(name);
 		p.setSortOrder(Integer.parseInt(sortOrderStr));
 
@@ -67,15 +62,11 @@ public class PositionCreateExecuteAction extends Action {
 
 			req.setAttribute("message", "登録に失敗しました");
 
-			req.getRequestDispatcher(
-				"/WEB-INF/jsp/scoremanager/main/position_create.jsp"
-			).forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
 
 			return;
 		}
 
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_create_done.jsp"
-		).forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create_done.jsp").forward(req, res);
 	}
 }

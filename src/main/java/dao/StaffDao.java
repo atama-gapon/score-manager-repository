@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bean.Position;
 import bean.School;
 import bean.Staff;
+import bean.Status;
 
 public class StaffDao extends Dao {
 	// 役割：一意に指定された職員情報を取得
@@ -111,9 +113,29 @@ public class StaffDao extends Dao {
 		List<Staff> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
+		String sql = """
+				SELECT
+					staff.no,
+					staff.last_name,
+					staff.first_name,
+					staff.last_name_kana,
+					staff.first_name_kana,
+					staff.position_id,
+					position.name AS position_name,
+					staff.status_id,
+					status.name AS status_name
+				FROM
+					STAFF
+				LEFT JOIN
+					POSITION ON staff.position_id = position.id
+				LEFT JOIN
+					STATUS ON staff.status_id = status.id
+				WHERE
+					staff.school_cd = ?
+				""";
 
 		try {
-			statement = connection.prepareStatement("select * from staff where school_cd = ?");
+			statement = connection.prepareStatement(sql);
 			statement.setString(1, school.getCd());
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -123,10 +145,20 @@ public class StaffDao extends Dao {
 				staff.setFirst_name(resultSet.getString("first_name"));
 				staff.setLast_name_kana(resultSet.getString("last_name_kana"));
 				staff.setFirst_name_kana(resultSet.getString("first_name_kana"));
+
+				Position position = new Position();
+				position.setId(resultSet.getInt("position_id"));
+				position.setName(resultSet.getString("position_name"));
+				staff.setPosition(position);
+
+				Status status = new Status();
+				status.setId(resultSet.getInt("status_id"));
+				status.setName(resultSet.getString("status_name"));
+				staff.setStatus(status);
 				staff.setSchool(school);
 				list.add(staff);
 			}
-		} catch (Exception e) {		
+		} catch (Exception e) {
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -136,7 +168,6 @@ public class StaffDao extends Dao {
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
