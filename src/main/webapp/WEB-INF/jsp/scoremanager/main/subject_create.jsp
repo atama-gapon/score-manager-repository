@@ -26,10 +26,9 @@ input::placeholder {
 				<div class="col-12 mt-2 text-warning">${ errors.get("cd_length") }</div>
 				<div class="col-12 mt-2 text-warning">${ errors.get("cd_duplication") }</div>
 
-				<label class="form-label">科目名</label> <input type="text"
-					class="form-control" placeholder="科目名を入力してください" maxlength="20"
-					name="name" value="${name}" required> <br> <input
-					type="submit" class="btn btn-primary px-3" value="登録">
+				<label class="form-label">科目名</label> <input type="text" class="form-control" placeholder="科目名を入力してください" maxlength="20" name="name" value="${name}" required>
+				<br>
+				<input type="submit" class="btn btn-primary px-3" value="登録">
 			</form>
 			<p>
 				<a href="SubjectList.action">戻る</a>

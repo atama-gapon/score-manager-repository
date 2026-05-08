@@ -7,7 +7,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<section class="me-4">
-			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
+			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">成績登録</h2>
 
 			<form method="post">
 				<div class="row border mx-3 mb-3 py-2 align-items-end rounded"
@@ -76,6 +76,7 @@
 								<th>学籍番号</th>
 								<th>氏名</th>
 								<th>点数</th>
+								<th>採点者</th>
 							</tr>
 							<c:forEach var="test" items="${ tests }">
 								<tr>
@@ -83,43 +84,36 @@
 									<td>${ test.classNum }</td>
 									<td>${ test.student.no }</td>
 									<td>${ test.student.name }</td>
-									<td><input type="number" name="point_${test.student.no}"
-										value="${test.point == -1 ? '' : test.point}"
-										class="form-control" style="width: 100px;"> <c:if
-											test="${not empty message_over && (test.point < 0 || test.point > 100)}">
+									<td>
+										<input type="number" name="point_${test.student.no}" value="${test.point == -1 ? '' : test.point}" class="form-control" style="width: 100px;">
+										<c:if test="${not empty message_over && (test.point < 0 || test.point > 100)}">
 											<div class="text-warning">${message_over}</div>
-										</c:if> <input type="hidden" name="student_no_list"
-										value="${test.student.no}"></td>
+										</c:if>
+										<input type="hidden" name="student_no_list" value="${test.student.no}">
+									</td>
+									<td>${ test.marker_staff_no }</td>
 								</tr>
 							</c:forEach>
 						</table>
 						<div class="mt-3">
 							<button type="submit" name="regist" class="btn btn-secondary">登録して終了</button>
 						</div>
-						<input type="hidden" name="f1" value="${f1}"> <input
-							type="hidden" name="f2" value="${f2}"> <input
-							type="hidden" name="f3" value="${f3}"> <input
-							type="hidden" name="f4" value="${f4}">
+						<input type="hidden" name="f1" value="${f1}">
+						<input type="hidden" name="f2" value="${f2}">
+						<input type="hidden" name="f3" value="${f3}">
+						<input type="hidden" name="f4" value="${f4}">
 					</form>
 				</c:when>
 
 				<c:when test="${not empty tests}">
 					<div class="mt-3">科目：${subject.name} （${num}回）</div>
-
 				</c:when>
 
-
 				<c:when test="${not empty f1}">
-
 					<c:if test="${empty message}">
 						<div class="alert alert-danger mt-3">学生情報が存在しませんでした。</div>
 					</c:if>
 				</c:when>
-
-				<%-- 初回表示時 --%>
-				<c:otherwise>
-
-				</c:otherwise>
 			</c:choose>
 		</section>
 	</c:param>

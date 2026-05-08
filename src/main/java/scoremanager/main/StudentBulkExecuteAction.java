@@ -21,14 +21,14 @@ public class StudentBulkExecuteAction extends Action {
 
 		Part csv = req.getPart("csv");
 		BufferedReader br = null;
-
+		
 		try {
 
 			if (csv != null && csv.getSize() > 0) {
 				InputStream is = csv.getInputStream();
-				InputStreamReader isr = new InputStreamReader(is, "MS932");
+				InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 				br = new BufferedReader(isr);
-
+				
 				StudentDao dao = new StudentDao();
 				dao.Bulk(br, school.getCd());
 

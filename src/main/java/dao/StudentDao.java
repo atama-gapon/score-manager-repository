@@ -11,12 +11,11 @@ import java.util.List;
 import bean.School;
 import bean.Student;
 
-// 役割：学生テーブルに対して処理を行う
 public class StudentDao extends Dao {
 	private String baseSql = "select * from student where school_cd=?";
 
-	// 学生番号を指定して学生インスタンスを1件取得。
-	// 学生変更の処理内で学生の詳細データを取得する際に利用。
+	// 学生番号を指定して学生インスタンスを1件取得
+	// 学生変更の処理内で学生の詳細データを取得する際に利用
 	public Student get(String no) throws Exception {
 		Student student = new Student();
 		Connection connection = getConnection();
@@ -38,28 +37,23 @@ public class StudentDao extends Dao {
 				student = null;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return student;
 	}
 
@@ -78,14 +72,12 @@ public class StudentDao extends Dao {
 				isFound = true;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -93,13 +85,44 @@ public class StudentDao extends Dao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return isFound;
+	}
+	
+	public List<Integer> getEntYearList(School school) throws Exception {
+		List<Integer> list = new ArrayList<>();
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+
+		try {
+			statement = connection.prepareStatement("select distinct ent_year from student where school_cd = ? order by ent_year desc");
+			statement.setString(1, school.getCd());
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				list.add(resultSet.getInt("ent_year"));
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+		}
+		return list;
 	}
 
 	// 処理内容：フィルター後のリストへの格納
@@ -122,7 +145,6 @@ public class StudentDao extends Dao {
 		} catch (SQLException | NullPointerException e) {
 			
 		}
-
 		return list;
 	}
 
@@ -148,29 +170,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -195,29 +211,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -240,29 +250,23 @@ public class StudentDao extends Dao {
 			resultSet = statement.executeQuery();
 			list = postFilter(resultSet, school);
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -299,29 +303,23 @@ public class StudentDao extends Dao {
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
@@ -330,38 +328,43 @@ public class StudentDao extends Dao {
 	}
 
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
+		
 		Connection connection = getConnection();
 
 		PreparedStatement statement = null;
 		String line;
 		int count = 0;
-		String sql1 = "insert into student(no,name,ent_year,class_num,is_attend,school_cd) values(?,?,?,?,?,?)";
+		String sql1 = "insert into student(school_cd,no,name,ent_year,class_num,is_attend) values(?,?,?,?,?,?)";
 		statement = connection.prepareStatement(sql1);
-		try {
-
+		try {	
+			
 			while ((line = br.readLine()) != null) {
+				System.out.println("読み込んだデータ: " + line);
 				String[] data = line.split(",");
-
-				statement.setString(1, data[0].trim());
-				statement.setString(2, data[1].trim());
-				statement.setInt(3, Integer.parseInt(data[2].trim()));
-				statement.setString(4, data[3].trim());
+				
+				statement.setString(1, schoolCd);
+				statement.setString(2, data[0].trim());
+				statement.setString(3, data[1].trim());
+				statement.setInt(4, Integer.parseInt(data[2].trim()));
+				statement.setString(5, data[3].trim());
 				boolean isAttend = Boolean.parseBoolean(data[4].trim());
-				statement.setBoolean(5, isAttend);
-				statement.setString(6, schoolCd);
+				statement.setBoolean(6, isAttend);
+				
 				count += statement.executeUpdate();
+				
 			}
-
+			System.out.println(count);
 		} catch (Exception e) {
 			
 		} finally {
 			try {
 				statement.close();
 			} catch (SQLException e) {
+				
 			}
 		}
-
 		if (count > 0) {
+			
 			return true;
 		} else {
 			return false;

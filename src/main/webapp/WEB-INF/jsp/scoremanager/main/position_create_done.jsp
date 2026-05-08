@@ -7,13 +7,12 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<section class="me-4">
-			<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">クラス情報一括登録</h2>
-			<p>
-				<a href="StudentBulk.action">戻る</a>
-			</p>
-			<p>
-				<a href="ClassList.action">クラス一覧</a>
-			</p>
+		<h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">役職情報登録</h2>
+			<p class="mb-3 fw-normal bg-success py-1 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
+			<br>
+			<br>
+			<a href="PositionCreate.action">戻る</a>
+			<a href="PositionList.action">役職一覧</a>
 		</section>
 	</c:param>
 </c:import>
