@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,7 +15,6 @@
 		<header class="d-flex flex-wrap justify-content-start py-3 px-5 mb-4 border-bottom border-2 bg-primary bg-opacity-10 bg-gradient">
 			<h1 class="fs-1">得点管理システム</h1>
 		</header>
-
 		<div class="row justify-content-center">
 			<main class="col-8">
 				<div class="row justify-content-center">
