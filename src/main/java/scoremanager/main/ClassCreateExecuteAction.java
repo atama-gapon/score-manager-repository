@@ -34,7 +34,7 @@ public class ClassCreateExecuteAction extends Action {
 
 		// 【DBにクラスを保存する】
 		ClassNum classNum2 = new ClassNum();
-		classNum2.setClass_num(class_num);
+		classNum2.setClassNum(class_num);
 		classNum2.setSchool(school);
 		classNumDao.save(classNum2);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_create_done.jsp").forward(req, res);

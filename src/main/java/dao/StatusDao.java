@@ -125,7 +125,7 @@ public class StatusDao extends Dao {
                 "delete from status where id=? and school_cd=?"
             );
             statement.setInt(1, status.getId());
-            statement.setString(2, status.getSchool().cd);  
+            statement.setString(2, status.getSchool().getCd());  
             count = statement.executeUpdate();
 
         } catch (Exception e) {

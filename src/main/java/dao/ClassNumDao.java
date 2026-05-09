@@ -23,34 +23,29 @@ public class ClassNumDao extends Dao {
 			ResultSet resultSet = statement.executeQuery();
 			SchoolDao sDao = new SchoolDao();
 			if (resultSet.next()) {
-				classNum.setClass_num(resultSet.getString("class_num"));
+				classNum.setClassNum(resultSet.getString("class_num"));
 				classNum.setSchool(sDao.get(resultSet.getString("school_cd")));
 			} else {
 				classNum = null;
 			}
 		} catch (Exception e) {
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		return classNum;
 	}
 
@@ -72,24 +67,19 @@ public class ClassNumDao extends Dao {
 				list.add(resultSet.getString("class_num"));
 			}
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
@@ -105,34 +95,28 @@ public class ClassNumDao extends Dao {
 
 		try {
 			statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
-			statement.setString(1, classNum.getClass_num());
+			statement.setString(1, classNum.getClassNum());
 			statement.setString(2, classNum.getSchool().getCd());
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					
 					throw e;
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
@@ -149,13 +133,11 @@ public class ClassNumDao extends Dao {
 			statement = connection
 					.prepareStatement("update class_num set class_num=? where class_num=? and school_cd=?");
 			statement.setString(1, newClassNum);
-			statement.setString(2, classNum.getClass_num());
+			statement.setString(2, classNum.getClassNum());
 			statement.setString(3, classNum.getSchool().getCd());
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -166,7 +148,6 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
@@ -176,7 +157,6 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {
@@ -192,13 +172,11 @@ public class ClassNumDao extends Dao {
 		try {
 			statement = connection.prepareStatement("delete from class_num where school_cd=? and class_num=?;");
 			statement.setString(1, classNum.getSchool().getCd());
-			statement.setString(2, classNum.getClass_num());
+			statement.setString(2, classNum.getClassNum());
 
 			count = statement.executeUpdate();
 
 		} catch (Exception e) {
-			// 例外の再スロー
-			
 			throw e;
 		} finally {
 			if (statement != null) {
@@ -209,7 +187,6 @@ public class ClassNumDao extends Dao {
 					throw e;
 				}
 			}
-
 			if (connection != null) {
 				try {
 					connection.close();
@@ -219,7 +196,6 @@ public class ClassNumDao extends Dao {
 				}
 			}
 		}
-
 		if (count > 0) {
 			return true;
 		} else {

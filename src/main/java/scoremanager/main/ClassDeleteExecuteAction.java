@@ -47,7 +47,7 @@ public class ClassDeleteExecuteAction extends Action {
 
 		// 【DBにクラスを保存する】
 		ClassNum classNum2 = new ClassNum();
-		classNum2.setClass_num(classNum);
+		classNum2.setClassNum(classNum);
 		classNum2.setSchool(school);
 		classNumDao.delete(classNum2);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_delete_done.jsp").forward(req, res);

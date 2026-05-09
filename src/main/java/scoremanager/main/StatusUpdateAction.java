@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import bean.School;
-import bean.Staff;
 import bean.Status;
 import dao.StatusDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,14 +8,10 @@ import tool.Action;
 
 public class StatusUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Staff staff = (Staff) req.getAttribute("staff");
-		School school = staff.getSchool();
-
-		String idStr = req.getParameter("id");
-		int id = Integer.parseInt(idStr);
+		int id = Integer.parseInt(req.getParameter("id"));
 
 		StatusDao dao = new StatusDao();
-		Status status = dao.get(id, school);
+		Status status = dao.get(id);
 
 		req.setAttribute("status", status);
 

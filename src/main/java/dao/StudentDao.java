@@ -91,14 +91,15 @@ public class StudentDao extends Dao {
 		}
 		return isFound;
 	}
-	
+
 	public List<Integer> getEntYearList(School school) throws Exception {
 		List<Integer> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("select distinct ent_year from student where school_cd = ? order by ent_year desc");
+			statement = connection.prepareStatement(
+					"select distinct ent_year from student where school_cd = ? order by ent_year desc");
 			statement.setString(1, school.getCd());
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -143,7 +144,7 @@ public class StudentDao extends Dao {
 				list.add(student);
 			}
 		} catch (SQLException | NullPointerException e) {
-			
+
 		}
 		return list;
 	}
@@ -270,7 +271,7 @@ public class StudentDao extends Dao {
 		return list;
 	}
 
-	// 学生インスタンスをデータベースに保存する
+	// 学生をデータベースに保存する
 	public boolean save(Student student) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
@@ -328,7 +329,7 @@ public class StudentDao extends Dao {
 	}
 
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
-		
+
 		Connection connection = getConnection();
 
 		PreparedStatement statement = null;
@@ -336,12 +337,12 @@ public class StudentDao extends Dao {
 		int count = 0;
 		String sql1 = "insert into student(school_cd,no,name,ent_year,class_num,is_attend) values(?,?,?,?,?,?)";
 		statement = connection.prepareStatement(sql1);
-		try {	
-			
+		try {
+
 			while ((line = br.readLine()) != null) {
 				System.out.println("読み込んだデータ: " + line);
 				String[] data = line.split(",");
-				
+
 				statement.setString(1, schoolCd);
 				statement.setString(2, data[0].trim());
 				statement.setString(3, data[1].trim());
@@ -349,9 +350,9 @@ public class StudentDao extends Dao {
 				statement.setString(5, data[3].trim());
 				boolean isAttend = Boolean.parseBoolean(data[4].trim());
 				statement.setBoolean(6, isAttend);
-				
+
 				count += statement.executeUpdate();
-				
+
 			}
 			System.out.println(count);
 		} catch (Exception e) {
@@ -360,15 +361,14 @@ public class StudentDao extends Dao {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				
+
 			}
 		}
 		if (count > 0) {
-			
+
 			return true;
 		} else {
 			return false;
 		}
 	}
-
 }

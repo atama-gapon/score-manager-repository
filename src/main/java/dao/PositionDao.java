@@ -12,6 +12,7 @@ import bean.School;
 
 public class PositionDao extends Dao {
 
+	// 学校ごとの全件取得
 	public List<Position> filter(School school) throws Exception {
 		List<Position> list = new ArrayList<>();
 		Connection connection = getConnection();

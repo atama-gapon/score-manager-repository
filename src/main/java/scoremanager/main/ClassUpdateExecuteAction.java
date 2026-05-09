@@ -36,7 +36,7 @@ public class ClassUpdateExecuteAction extends Action {
 
 		// 【DBにクラスを保存する】
 		ClassNum classNum = new ClassNum();
-		classNum.setClass_num(oldClassNum);
+		classNum.setClassNum(oldClassNum);
 		classNum.setSchool(school);
 		classNumDao.save(classNum, newClassNum);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_update_done.jsp").forward(req, res);

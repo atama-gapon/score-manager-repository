@@ -6,12 +6,9 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<section class="me-4">
-			<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
-			<p class="mb-3 fw-normal bg-success py-2 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
-			<br> <br> <br> <br> <br>
-			<p>
-				<a href="SubjectCreate.action">戻る</a> <a href="SubjectList.action">科目一覧</a>
-			</p>
+			<h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">職員情報登録</h2>
+			<p class="mb-3 fw-normal bg-success py-1 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
+			<br> <br> <a href="StaffCreate.action">戻る</a> <a href="StaffList.action">職員一覧</a>
 		</section>
 	</c:param>
 </c:import>

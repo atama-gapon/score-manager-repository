@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <style>
@@ -47,28 +46,22 @@ li {
 									<!-- 職員番号 -->
 									<div class="mb-3">
 
-										<input type="text" class="form-control" maxlength="10"
-											name="no" placeholder="職員番号" value="${no}" required>
+										<input type="text" class="form-control" maxlength="10" name="no" placeholder="職員番号" value="${no}" required>
 
 									</div>
 									<!-- パスワード -->
 									<div class="mb-3">
 
-										<input type="password" class="form-control" maxlength="30"
-											id="password" name="password" placeholder="パスワード" required>
+										<input type="password" class="form-control" maxlength="30" id="password" name="password" placeholder="パスワード" required>
 
 									</div>
 									<!-- チェックボックス -->
 									<div class="form-check d-flex justify-content-center mb-3">
-										<input class="form-check-input me-2" type="checkbox"
-											id="showPw" name="chk_d_ps" onclick="togglePassword()">
-										<label class="form-check-label" for="showPw"> パスワードを表示
-										</label>
+										<input class="form-check-input me-2" type="checkbox" id="showPw" name="chk_d_ps" onclick="togglePassword()"> <label class="form-check-label" for="showPw"> パスワードを表示 </label>
 									</div>
 									<!-- ボタン -->
 									<div class="text-center">
-										<button type="submit" name="login"
-											class="btn btn-primary px-4">ログイン</button>
+										<button type="submit" name="login" class="btn btn-primary px-4">ログイン</button>
 									</div>
 								</form>
 							</div>
