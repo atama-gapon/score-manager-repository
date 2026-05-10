@@ -4,8 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-public class PositionCreateAction extends Action {
+public class SubjectDeleteDoneAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_delete_done.jsp").forward(req, res);
 	}
 }

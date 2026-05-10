@@ -22,6 +22,6 @@ public class StatusDeleteExecuteAction extends Action {
 		StatusDao dao = new StatusDao();
 		dao.delete(status);
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_delete_done.jsp").forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusDeleteDone.action");
 	}
 }

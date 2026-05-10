@@ -9,20 +9,21 @@
 			<a href="PositionCreate.action">新規登録</a>
 		</div>
 		<c:choose>
-			<c:when test="${ positions.size() > 0 }">
-				<div>検索結果：${ positions.size() }件</div>
+			<c:when test="${ position_set.size() > 0 }">
+				<div>検索結果：${ position_set.size() }件</div>
 				<table class="table table-hover">
 					<tr>
 						<th>役職名</th>
-						<th>順番</th>
+						<th>並び順</th>
+						<th></th>
 						<th></th>
 					</tr>
-					<c:forEach var="position" items="${ positions }">
+					<c:forEach var="position" items="${ position_set }">
 						<tr>
 							<td>${ position.name }</td>
 							<td>${ position.sortOrder }</td>
-							<td><a href="PositionUpdate.action?id=${ position.id }"> 変更 </a></td>
-							<td><a href="PositionDelete.action?id=${ position.id }"> 削除 </a></td>
+							<td><a href="PositionUpdate.action?id=${ position.id }">変更</a></td>
+							<td><a href="PositionDelete.action?id=${ position.id }">削除</a></td>
 						</tr>
 					</c:forEach>
 				</table>

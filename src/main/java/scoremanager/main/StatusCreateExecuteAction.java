@@ -13,16 +13,14 @@ import tool.Action;
 
 public class StatusCreateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		String schoolCd = school.getCd();
 
 		String name = req.getParameter("name");
-		String sortOrderStr = req.getParameter("sortOrder");
+		String sortOrderStr = req.getParameter("sort_order");
 
 		req.setAttribute("name", name);
-		req.setAttribute("sortOrder", sortOrderStr);
+		req.setAttribute("sort_order", sortOrderStr);
 
 		Map<String, String> errors = new HashMap<>();
 		req.setAttribute("errors", errors);
@@ -47,14 +45,13 @@ public class StatusCreateExecuteAction extends Action {
 		StatusDao dao = new StatusDao();
 
 		// 重複チェック
-		if (dao.existsByName(name, schoolCd)) {
+		if (dao.existsByName(name, school)) {
 			errors.put("name", "同じ名前のステータスがすでに存在します");
 		}
 
 		// エラーがあれば戻す
 		if (!errors.isEmpty()) {
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create.jsp")
-					.forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create.jsp").forward(req, res);
 			return;
 		}
 
@@ -73,8 +70,6 @@ public class StatusCreateExecuteAction extends Action {
 			return;
 		}
 
-		// 完了画面へ
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create_done.jsp")
-				.forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusCreateDone.action");
 	}
 }

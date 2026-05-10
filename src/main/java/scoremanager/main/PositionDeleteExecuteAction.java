@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionDeleteExecuteAction extends Action {
-
-	public void execute(HttpServletRequest req,
-			HttpServletResponse res)
-			throws Exception {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		String idStr = req.getParameter("id");
 
@@ -24,8 +21,6 @@ public class PositionDeleteExecuteAction extends Action {
 
 		dao.delete(p);
 
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_delete_done.jsp"
-		).forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/PositionDeleteDone.action");
 	}
 }

@@ -13,8 +13,8 @@
 		<form method="get">
 			<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-light" id="filter">
 				<div class="col-md-3">
-					<label class="form-label" for="staff-name">名前</label>
-					<input type="text" name="name" id="staff-name" class="form-control" placeholder="氏名を入力">
+					<label class="form-label" for="name">名前</label>
+					<input type="text" name="name" id="name" class="form-control" placeholder="氏名を入力">
 				</div>
 				<div class="col-md-3">
 					<label for="position_id" class="form-label">役職</label>
@@ -69,7 +69,7 @@
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div>学生情報が存在しませんでした。</div>
+				<div>職員情報が存在しませんでした。</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>

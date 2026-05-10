@@ -38,12 +38,11 @@ public class StatusDao extends Dao {
 	}
 
 	//同名チェック
-	public boolean existsByName(String name, String schoolCd) throws Exception {
+	public boolean existsByName(String name, School school) throws Exception {
 		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement(
-				"SELECT COUNT(*) FROM status WHERE name=? AND school_cd=?");
+		PreparedStatement st = con.prepareStatement("SELECT COUNT(*) FROM status WHERE name=? AND school_cd=?");
 		st.setString(1, name);
-		st.setString(2, schoolCd);
+		st.setString(2, school.getCd());
 
 		ResultSet rs = st.executeQuery();
 		rs.next();

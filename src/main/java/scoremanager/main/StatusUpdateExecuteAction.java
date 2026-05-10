@@ -15,9 +15,10 @@ public class StatusUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
+
 		String idStr = req.getParameter("id");
 		String name = req.getParameter("name");
-		String sortOrderStr = req.getParameter("sortOrder");
+		String sortOrderStr = req.getParameter("sort_order");
 
 		int id = Integer.parseInt(idStr);
 
@@ -40,7 +41,7 @@ public class StatusUpdateExecuteAction extends Action {
 		try {
 			status.setSortOrder(Integer.parseInt(sortOrderStr));
 		} catch (Exception e) {
-			errors.put("sortOrder", "数値を入力してください");
+			errors.put("sort_order", "数値を入力してください");
 		}
 
 		if (status == null) {
@@ -82,7 +83,7 @@ public class StatusUpdateExecuteAction extends Action {
 			errors.put("name", "ステータス名を入力してください");
 		}
 		// 重複チェック
-		if (dao.existsByName(name, school.getCd())) {
+		if (dao.existsByName(name, school)) {
 			errors.put("name", "同じ名前のステータスがすでに存在します");
 		}
 
@@ -95,7 +96,6 @@ public class StatusUpdateExecuteAction extends Action {
 		// 更新処理
 		dao.update(status);
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update_done.jsp")
-				.forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusUpdateDone.action");
 	}
 }

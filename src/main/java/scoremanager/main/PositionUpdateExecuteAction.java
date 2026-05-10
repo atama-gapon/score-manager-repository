@@ -10,25 +10,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionUpdateExecuteAction extends Action {
-
-	public void execute(HttpServletRequest req,
-			HttpServletResponse res)
-			throws Exception {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		String idStr = req.getParameter("id");
 
 		String name = req.getParameter("name");
 
-		String sortOrderStr =
-			req.getParameter("sort_order");
+		String sortOrderStr = req.getParameter("sort_order");
 
 		req.setAttribute("name", name);
 
 		req.setAttribute("sort_order",
 				sortOrderStr);
 
-		Map<String, String> errors =
-			new HashMap<>();
+		Map<String, String> errors = new HashMap<>();
 
 		if (name == null || name.isEmpty()) {
 
@@ -50,7 +45,7 @@ public class PositionUpdateExecuteAction extends Action {
 			Position position = new Position();
 
 			position.setId(
-				Integer.parseInt(idStr));
+					Integer.parseInt(idStr));
 
 			position.setName(name);
 
@@ -58,15 +53,13 @@ public class PositionUpdateExecuteAction extends Action {
 					&& !sortOrderStr.isEmpty()) {
 
 				position.setSortOrder(
-					Integer.parseInt(sortOrderStr));
+						Integer.parseInt(sortOrderStr));
 			}
 
 			req.setAttribute("position",
 					position);
 
-			req.getRequestDispatcher(
-				"/WEB-INF/jsp/scoremanager/main/position_update.jsp"
-			).forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_update.jsp").forward(req, res);
 
 			return;
 		}
@@ -78,14 +71,12 @@ public class PositionUpdateExecuteAction extends Action {
 		p.setName(name);
 
 		p.setSortOrder(
-			Integer.parseInt(sortOrderStr));
+				Integer.parseInt(sortOrderStr));
 
 		PositionDao dao = new PositionDao();
 
 		dao.update(p);
 
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_update_done.jsp"
-		).forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/PositionUpdateDone.action");
 	}
 }

@@ -6,23 +6,23 @@
 	<c:param name="content">
 		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">役職情報登録</h2>
 		<form action="PositionCreateExecute.action" method="post" class="px-4">
-			<label>役職名</label>
-			<input type="text" name="name" class="form-control" value="${name}">
-			<c:if test="${not empty errors.name}">
-				<div class="col-12 mt-2 text-warning">${errors.name}</div>
-			</c:if>
-			<br>
-			<label>表示順</label>
-			<input type="number" name="sort_order" class="form-control" value="${sort_order}">
-			<c:if test="${not empty errors.sort_order}">
-				<div class="col-12 mt-2 text-warning">${errors.sort_order}</div>
-			</c:if>
-			<br>
-			<button type="submit" class="btn btn-secondary">登録して終了</button>
-			<br>
+			<div class="mb-3">
+				<label class="form-label">役職名</label>
+				<input type="text" name="name" value="${name}" class="form-control" maxlength="20" placeholder="役職名を入力してください" required>
+				<c:if test="${not empty errors.name}">
+					<div class="mt-2 text-warning">${errors.name}</div>
+				</c:if>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">並び順</label>
+				<input type="number" name="sort_order" value="${sort_order}" class="form-control" placeholder="並び順を入力してください" required>
+			</div>
+			<div class="mt-4">
+				<button type="submit" class="btn btn-secondary">登録</button>
+			</div>
+			<div class="mt-3">
+				<a href="PositionList.action">戻る</a>
+			</div>
 		</form>
-		<p>
-			<a href="PositionList.action">戻る</a>
-		</p>
 	</c:param>
 </c:import>

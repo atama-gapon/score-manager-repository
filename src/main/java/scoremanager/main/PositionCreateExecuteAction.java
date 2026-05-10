@@ -12,13 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionCreateExecuteAction extends Action {
-
-	public void execute(HttpServletRequest req,
-			HttpServletResponse res)
-			throws Exception {
-
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
-
 		School school = staff.getSchool();
 
 		String name = req.getParameter("name");
@@ -49,7 +44,7 @@ public class PositionCreateExecuteAction extends Action {
 
 		Position p = new Position();
 
-		//		p.setSchoolCd(school.getCd());
+		p.setSchool(school);
 
 		p.setName(name);
 		p.setSortOrder(Integer.parseInt(sortOrderStr));
@@ -59,14 +54,11 @@ public class PositionCreateExecuteAction extends Action {
 		boolean result = dao.save(p);
 
 		if (!result) {
-
 			req.setAttribute("message", "登録に失敗しました");
-
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
-
 			return;
 		}
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create_done.jsp").forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/PositionCreateDone.action");
 	}
 }

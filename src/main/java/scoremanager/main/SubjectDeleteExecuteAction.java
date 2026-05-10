@@ -21,6 +21,7 @@ public class SubjectDeleteExecuteAction extends Action {
 		subject.setCd(cd);
 		subject.setSchool(school);
 		sDao.delete(subject);
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_delete_done.jsp").forward(req, res);
+
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/SubjectDeleteDone.action");
 	}
 }
