@@ -91,16 +91,17 @@ public class StaffDao extends Dao {
 		return staff;
 	}
 
-	// 役割：職員番号とパスワードで認証を行う
-	public Staff login(String no, String password) throws Exception {
+	// 役割：ログイン認証を行う
+	public Staff login(String schoolCd, String no, String password) throws Exception {
 		Staff staff = new Staff();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("select * from staff where no = ? and password = ?");
-			statement.setString(1, no);
-			statement.setString(2, password);
+			statement = connection.prepareStatement("select * from staff where school_cd=? and no=? and password=?");
+			statement.setString(1, schoolCd);
+			statement.setString(2, no);
+			statement.setString(3, password);
 			ResultSet resultSet = statement.executeQuery();
 			SchoolDao schoolDao = new SchoolDao();
 

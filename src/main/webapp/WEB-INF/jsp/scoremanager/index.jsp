@@ -39,6 +39,10 @@ li {
 								</div>
 							</c:if>
 							<form action="LoginExecute.action" method="post">
+								<!-- 学校コード -->
+								<div class="mb-3">
+									<input type="text" class="form-control" maxlength="3" name="school_cd" placeholder="学校コード" value="${school_cd}" required>
+								</div>
 								<!-- 職員番号 -->
 								<div class="mb-3">
 									<input type="text" class="form-control" maxlength="10" name="no" placeholder="職員番号" value="${no}" required>

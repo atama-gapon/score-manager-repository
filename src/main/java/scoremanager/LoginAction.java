@@ -14,7 +14,7 @@ public class LoginAction extends Action {
 			Staff staff = (Staff) session.getAttribute("user");
 			// ログイン済みなら
 			if (staff != null) {
-				res.sendRedirect("main/Menu.action");
+				res.sendRedirect(req.getContextPath() + "/scoremanager/main/Menu.action");
 				return;
 			}
 		}
