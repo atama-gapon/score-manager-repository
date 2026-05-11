@@ -1,5 +1,6 @@
 package scoremanager.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -7,7 +8,6 @@ import bean.Staff;
 import bean.Subject;
 import bean.Test;
 import dao.ClassNumDao;
-import dao.StudentDao;
 import dao.SubjectDao;
 import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,8 +28,12 @@ public class TestRegistAction extends Action {
 		List<Subject> subjectSet = subjectDao.filter(school);
 		
 		// 入学年度
-		StudentDao studentDao = new StudentDao();
-		List<Integer> entYearSet = studentDao.getEntYearList(school);
+		java.time.LocalDate todaysDate = java.time.LocalDate.now();
+		int year = todaysDate.getYear();
+		List<Integer> entYearSet = new ArrayList<>();
+		for (int i = year - 10; i <= year + 1; i++) {
+			entYearSet.add(i);
+		}
 		
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("subject_set", subjectSet);
@@ -48,7 +52,7 @@ public class TestRegistAction extends Action {
 			if (entYearStr == null || entYearStr.isEmpty() ||
 				classNum == null || classNum.isEmpty() ||
 				subjectCd == null || subjectCd.equals("0") ||
-				numStr == null || numStr.isEmpty()) {
+				numStr == null || numStr.equals("0")) {
 				req.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
 				req.setAttribute("f1", entYearStr);
 				req.setAttribute("f2", classNum);
@@ -73,7 +77,7 @@ public class TestRegistAction extends Action {
 			req.setAttribute("tests", test);
 			req.setAttribute("num", num);
 			req.setAttribute("subject", subject);
-
+			req.setAttribute("school", school);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
 		} else {
 			//初回アクセス時は、入力画面表示

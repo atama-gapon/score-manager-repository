@@ -335,12 +335,16 @@ public class StudentDao extends Dao {
 		String line;
 		int count = 0;
 		String sql1 = "insert into student(school_cd,no,name,ent_year,class_num,is_attend) values(?,?,?,?,?,?)";
-		statement = connection.prepareStatement(sql1);
+		
 		try {	
-			
+			connection.setAutoCommit(false);
+	        statement = connection.prepareStatement(sql1);
+	        
 			while ((line = br.readLine()) != null) {
 				System.out.println("読み込んだデータ: " + line);
-				String[] data = line.split(",");
+				
+				String[] data = line.split(",", -1);
+				
 				
 				statement.setString(1, schoolCd);
 				statement.setString(2, data[0].trim());
@@ -352,23 +356,38 @@ public class StudentDao extends Dao {
 				
 				count += statement.executeUpdate();
 				
-			}
-			System.out.println(count);
-		} catch (Exception e) {
-			return false;
-		} finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
 				
 			}
-		}
-		if (count > 0) {
+			connection.commit();
+	        
+	        return count > 0;
 			
-			return true;
-		} else {
-			return false;
-		}
+		} catch (Exception e) {
+			if (connection != null) {
+	            try {
+	                connection.rollback();
+	            } catch (SQLException se) {
+	                se.printStackTrace();
+	            }
+	        }
+			
+			String errorMsg = "未入力の値があります。";
+	        if (e.getMessage().contains("Duplicate") || e.getMessage().contains("PRIMARY")) {
+	            errorMsg = "既に登録されている学生が含まれています。";
+	        }
+	        
+	        // ExecuteAction の catch ブロックにこの例外を届ける
+	        throw new Exception(errorMsg);
+	        
+		} finally {
+	        if (statement != null) {
+	            try { statement.close(); } catch (SQLException e) {}
+	        }
+	        if (connection != null) {
+	            try { connection.setAutoCommit(true); } catch (SQLException e) {}
+	        }
+	    }
+		
 	}
 
 }

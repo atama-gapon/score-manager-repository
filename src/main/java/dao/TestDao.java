@@ -89,7 +89,7 @@ public class TestDao extends Dao {
 				tNo = rSet.getInt("filter_num");
 			}
 			test.setNo(tNo);
-
+			test.setMarker_staff_no(rSet.getString("marker_staff_no"));
 			test.setPoint(rSet.getInt("point"));
 			test.setClassNum(rSet.getString("class_num"));
 			test.setSchool(school);
@@ -106,7 +106,10 @@ public class TestDao extends Dao {
 		ResultSet resultSet = null;
 
 //		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and t.subject_cd = ? and t.no = ? and t.no >= 0 where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
-		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, ? as filter_sub, ? as filter_num from student s left join test t on s.no = t.student_no and s.school_cd = t.school_cd and t.subject_cd = ? and t.no = ? and t.no >= 0  where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
+		String sql = "select s.no as student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no as test_no, t.point, t.marker_staff_no, ? as filter_sub, ? as filter_num "
+	               + "from student s left join test t on s.no = t.student_no and s.school_cd = t.school_cd "
+	               + "and t.subject_cd = ? and t.no = ? and t.no >= 0 "
+	               + "where s.school_cd = ? and s.ent_year = ? and s.class_num = ? and s.is_attend = true order by s.no asc";
 
 		try {
 			statement = connection.prepareStatement(sql);

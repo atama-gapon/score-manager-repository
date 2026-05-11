@@ -64,7 +64,9 @@ public class TestRegistExecuteAction extends Action {
 						if (p < 0 || p > 100) {
 							over = true;
 						} else {
-							saveList.add(testList.get(i));
+							testList.get(i).setMarker_staff_no(staff.getNo());
+			                
+			                saveList.add(testList.get(i));
 						}
 					} catch (NumberFormatException e) {
 						over = true;
@@ -109,7 +111,7 @@ public class TestRegistExecuteAction extends Action {
 				req.setAttribute("num", num);
 				req.setAttribute("subject", subject);
 
-				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
+				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist_done.jsp").forward(req, res);
 				return;
 			}
 				
