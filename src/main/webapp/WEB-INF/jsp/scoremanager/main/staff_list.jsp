@@ -58,8 +58,8 @@
 					<c:forEach var="staff" items="${ staff_set }">
 						<tr>
 							<td>${ staff.no }</td>
-							<td>${ staff.lastName }${ staff.firstName }</td>
-							<td>${ staff.lastNameKana }${ staff.firstNameKana }</td>
+							<td>${ staff.lastName }&nbsp;${ staff.firstName }</td>
+							<td>${ staff.lastNameKana }&nbsp;${ staff.firstNameKana }</td>
 							<td>${ staff.position.name }</td>
 							<td>${ staff.status.name }</td>
 							<td><a href="StaffUpdate.action?cd=${ staff.no }">変更</a></td>
