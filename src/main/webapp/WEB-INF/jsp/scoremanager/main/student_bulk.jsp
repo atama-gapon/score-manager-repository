@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">学生情報一括登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">学生情報一括登録</h2>
 		<div class="card shadow-sm">
 			<div class="card-header bg-secondary text-white">
 				<h2 class="h5 mb-0">学生情報一括登録（CSVアップロード）</h2>

@@ -13,7 +13,7 @@ html {
 	overflow-y: scroll;
 }
 </style>
-<title>${param.title}</title>
+<title>得点管理システム|${param.title}</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 ${param.scripts}
 </head>
@@ -30,7 +30,10 @@ ${param.scripts}
 						<c:import url="/WEB-INF/jsp/common/navigation.jsp" />
 					</nav>
 					<main class="col-9 border-start">
-						<section class="me-4">${param.content}</section>
+						<section class="me-4">
+						<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">${param.title}</h2>
+						${param.content}
+						</section>
 					</main>
 				</c:when>
 				<%-- 未ログインの場合 --%>

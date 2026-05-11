@@ -10,11 +10,9 @@
 }
 </style>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">学生情報変更</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<!-- 見出し -->
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">学生情報変更</h2>
 		<!-- エラーがあれば表示 -->
 		<c:if test="${not empty message}">
 			<div class="text-danger px-4">${message}</div>

@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">成績参照</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">成績参照</h2>
 		<%-- 科目情報検索フォーム --%>
 		<div class="container-fluid d-flex justify-content-center">
 			<div class="bg-white border rounded shadow-sm p-4" style="width: 100%; max-width: 1050px;">

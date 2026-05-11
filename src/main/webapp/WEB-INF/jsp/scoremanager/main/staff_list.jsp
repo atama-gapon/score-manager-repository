@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">職員管理</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">職員管理</h2>
 		<div class="my-2 text-end px-4">
 			<a href="PositionList.action" class="me-3">役職管理</a>
 			<a href="StatusList.action" class="me-3">状態管理</a>
