@@ -19,11 +19,9 @@ public class ClassCreateExecuteAction extends Action {
 		String class_num = req.getParameter("class_num");
 		Map<String, String> errors = new HashMap<>();
 
-		// 【クラス番号と学校コードに合致するデータを取得する】
 		ClassNumDao classNumDao = new ClassNumDao();
 		ClassNum classNum = classNumDao.get(class_num, school);
 
-		// 【DBへの書き込みを辞め、「クラス番号が重複しています」と表示する】
 		if (classNum != null) {
 			errors.put("class_num_duplication", "クラス番号が重複しています");
 			req.setAttribute("errors", errors);
@@ -32,11 +30,11 @@ public class ClassCreateExecuteAction extends Action {
 			return;
 		}
 
-		// 【DBにクラスを保存する】
 		ClassNum classNum2 = new ClassNum();
-		classNum2.setClass_num(class_num);
+		classNum2.setClassNum(class_num);
 		classNum2.setSchool(school);
 		classNumDao.save(classNum2);
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_create_done.jsp").forward(req, res);
+
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassCreateDone.action");
 	}
 }

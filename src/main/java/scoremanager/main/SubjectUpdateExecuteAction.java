@@ -44,6 +44,6 @@ public class SubjectUpdateExecuteAction extends Action {
 		subject.setSchool(school);
 		sDao.save(subject);
 
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_update_done.jsp").forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/SubjectUpdateDone.action");
 	}
 }

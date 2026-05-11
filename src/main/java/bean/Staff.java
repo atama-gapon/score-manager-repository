@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 public class Staff extends User implements Serializable {
 	private String no;
-	private String last_name;
-	private String first_name;
-	private String last_name_kana;
-	private String first_name_kana;
+	private String lastName;
+	private String firstName;
+	private String lastNameKana;
+	private String firstNameKana;
 	private String password;
+
+	private Position position;
+	private Status status;
 	private School school;
 
 	public String getNo() {
@@ -19,36 +22,36 @@ public class Staff extends User implements Serializable {
 		this.no = no;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast_name_kana() {
-		return last_name_kana;
+	public String getLastNameKana() {
+		return lastNameKana;
 	}
 
-	public void setLast_name_kana(String last_name_kana) {
-		this.last_name_kana = last_name_kana;
+	public void setLastNameKana(String lastNameKana) {
+		this.lastNameKana = lastNameKana;
 	}
 
-	public String getFirst_name_kana() {
-		return first_name_kana;
+	public String getFirstNameKana() {
+		return firstNameKana;
 	}
 
-	public void setFirst_name_kana(String first_name_kana) {
-		this.first_name_kana = first_name_kana;
+	public void setFirstNameKana(String firstNameKana) {
+		this.firstNameKana = firstNameKana;
 	}
 
 	public String getPassword() {
@@ -57,6 +60,22 @@ public class Staff extends User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public School getSchool() {

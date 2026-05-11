@@ -26,7 +26,7 @@ public class TestRegistExecuteAction extends Action {
 
 		int entYear = Integer.parseInt(entYearStr);
 		int num = Integer.parseInt(numStr);
-		
+
 		//科目コードから科目オブジェクトを取得
 		SubjectDao subjectDao = new SubjectDao();
 		Subject subject = subjectDao.get(subjectcd, school);
@@ -42,7 +42,7 @@ public class TestRegistExecuteAction extends Action {
 			// 現在の表示リストを再取得して、入力値を反映させる
 			List<Test> testList = testDao.filter(entYear, classNum, subject, num, school);
 			List<Test> saveList = new ArrayList<>();
-			
+
 			// 範囲外の値を入力した場合
 			boolean over = false;
 
@@ -78,7 +78,7 @@ public class TestRegistExecuteAction extends Action {
 			if (over) {
 				// エラーがある場合：入力画面に戻す
 				req.setAttribute("message_over", "0〜100の範囲で入力してください");
-				
+
 				// セットアップ処理（ループの外に出す！）
 				java.time.LocalDate todaysDate = java.time.LocalDate.now();
 				int year = todaysDate.getYear();
@@ -102,7 +102,7 @@ public class TestRegistExecuteAction extends Action {
 			} else {
 				// エラーがない場合：保存して完了画面へ
 				testDao.save(saveList);
-				
+
 				req.setAttribute("f1", entYearStr);
 				req.setAttribute("f2", classNum);
 				req.setAttribute("f3", subjectcd);
@@ -114,14 +114,15 @@ public class TestRegistExecuteAction extends Action {
 				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist_done.jsp").forward(req, res);
 				return;
 			}
-				
+
 			//データーベースに一括で保存
 			testDao.save(saveList);
 			req.setAttribute("f1", entYearStr);
 			req.setAttribute("f2", classNum);
 			req.setAttribute("f3", subjectcd);
 			req.setAttribute("f4", numStr);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist_done.jsp").forward(req, res);
+
+			res.sendRedirect(req.getContextPath() + "/scoremanager/main/TestRegistDone.action");
 		}
 	}
 }

@@ -2,18 +2,11 @@ package bean;
 
 public class Position {
 
-	private String schoolCd;
 	private int id;
 	private String name;
 	private int sortOrder;
 
-	public String getSchoolCd() {
-		return schoolCd;
-	}
-
-	public void setSchoolCd(String schoolCd) {
-		this.schoolCd = schoolCd;
-	}
+	private School school;
 
 	public int getId() {
 		return id;
@@ -37,5 +30,13 @@ public class Position {
 
 	public void setSortOrder(int sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 }

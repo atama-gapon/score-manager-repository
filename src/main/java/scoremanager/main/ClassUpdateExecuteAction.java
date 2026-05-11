@@ -20,11 +20,9 @@ public class ClassUpdateExecuteAction extends Action {
 		String oldClassNum = req.getParameter("old_class_num");
 		Map<String, String> errors = new HashMap<>();
 
-		// 【クラス番号と学校コードに合致するデータを取得する】
 		ClassNumDao classNumDao = new ClassNumDao();
 		ClassNum GetclassNum = classNumDao.get(newClassNum, school);
 
-		// 【DBへの書き込みを辞め、「クラス番号が重複しています」と表示する】
 		if (GetclassNum != null) {
 			errors.put("class_num_duplication", "クラス番号が重複しています");
 			req.setAttribute("errors", errors);
@@ -34,11 +32,11 @@ public class ClassUpdateExecuteAction extends Action {
 			return;
 		}
 
-		// 【DBにクラスを保存する】
 		ClassNum classNum = new ClassNum();
-		classNum.setClass_num(oldClassNum);
+		classNum.setClassNum(oldClassNum);
 		classNum.setSchool(school);
 		classNumDao.save(classNum, newClassNum);
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_update_done.jsp").forward(req, res);
+
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassUpdateDone.action");
 	}
 }

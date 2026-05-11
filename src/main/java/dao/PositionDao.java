@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,165 +12,159 @@ import bean.School;
 
 public class PositionDao extends Dao {
 
+	// 学校ごとの全件取得
 	public List<Position> filter(School school) throws Exception {
-
 		List<Position> list = new ArrayList<>();
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 
-		Connection con = getConnection();
+		try {
+			statement = connection.prepareStatement("select * from position where school_cd = ? order by sort_order");
+			statement.setString(1, school.getCd());
+			resultSet = statement.executeQuery();
 
-		String sql =
-			"SELECT * FROM POSITION WHERE SCHOOL_CD = ? ORDER BY SORT_ORDER";
+			while (resultSet.next()) {
+				Position position = new Position();
 
-		PreparedStatement st = con.prepareStatement(sql);
+				position.setId(resultSet.getInt("ID"));
+				position.setName(resultSet.getString("NAME"));
+				position.setSortOrder(resultSet.getInt("SORT_ORDER"));
+				position.setSchool(school);
 
-		st.setString(1, school.getCd());
-
-		ResultSet rs = st.executeQuery();
-
-		while (rs.next()) {
-
-			Position p = new Position();
-
-			p.setSchoolCd(rs.getString("SCHOOL_CD"));
-			p.setId(rs.getInt("ID"));
-			p.setName(rs.getString("NAME"));
-			p.setSortOrder(rs.getInt("SORT_ORDER"));
-
-			list.add(p);
+				list.add(position);
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
 		}
-
-		st.close();
-		con.close();
-
 		return list;
 	}
-	public boolean save(Position p) throws Exception {
 
-		Connection con = getConnection();
+	public boolean save(Position p) throws Exception {
+		Connection connection = getConnection();
 
 		// 次のIDを取得
-		String idSql =
-			"SELECT COALESCE(MAX(ID), 0) + 1 AS NEXT_ID FROM POSITION";
+		String idSql = "SELECT COALESCE(MAX(ID), 0) + 1 AS NEXT_ID FROM POSITION";
 
-		PreparedStatement idSt = con.prepareStatement(idSql);
+		PreparedStatement idSt = connection.prepareStatement(idSql);
 
-		ResultSet rs = idSt.executeQuery();
+		ResultSet resultSet = idSt.executeQuery();
 
 		int nextId = 1;
 
-		if (rs.next()) {
-			nextId = rs.getInt("NEXT_ID");
+		if (resultSet.next()) {
+			nextId = resultSet.getInt("NEXT_ID");
 		}
 
-		// INSERT
-		String sql =
-			"INSERT INTO POSITION(SCHOOL_CD, ID, NAME, SORT_ORDER) VALUES(?, ?, ?, ?)";
+		String sql = "INSERT INTO POSITION(SCHOOL_CD, ID, NAME, SORT_ORDER) VALUES(?, ?, ?, ?)";
 
-		PreparedStatement st = con.prepareStatement(sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 
-		st.setString(1, p.getSchoolCd());
+		statement.setString(1, p.getSchool().getCd());
+		statement.setInt(2, nextId);
+		statement.setString(3, p.getName());
+		statement.setInt(4, p.getSortOrder());
 
-		// ← ここ重要
-		st.setInt(2, nextId);
+		int count = statement.executeUpdate();
 
-		st.setString(3, p.getName());
-
-		st.setInt(4, p.getSortOrder());
-
-		int count = st.executeUpdate();
-
-		rs.close();
+		resultSet.close();
 		idSt.close();
-		st.close();
-		con.close();
+		statement.close();
+		connection.close();
 
 		return count > 0;
 	}
+
 	public Position get(int id) throws Exception {
 
-		Connection con = getConnection();
+		Connection connection = getConnection();
 
-		String sql =
-			"SELECT * FROM POSITION WHERE ID = ?";
+		String sql = "SELECT * FROM POSITION WHERE ID = ?";
 
-		PreparedStatement st =
-			con.prepareStatement(sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 
-		st.setInt(1, id);
+		statement.setInt(1, id);
 
-		ResultSet rs = st.executeQuery();
+		ResultSet resultSet = statement.executeQuery();
 
 		Position p = null;
 
-		if (rs.next()) {
+		if (resultSet.next()) {
 
 			p = new Position();
-
-			p.setSchoolCd(
-				rs.getString("SCHOOL_CD"));
-
 			p.setId(
-				rs.getInt("ID"));
+					resultSet.getInt("ID"));
 
 			p.setName(
-				rs.getString("NAME"));
+					resultSet.getString("NAME"));
 
 			p.setSortOrder(
-				rs.getInt("SORT_ORDER"));
+					resultSet.getInt("SORT_ORDER"));
 		}
 
-		rs.close();
-		st.close();
-		con.close();
+		resultSet.close();
+		statement.close();
+		connection.close();
 
 		return p;
 	}
+
 	public boolean update(Position p)
 			throws Exception {
 
-		Connection con = getConnection();
+		Connection connection = getConnection();
 
-		String sql =
-			"UPDATE POSITION "
-			+ "SET NAME = ?, SORT_ORDER = ? "
-			+ "WHERE ID = ?";
+		String sql = "UPDATE POSITION "
+				+ "SET NAME = ?, SORT_ORDER = ? "
+				+ "WHERE ID = ?";
 
-		PreparedStatement st =
-			con.prepareStatement(sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 
-		st.setString(1, p.getName());
+		statement.setString(1, p.getName());
 
-		st.setInt(2, p.getSortOrder());
+		statement.setInt(2, p.getSortOrder());
 
-		st.setInt(3, p.getId());
+		statement.setInt(3, p.getId());
 
-		int count = st.executeUpdate();
+		int count = statement.executeUpdate();
 
-		st.close();
-		con.close();
+		statement.close();
+		connection.close();
 
 		return count > 0;
 	}
+
 	public boolean delete(Position p)
 			throws Exception {
 
-		Connection con = getConnection();
+		Connection connection = getConnection();
 
-		String sql =
-			"DELETE FROM POSITION WHERE ID = ?";
+		String sql = "DELETE FROM POSITION WHERE ID = ?";
 
-		PreparedStatement st =
-			con.prepareStatement(sql);
+		PreparedStatement statement = connection.prepareStatement(sql);
 
-		st.setInt(1, p.getId());
+		statement.setInt(1, p.getId());
 
-		int count = st.executeUpdate();
+		int count = statement.executeUpdate();
 
-		st.close();
-		con.close();
+		statement.close();
+		connection.close();
 
 		return count > 0;
 	}
 }
-
-

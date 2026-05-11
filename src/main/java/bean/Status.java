@@ -4,39 +4,41 @@ import java.io.Serializable;
 
 public class Status implements Serializable {
 
-	    private int id;
-	    private String name;
-	    private int sortOrder;
-	    private String schoolCd;
+	private int id;
+	private String name;
+	private int sortOrder;
 
-	    public int getId() {
-	        return id;
-	    }
-	    public void setId(int id) {
-	        this.id = id;
-	    }
+	private School school;
 
-	    public String getName() {
-	        return name;
-	    }
-	    public void setName(String name) {
-	        this.name = name;
-	    }
-
-	    public int getSortOrder() {
-	        return sortOrder;
-	    }
-	    public void setSortOrder(int sortOrder) {
-	        this.sortOrder = sortOrder;
-	    }
-
-	    public String getSchoolCd() {
-	        return schoolCd;
-	    }
-	    public void setSchoolCd(String schoolCd) {
-	        this.schoolCd = schoolCd;
-	    }
+	public int getId() {
+		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(int sortOrder) {
+		this.sortOrder = sortOrder;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
+	}
+}

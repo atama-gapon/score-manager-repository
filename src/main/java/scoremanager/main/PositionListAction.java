@@ -11,22 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionListAction extends Action {
-
-	public void execute(HttpServletRequest req, HttpServletResponse res)
-			throws Exception {
-
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
-
 		School school = staff.getSchool();
 
 		PositionDao dao = new PositionDao();
+		List<Position> positionSet = dao.filter(school);
 
-		List<Position> positions = dao.filter(school);
+		req.setAttribute("position_set", positionSet);
 
-		req.setAttribute("positions", positions);
-
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_list.jsp"
-		).forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_list.jsp").forward(req, res);
 	}
 }

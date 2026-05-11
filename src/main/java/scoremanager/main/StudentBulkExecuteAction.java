@@ -21,18 +21,18 @@ public class StudentBulkExecuteAction extends Action {
 
 		Part csv = req.getPart("csv");
 		BufferedReader br = null;
-		
+
 		try {
 
 			if (csv != null && csv.getSize() > 0) {
 				InputStream is = csv.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is, "UTF-8");
 				br = new BufferedReader(isr);
-				
+
 				StudentDao dao = new StudentDao();
 				dao.Bulk(br, school.getCd());
 
-				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk_done.jsp").forward(req, res);
+				res.sendRedirect(req.getContextPath() + "/scoremanager/main/StudentBulkDone.action");
 			} else {
 
 				req.setAttribute("error", "ファイルを選択してください。");
@@ -40,7 +40,6 @@ public class StudentBulkExecuteAction extends Action {
 			}
 
 		} catch (Exception e) {
-			
 
 			req.setAttribute("error", "登録中にエラーが発生しました：" + e.getMessage());
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk.jsp").forward(req, res);

@@ -91,14 +91,15 @@ public class StudentDao extends Dao {
 		}
 		return isFound;
 	}
-	
+
 	public List<Integer> getEntYearList(School school) throws Exception {
 		List<Integer> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("select distinct ent_year from student where school_cd = ? order by ent_year desc");
+			statement = connection.prepareStatement(
+					"select distinct ent_year from student where school_cd = ? order by ent_year desc");
 			statement.setString(1, school.getCd());
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -143,7 +144,7 @@ public class StudentDao extends Dao {
 				list.add(student);
 			}
 		} catch (SQLException | NullPointerException e) {
-			
+
 		}
 		return list;
 	}
@@ -270,7 +271,7 @@ public class StudentDao extends Dao {
 		return list;
 	}
 
-	// 学生インスタンスをデータベースに保存する
+	// 学生をデータベースに保存する
 	public boolean save(Student student) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
@@ -328,66 +329,83 @@ public class StudentDao extends Dao {
 	}
 
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
-		
-		Connection connection = getConnection();
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
+	    String line;
+	    int count = 0;
+	    // SQLのパラメータ順序に合わせて整理
+	    String sql = "insert into student(school_cd, no, name, ent_year, class_num, is_attend) values(?, ?, ?, ?, ?, ?)";
 
-		PreparedStatement statement = null;
-		String line;
-		int count = 0;
-		String sql1 = "insert into student(school_cd,no,name,ent_year,class_num,is_attend) values(?,?,?,?,?,?)";
-		
-		try {	
-			connection.setAutoCommit(false);
-	        statement = connection.prepareStatement(sql1);
-	        
-			while ((line = br.readLine()) != null) {
-				System.out.println("読み込んだデータ: " + line);
-				
-				String[] data = line.split(",", -1);
-				
-				
-				statement.setString(1, schoolCd);
-				statement.setString(2, data[0].trim());
-				statement.setString(3, data[1].trim());
-				statement.setInt(4, Integer.parseInt(data[2].trim()));
-				statement.setString(5, data[3].trim());
-				boolean isAttend = Boolean.parseBoolean(data[4].trim());
-				statement.setBoolean(6, isAttend);
-				
-				count += statement.executeUpdate();
-				
-				
-			}
-			connection.commit();
-	        
-	        return count > 0;
-			
-		} catch (Exception e) {
-			if (connection != null) {
+	    try {
+	        // オートコミットをオフにしてトランザクション開始
+	        connection.setAutoCommit(false);
+	        statement = connection.prepareStatement(sql);
+
+	        while ((line = br.readLine()) != null) {
+	            // 空行をスキップ
+	            if (line.trim().isEmpty()) continue;
+
+	            String[] data = line.split(",", -1);
+	            
+	            // カンマの数が足りない場合のチェック
+	            if (data.length < 5) {
+	                throw new Exception("CSVの形式が正しくありません。");
+	            }
+
+	            statement.setString(1, schoolCd);
+	            statement.setString(2, data[0].trim()); // 学籍番号
+	            statement.setString(3, data[1].trim()); // 氏名
+	            statement.setInt(4, Integer.parseInt(data[2].trim())); // 入学年度
+	            statement.setString(5, data[3].trim()); // クラス
+	            boolean isAttend = Boolean.parseBoolean(data[4].trim()); // 在学フラグ
+	            statement.setBoolean(6, isAttend);
+
+	            // バッチ処理に追加（大量データの場合に高速になります）
+	            statement.addBatch();
+	            count++;
+	        }
+
+	        // 全て読み込み終わったら一括実行
+	        statement.executeBatch();
+	        // ここで初めて確定（コミット）
+	        connection.commit();
+
+	    } catch (Exception e) {
+	        // エラーが発生したら、それまでの処理をすべて取り消す
+	        if (connection != null) {
 	            try {
 	                connection.rollback();
 	            } catch (SQLException se) {
 	                se.printStackTrace();
 	            }
 	        }
-			
-			String errorMsg = "未入力の値があります。";
-	        if (e.getMessage().contains("Duplicate") || e.getMessage().contains("PRIMARY")) {
-	            errorMsg = "既に登録されている学生が含まれています。";
+
+	        // エラーメッセージの判定
+	        String errorMsg = "登録に失敗しました（入力形式などを確認してください）。";
+	        String originalMsg = e.getMessage();
+	        
+	        if (originalMsg != null) {
+	            if (originalMsg.contains("Duplicate") || originalMsg.contains("PRIMARY")) {
+	                errorMsg = "既に登録されている学生が含まれています。";
+	            } else if (e instanceof NumberFormatException) {
+	                errorMsg = "入学年度に数値以外の値が含まれています。";
+	            }
 	        }
-	        
-	        // ExecuteAction の catch ブロックにこの例外を届ける
 	        throw new Exception(errorMsg);
-	        
-		} finally {
+
+	    } finally {
+	        // 後始末
 	        if (statement != null) {
 	            try { statement.close(); } catch (SQLException e) {}
 	        }
 	        if (connection != null) {
-	            try { connection.setAutoCommit(true); } catch (SQLException e) {}
+	            try {
+	                connection.setAutoCommit(true); // 設定を戻す
+	                connection.close();
+	            } catch (SQLException e) {}
 	        }
 	    }
-		
-	}
 
+	    return count > 0;
+	}
 }

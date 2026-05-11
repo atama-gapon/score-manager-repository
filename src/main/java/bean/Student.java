@@ -8,6 +8,7 @@ public class Student implements Serializable {
 	private int entYear;
 	private String classNum;
 	private boolean isAttend;
+
 	private School school;
 
 	public String getNo() {

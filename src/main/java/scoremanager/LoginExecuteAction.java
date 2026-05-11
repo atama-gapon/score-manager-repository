@@ -9,15 +9,13 @@ import tool.Action;
 
 public class LoginExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// 入力されたNO,PWを元に認証
+		String schoolCd = req.getParameter("school_cd");
 		String no = req.getParameter("no");
 		String password = req.getParameter("password");
 
-		// NO,PWが合致するデータを取得
 		StaffDao staffDao = new StaffDao();
-		Staff staff = staffDao.login(no, password);
+		Staff staff = staffDao.login(schoolCd, no, password);
 
-		// NOかPWかのいずれかが正しくない場合
 		if (staff == null) {
 			req.setAttribute("message", "ログインに失敗しました。職員番号またはパスワードが正しくありません。");
 			req.setAttribute("no", no);
@@ -30,6 +28,6 @@ public class LoginExecuteAction extends Action {
 		staff.setAuthenticated(true);
 		session.setAttribute("user", staff);
 
-		res.sendRedirect("main/Menu.action");
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/Menu.action");
 	}
 }

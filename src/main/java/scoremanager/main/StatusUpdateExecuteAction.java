@@ -12,79 +12,90 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StatusUpdateExecuteAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		String idStr = req.getParameter("id");
+		String name = req.getParameter("name");
+		String sortOrderStr = req.getParameter("sort_order");
 
-        Staff staff = (Staff) req.getAttribute("staff");
-        School school = staff.getSchool();
-        String schoolCd = school.getCd();
+		int id = Integer.parseInt(idStr);
 
-        String idStr = req.getParameter("id");
-        String name = req.getParameter("name");
-        String sortOrderStr = req.getParameter("sortOrder");
+		Map<String, String> errors = new HashMap<>();
+		req.setAttribute("errors", errors);
 
-        int id = Integer.parseInt(idStr);
+		StatusDao dao = new StatusDao();
+		Status status = dao.get(id);
 
-        Map<String, String> errors = new HashMap<>();
-        req.setAttribute("errors", errors);
+		if (status == null) {
+			errors.put("id", "ステータスが存在しません");
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
+					.forward(req, res);
+			return;
+		}
 
-        StatusDao dao = new StatusDao();
-        Status status = dao.get(id, schoolCd);   // ← 修正ポイント
+		// 入力値セット
+		status.setName(name);
 
-        if (status == null) {
-            errors.put("id", "ステータスが存在しません");
-            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-               .forward(req, res);
-            return;
-        }
-        int sortOrder = 0;
-        try {
-            sortOrder = Integer.parseInt(sortOrderStr);
+		try {
+			status.setSortOrder(Integer.parseInt(sortOrderStr));
+		} catch (Exception e) {
+			errors.put("sort_order", "数値を入力してください");
+		}
 
-            if (sortOrder < 0) {
-                errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
-            }
+		if (status == null) {
+			errors.put("id", "ステータスが存在しません");
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
+					.forward(req, res);
+			return;
+		}
+		int sortOrder = 0;
+		try {
+			sortOrder = Integer.parseInt(sortOrderStr);
 
-        } catch (NumberFormatException e) {
-            errors.put("sortOrder", "並び順は数字で入力してください");
-        }
+			if (sortOrder < 0) {
+				errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
+			}
 
+		} catch (NumberFormatException e) {
+			errors.put("sortOrder", "並び順は数字で入力してください");
+		}
 
-        // 入力値セット
-        status.setName(name);
+		// JSP に戻す用
+		req.setAttribute("status", status);
 
-        try {
-            status.setSortOrder(Integer.parseInt(sortOrderStr));
-        } catch (Exception e) {
-            errors.put("sortOrder", "数値を入力してください");
-        }
+		// バリデーション
+		if (name == null || name.isEmpty()) {
+			errors.put("name", "ステータス名を入力してください");
+		}
 
-        // schoolCd を必ずセット（重要）
-        status.setSchoolCd(schoolCd);
+		if (!errors.isEmpty()) {
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp").forward(req, res);
+			return;
+		}
 
-        // JSP に戻す用
-        req.setAttribute("status", status);
+		// 更新処理
+		dao.update(status);
 
-        // バリデーション
-        if (name == null || name.isEmpty()) {
-            errors.put("name", "ステータス名を入力してください");
-        }
-     // 重複チェック
-        if (dao.existsByName(name, schoolCd)) {
-            errors.put("name", "同じ名前のステータスがすでに存在します");
-        }
+		// バリデーション
+		if (name == null || name.isEmpty()) {
+			errors.put("name", "ステータス名を入力してください");
+		}
+		// 重複チェック
+		if (dao.existsByName(name, school)) {
+			errors.put("name", "同じ名前のステータスがすでに存在します");
+		}
 
-        if (!errors.isEmpty()) {
-            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-               .forward(req, res);
-            return;
-        }
+		if (!errors.isEmpty()) {
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
+					.forward(req, res);
+			return;
+		}
 
-        // 更新処理
-        dao.update(status);
+		// 更新処理
+		dao.update(status);
 
-        req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update_done.jsp")
-           .forward(req, res);
-    }
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusUpdateDone.action");
+	}
 }

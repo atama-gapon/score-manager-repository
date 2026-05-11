@@ -17,7 +17,7 @@ public class StudentUpdateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
+
 		// フォームから送られてきた値を取る
 		String no = req.getParameter("no");
 		String name = req.getParameter("name");
@@ -82,7 +82,6 @@ public class StudentUpdateExecuteAction extends Action {
 		StudentDao dao = new StudentDao();
 		dao.save(s);
 
-		// 完了画面へ
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_update_done.jsp").forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StudentUpdateDone.action");
 	}
 }

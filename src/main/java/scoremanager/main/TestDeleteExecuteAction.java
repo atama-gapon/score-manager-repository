@@ -39,7 +39,6 @@ public class TestDeleteExecuteAction extends Action {
 		//学生番号をセット
 		req.setAttribute("student_no", studentNo);
 
-		//削除完了画面へ遷移
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_delete_done.jsp").forward(req, res);
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/TestDeleteDone.action");
 	}
 }

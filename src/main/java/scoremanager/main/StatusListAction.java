@@ -2,6 +2,7 @@ package scoremanager.main;
 
 import java.util.List;
 
+import bean.School;
 import bean.Staff;
 import bean.Status;
 import dao.StatusDao;
@@ -10,23 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StatusListAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		StatusDao dao = new StatusDao();
+		List<Status> statusSet = dao.filter(school);
 
-        // ログイン中の職員を取得
-        Staff staff = (Staff) req.getAttribute("staff");
-        String schoolCd = staff.getSchool().getCd();
+		req.setAttribute("status_set", statusSet);
 
-        // DAO から学校ごとのステータス一覧を取得
-        StatusDao dao = new StatusDao();
-        List<Status> list = dao.filter(schoolCd);
-
-        // JSP に渡す
-        req.setAttribute("statusList", list);
-
-        // 画面遷移
-        req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_list.jsp")
-           .forward(req, res);
-    }
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_list.jsp").forward(req, res);
+	}
 }
