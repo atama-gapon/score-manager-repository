@@ -4,10 +4,12 @@
 	<c:param name="title">職員情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<p class="mb-3 fw-normal bg-success py-1 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
-		<br>
-		<br>
-		<a href="StaffCreate.action">戻る</a>
-		<a href="StaffList.action">職員一覧</a>
+		<c:import url="/WEB-INF/jsp/common/done.jsp">
+			<c:param name="successMessage">登録が完了しました</c:param>
+			<c:param name="nextStepLinks">
+				<a href="StaffCreate.action" class="text-decoration-underline">戻る</a>
+				<a href="StaffList.action" class="text-decoration-underline">職員一覧</a>
+			</c:param>
+		</c:import>
 	</c:param>
 </c:import>

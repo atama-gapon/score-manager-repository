@@ -4,11 +4,12 @@
 	<c:param name="title">学生情報一括登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<p>
-			<a href="StudentBulk.action">戻る</a>
-		</p>
-		<p>
-			<a href="ClassList.action">クラス一覧</a>
-		</p>
+		<c:import url="/WEB-INF/jsp/common/done.jsp">
+			<c:param name="successMessage">登録が完了しました</c:param>
+			<c:param name="nextStepLinks">
+				<a href="StudentBulk.action" class="text-decoration-underline">戻る</a>
+				<a href="StudentList.action" class="text-decoration-underline">学生一覧</a>
+			</c:param>
+		</c:import>
 	</c:param>
 </c:import>
