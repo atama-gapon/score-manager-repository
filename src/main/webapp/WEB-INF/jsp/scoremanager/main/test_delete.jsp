@@ -4,7 +4,7 @@
 	<c:param name="title">成績情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="TestDeleteExecute.action" method="get">
+		<form action="TestDeleteExecute.action" method="post">
 			<p>
 				下記の情報を削除しますか？
 				<input type="submit" value="削除">

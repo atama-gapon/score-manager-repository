@@ -5,7 +5,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<p>「${ cd }(${ name })」を削除してもよろしいですか</p>
-		<form action="SubjectDeleteExecute.action" method="get">
+		<form action="SubjectDeleteExecute.action" method="post">
 			<input name="cd" type="hidden" value="${ cd }">
 			<input type="submit" class="btn btn-danger px-3" value="削除">
 		</form>

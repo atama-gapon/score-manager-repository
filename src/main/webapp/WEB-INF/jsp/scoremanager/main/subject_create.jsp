@@ -4,7 +4,7 @@
 	<c:param name="title">科目情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="SubjectCreateExecute.action" method="get">
+		<form action="SubjectCreateExecute.action" method="post">
 			<label class="form-label">科目コード</label>
 			<input type="text" class="form-control" placeholder="科目コードを入力してください" maxlength="3" name="cd" value="${cd}" required>
 			<div class="col-12 mt-2 text-warning">${ errors.get("cd_length") }</div>

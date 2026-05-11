@@ -13,7 +13,7 @@ input::placeholder {
 	<c:param name="title">クラス情報変更</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="ClassUpdateExecute.action" method="get">
+		<form action="ClassUpdateExecute.action" method="post">
 			<label class="form-label">科目コード</label>
 			<label for="class_num">クラス番号</label>
 			<input id="class_num" class="form-control" name="class_num" value="${class_num}" type="text" maxlength="5" placeholder="クラス番号を入力してください" required>

@@ -13,7 +13,7 @@ input::placeholder {
 	<c:param name="title">科目情報変更</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="SubjectUpdateExecute.action" method="get">
+		<form action="SubjectUpdateExecute.action" method="post">
 			<label class="form-label">科目コード</label>
 			<input style="border: none; box-shadow: none;" type="text" class="form-control" name="cd" value="${ cd }" readonly>
 			<div class="col-12 mt-2 text-warning">${ errors.get("subject_exist") }</div>
