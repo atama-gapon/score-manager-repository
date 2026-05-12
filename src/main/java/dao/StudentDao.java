@@ -351,6 +351,11 @@ public class StudentDao extends Dao {
 	            if (data.length < 5) {
 	                throw new Exception("CSVの形式が正しくありません。");
 	            }
+	            
+	            String attend = data[4].trim().toLowerCase();
+	            if(!attend.equals("true") && !attend.equals("false")) {
+	            	throw new Exception("在学フラグを正しい形で入力してください。(true/false)");
+	            }
 
 	            statement.setString(1, schoolCd);
 	            statement.setString(2, data[0].trim()); // 学籍番号
@@ -381,7 +386,7 @@ public class StudentDao extends Dao {
 	        }
 
 	        // エラーメッセージの判定
-	        String errorMsg = "登録に失敗しました（入力形式などを確認してください）。";
+	        String errorMsg = e.getMessage();;
 	        String originalMsg = e.getMessage();
 	        
 	        if (originalMsg != null) {
@@ -408,4 +413,5 @@ public class StudentDao extends Dao {
 
 	    return count > 0;
 	}
+	
 }
