@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">クラス情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">クラス情報削除</h2>
-		<p>
-			<a href="ClassList.action">クラス一覧</a>
-		</p>
+		<c:import url="/WEB-INF/jsp/common/done.jsp">
+			<c:param name="successMessage">削除が完了しました</c:param>
+			<c:param name="nextStepLinks">
+				<a href="ClassList.action" class="text-decoration-underline">クラス一覧</a>
+			</c:param>
+		</c:import>
 	</c:param>
 </c:import>

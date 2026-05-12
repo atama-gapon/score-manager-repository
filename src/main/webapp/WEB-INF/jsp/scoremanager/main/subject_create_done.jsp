@@ -1,19 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">科目情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
-		<p class="mb-3 fw-normal bg-success py-2 px-4 text-center" style="--bs-bg-opacity: .6">登録が完了しました</p>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<p>
-			<a href="SubjectCreate.action">戻る</a>
-			<a href="SubjectList.action">科目一覧</a>
-		</p>
+		<c:import url="/WEB-INF/jsp/common/done.jsp">
+			<c:param name="successMessage">登録が完了しました</c:param>
+			<c:param name="nextStepLinks">
+				<a href="StudentCreate.action" class="text-decoration-underline">戻る</a>
+				<a href="SubjectList.action" class="text-decoration-underline">科目一覧</a>
+			</c:param>
+		</c:import>
 	</c:param>
 </c:import>

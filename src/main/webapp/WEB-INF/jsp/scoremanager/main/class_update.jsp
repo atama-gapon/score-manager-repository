@@ -10,11 +10,10 @@ input::placeholder {
 }
 </style>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">クラス情報変更</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">クラス情報変更</h2>
-		<form action="ClassUpdateExecute.action" method="get">
+		<form action="ClassUpdateExecute.action" method="post">
 			<label class="form-label">科目コード</label>
 			<label for="class_num">クラス番号</label>
 			<input id="class_num" class="form-control" name="class_num" value="${class_num}" type="text" maxlength="5" placeholder="クラス番号を入力してください" required>

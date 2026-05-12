@@ -4,10 +4,9 @@
 	<c:param name="scripts">
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</c:param>
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">成績一覧（学生）</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">成績一覧（学生）</h2>
 		<div class="container-fluid d-flex justify-content-center">
 			<div class="bg-white border rounded shadow-sm p-4" style="width: 100%; max-width: 1050px;">
 				<form method="get" action="TestListSubjectExecute.action" class="mb-0">
