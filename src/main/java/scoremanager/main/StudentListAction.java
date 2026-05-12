@@ -1,6 +1,5 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,63 +14,81 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-// 役割：学生の一覧を表示する
 public class StudentListAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		ClassNumDao cNumDao = new ClassNumDao();
-		List<String> classNumSet = cNumDao.filter(school);
+		// 初期化
+		ClassNumDao classNumDao = new ClassNumDao();
+		StudentDao studentDao = new StudentDao();
+		List<Student> studentSet = new ArrayList<>();
+		Map<String, String> errors = new HashMap<>();
+		boolean isClassNumSelected = false;
+		boolean isEntYearSelected = false;
 
-		StudentDao sDao = new StudentDao();
+		// ゲットパラメータ
+		String entYearStr = req.getParameter("ent_year");
+		String classNum = req.getParameter("class_num");
+		String isAttendStr = req.getParameter("is_attend");
 
-		String entYearStr = req.getParameter("f1");
-		String classNum = req.getParameter("f2");
-		String isAttendStr = req.getParameter("f3");
+		List<String> classNumSet = classNumDao.filter(school);
+		List<Integer> entYearSet = studentDao.getEntYearList(school);
 
 		int entYear = 0;
-		// エラー対策
 		if (entYearStr != null) {
 			entYear = Integer.parseInt(entYearStr);
 		}
 
 		boolean isAttend = false;
-
 		if (isAttendStr != null) {
 			isAttend = true;
 		}
 
-		LocalDate todaysDate = LocalDate.now();
-		int year = todaysDate.getYear();
-		// 10年前から1年後までをリストに追加
-		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
-		}
-
-		List<Student> students = new ArrayList<>();
-		Map<String, String> errors = new HashMap<>();
-
-		if (entYear != 0 && !classNum.equals("0")) {
-			students = sDao.filter(school, entYear, classNum, isAttend);
-		} else if (entYear != 0 && classNum.equals("0")) {
-			students = sDao.filter(school, entYear, isAttend);
-		} else if (entYear == 0 && classNum == null || entYear == 0 && classNum.equals("0")) {
-			students = sDao.filter(school, isAttend);
-		} else {
-			errors.put("f1", "クラスを指定する場合は入学年度も指定してください");
-			req.setAttribute("errors", errors);
-			students = sDao.filter(school, isAttend);
-		}
-
-		req.setAttribute("f1", entYear);
-		req.setAttribute("f2", classNum);
-		req.setAttribute("f3", isAttend);
-		req.setAttribute("students", students);
+		// セットパラメータ
+		req.setAttribute("ent_year", entYear);
+		req.setAttribute("class_num", classNum);
+		req.setAttribute("is_attend", isAttend);
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("ent_year_set", entYearSet);
 
+		// バリデーション
+		// 選択されたクラスがうちのクラスのなかか
+		// 選択された年度がうちの年度のなかか
+		// こんな不正な入力に対するバリデーションは、どこまで対応するべきか
+
+		// 初回アクセス
+		if (classNum == null) {
+			studentSet = studentDao.filter(school, isAttend);
+			req.setAttribute("student_set", studentSet);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
+			return;
+		}
+
+		if (!classNum.equals("0")) {
+			isClassNumSelected = true;
+		}
+
+		if (entYear != 0) {
+			isEntYearSelected = true;
+		}
+
+		if (isClassNumSelected != isEntYearSelected) {
+			errors.put("ent_year", "クラスを指定する場合は入学年度も指定してください");
+		}
+
+		if (isClassNumSelected == isEntYearSelected) {
+			studentSet = studentDao.filter(school, entYear, classNum, isAttend);
+		} else if (isEntYearSelected) {
+			studentSet = studentDao.filter(school, entYear, isAttend);
+//		} else if (isClassNumSelected) {
+
+		} else {
+			studentSet = studentDao.filter(school, isAttend);
+		}
+
+		req.setAttribute("errors", errors);
+		req.setAttribute("student_set", studentSet);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
 	}
 }

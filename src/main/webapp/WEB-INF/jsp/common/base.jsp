@@ -31,8 +31,8 @@ ${param.scripts}
 					</nav>
 					<main class="col-9 border-start">
 						<section class="me-4">
-						<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">${param.title}</h2>
-						${param.content}
+							<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">${param.title}</h2>
+							${param.content}
 						</section>
 					</main>
 				</c:when>

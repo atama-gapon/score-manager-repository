@@ -16,9 +16,11 @@ public class StatusCreateExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
+		// リクエストパラメータ
 		String name = req.getParameter("name");
 		String sortOrderStr = req.getParameter("sort_order");
 
+		
 		req.setAttribute("name", name);
 		req.setAttribute("sort_order", sortOrderStr);
 
