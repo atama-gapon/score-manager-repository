@@ -26,6 +26,7 @@ public class StudentListAction extends Action {
 		Map<String, String> errors = new HashMap<>();
 		boolean isClassNumSelected = false;
 		boolean isEntYearSelected = false;
+		boolean isAttend = false;
 
 		// ゲットパラメータ
 		String entYearStr = req.getParameter("ent_year");
@@ -35,12 +36,19 @@ public class StudentListAction extends Action {
 		List<String> classNumSet = classNumDao.filter(school);
 		List<Integer> entYearSet = studentDao.getEntYearList(school);
 
-		int entYear = 0;
-		if (entYearStr != null) {
-			entYear = Integer.parseInt(entYearStr);
+		req.setAttribute("class_num_set", classNumSet);
+		req.setAttribute("ent_year_set", entYearSet);
+
+		// 初回アクセス
+		if (classNum == null || entYearStr == null) {
+			studentSet = studentDao.filter(school, isAttend);
+			req.setAttribute("student_set", studentSet);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
+			return;
 		}
 
-		boolean isAttend = false;
+		int entYear = Integer.parseInt(entYearStr);
+
 		if (isAttendStr != null) {
 			isAttend = true;
 		}
@@ -49,21 +57,11 @@ public class StudentListAction extends Action {
 		req.setAttribute("ent_year", entYear);
 		req.setAttribute("class_num", classNum);
 		req.setAttribute("is_attend", isAttend);
-		req.setAttribute("class_num_set", classNumSet);
-		req.setAttribute("ent_year_set", entYearSet);
 
 		// バリデーション
 		// 選択されたクラスがうちのクラスのなかか
 		// 選択された年度がうちの年度のなかか
 		// こんな不正な入力に対するバリデーションは、どこまで対応するべきか
-
-		// 初回アクセス
-		if (classNum == null) {
-			studentSet = studentDao.filter(school, isAttend);
-			req.setAttribute("student_set", studentSet);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
-			return;
-		}
 
 		if (!classNum.equals("0")) {
 			isClassNumSelected = true;
@@ -77,18 +75,18 @@ public class StudentListAction extends Action {
 			errors.put("ent_year", "クラスを指定する場合は入学年度も指定してください");
 		}
 
-		if (isClassNumSelected == isEntYearSelected) {
+		// 検索条件
+		if (isClassNumSelected && isEntYearSelected) {
 			studentSet = studentDao.filter(school, entYear, classNum, isAttend);
 		} else if (isEntYearSelected) {
 			studentSet = studentDao.filter(school, entYear, isAttend);
-//		} else if (isClassNumSelected) {
-
 		} else {
 			studentSet = studentDao.filter(school, isAttend);
 		}
 
 		req.setAttribute("errors", errors);
 		req.setAttribute("student_set", studentSet);
+
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
 	}
 }

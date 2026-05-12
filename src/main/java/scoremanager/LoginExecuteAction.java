@@ -18,6 +18,7 @@ public class LoginExecuteAction extends Action {
 
 		if (staff == null) {
 			req.setAttribute("message", "ログインに失敗しました。職員番号またはパスワードが正しくありません。");
+			req.setAttribute("school_cd", schoolCd);
 			req.setAttribute("no", no);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/index.jsp").forward(req, res);
 			return;

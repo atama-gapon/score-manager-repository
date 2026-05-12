@@ -14,12 +14,10 @@
 					<tr>
 						<th>クラス番号</th>
 						<th></th>
-						<th></th>
 					</tr>
 					<c:forEach var="class_num" items="${ class_set }">
 						<tr>
 							<td>${ class_num }</td>
-							<td><a href="ClassUpdate.action?class_num=${ class_num }">変更</a></td>
 							<td><a href="ClassDelete.action?class_num=${ class_num }">削除</a></td>
 						</tr>
 					</c:forEach>
