@@ -41,7 +41,7 @@ public class StudentBulkExecuteAction extends Action {
 
 		} catch (Exception e) {
 
-			req.setAttribute("error", "登録中にエラーが発生しました：" + e.getMessage());
+			req.setAttribute("error", e.getMessage());
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_bulk.jsp").forward(req, res);
 		} finally {
 			if (br != null) {
