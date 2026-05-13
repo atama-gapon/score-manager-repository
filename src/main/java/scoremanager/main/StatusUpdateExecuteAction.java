@@ -1,6 +1,5 @@
 package scoremanager.main;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import bean.School;
@@ -16,85 +15,22 @@ public class StatusUpdateExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		String idStr = req.getParameter("id");
-		String name = req.getParameter("name");
-		String sortOrderStr = req.getParameter("sort_order");
-
-		int id = Integer.parseInt(idStr);
-
-		Map<String, String> errors = new HashMap<>();
-		req.setAttribute("errors", errors);
-
-		StatusDao dao = new StatusDao();
-		Status status = dao.get(id);
-
-		if (status == null) {
-			errors.put("id", "ステータスが存在しません");
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-					.forward(req, res);
-			return;
-		}
-
-		// 入力値セット
-		status.setName(name);
-
-		try {
-			status.setSortOrder(Integer.parseInt(sortOrderStr));
-		} catch (Exception e) {
-			errors.put("sort_order", "数値を入力してください");
-		}
-
-		if (status == null) {
-			errors.put("id", "ステータスが存在しません");
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-					.forward(req, res);
-			return;
-		}
-		int sortOrder = 0;
-		try {
-			sortOrder = Integer.parseInt(sortOrderStr);
-
-			if (sortOrder < 0) {
-				errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
-			}
-
-		} catch (NumberFormatException e) {
-			errors.put("sortOrder", "並び順は数字で入力してください");
-		}
-
-		// JSP に戻す用
-		req.setAttribute("status", status);
+		// パラメータの取得とFormへの詰め替え
+		StatusForm form = new StatusForm(req);
 
 		// バリデーション
-		if (name == null || name.isEmpty()) {
-			errors.put("name", "ステータス名を入力してください");
-		}
+		Map<String, String> errors = form.validate(school);
 
 		if (!errors.isEmpty()) {
+			form.setAttributes(req);
+			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp").forward(req, res);
 			return;
 		}
 
-		// 更新処理
-		dao.update(status);
-
-		// バリデーション
-		if (name == null || name.isEmpty()) {
-			errors.put("name", "ステータス名を入力してください");
-		}
-		// 重複チェック
-		if (dao.existsByName(name, school)) {
-			errors.put("name", "同じ名前のステータスがすでに存在します");
-		}
-
-		if (!errors.isEmpty()) {
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_update.jsp")
-					.forward(req, res);
-			return;
-		}
-
-		// 更新処理
-		dao.update(status);
+		// 保存処理
+		Status newStatus = form.toEntity(school);
+		new StatusDao().update(newStatus);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusUpdateDone.action");
 	}

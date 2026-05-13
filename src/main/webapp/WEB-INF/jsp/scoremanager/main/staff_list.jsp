@@ -19,7 +19,7 @@
 					<label for="position_id" class="form-label">役職</label>
 					<select name="position_id" id="position_id" class="form-select">
 						<option value="">--------</option>
-						<c:forEach var="p" items="${position_set}">
+						<c:forEach var="p" items="${position_list}">
 							<option value="${p.id}" <c:if test="${p.id == position_id}">selected</c:if>>${p.name}</option>
 						</c:forEach>
 					</select>
@@ -28,7 +28,7 @@
 					<label for="status_id" class="form-label">状態</label>
 					<select name="status_id" id="status_id" class="form-select">
 						<option value="">--------</option>
-						<c:forEach var="s" items="${status_set}">
+						<c:forEach var="s" items="${status_list}">
 							<option value="${s.id}" <c:if test="${s.id == status_id}">selected</c:if>>${s.name}</option>
 						</c:forEach>
 					</select>
@@ -42,8 +42,8 @@
 			</div>
 		</form>
 		<c:choose>
-			<c:when test="${ staff_set.size() > 0 }">
-				<div>検索結果：${ staff_set.size() }件</div>
+			<c:when test="${ staff_list.size() > 0 }">
+				<div>検索結果：${ staff_list.size() }件</div>
 				<table class="table table-hover">
 					<tr>
 						<th>職員番号</th>
@@ -54,7 +54,7 @@
 						<th></th>
 						<th></th>
 					</tr>
-					<c:forEach var="staff" items="${ staff_set }">
+					<c:forEach var="staff" items="${ staff_list }">
 						<tr>
 							<td>${ staff.no }</td>
 							<td>${ staff.lastName }&nbsp;${ staff.firstName }</td>

@@ -40,7 +40,7 @@
 				<label class="form-label">役職</label>
 				<select name="position_id" class="form-select" required>
 					<option value="">--------</option>
-					<c:forEach var="p" items="${position_set}">
+					<c:forEach var="p" items="${position_list}">
 						<option value="${p.id}" <c:if test="${p.id == position_id}">selected</c:if>>${p.name}</option>
 					</c:forEach>
 				</select>
@@ -49,7 +49,7 @@
 				<label class="form-label">状態</label>
 				<select name="status_id" class="form-select" required>
 					<option value="">--------</option>
-					<c:forEach var="s" items="${status_set}">
+					<c:forEach var="s" items="${status_list}">
 						<option value="${s.id}" <c:if test="${s.id == status_id}">selected</c:if>>${s.name}</option>
 					</c:forEach>
 				</select>

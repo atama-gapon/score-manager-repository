@@ -28,7 +28,7 @@ public class StudentListAction extends Action {
 		boolean isEntYearSelected = false;
 		boolean isAttend = false;
 
-		// ゲットパラメータ
+		// ゲット
 		String entYearStr = req.getParameter("ent_year");
 		String classNum = req.getParameter("class_num");
 		String isAttendStr = req.getParameter("is_attend");
@@ -53,7 +53,7 @@ public class StudentListAction extends Action {
 			isAttend = true;
 		}
 
-		// セットパラメータ
+		// セット
 		req.setAttribute("ent_year", entYear);
 		req.setAttribute("class_num", classNum);
 		req.setAttribute("is_attend", isAttend);
