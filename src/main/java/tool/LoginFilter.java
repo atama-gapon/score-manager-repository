@@ -37,7 +37,7 @@ public class LoginFilter implements Filter {
 		// 3. 判定
 		if (staff == null) {
 			// 未ログイン：ログイン画面へリダイレクト
-			res.sendRedirect(req.getContextPath() + "/scoremanager/Login.action");
+			res.sendRedirect(req.getContextPath() + "/scoremanager/Login.action?timeout=true");
 		} else {
 			// ログイン済み：次の処理（フロントコントローラーなど）へ進む
 			req.setAttribute("staff", staff);
