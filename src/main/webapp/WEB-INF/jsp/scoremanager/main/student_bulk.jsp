@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">学生情報一括登録</c:param>
+	<c:param name="title">学生情報一括登録（CSVアップロード）</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<div class="card shadow-sm">
-			<div class="card-header bg-secondary text-white">
-				<h2 class="h5 mb-0">学生情報一括登録（CSVアップロード）</h2>
-			</div>
 			<div class="card-body">
 				<c:if test="${not empty error}">
 					<div class="alert alert-danger" role="alert">
