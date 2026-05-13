@@ -98,6 +98,7 @@ public class TestRegistExecuteAction extends Action {
 				req.setAttribute("num", num);
 				req.setAttribute("subject", subject);
 				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
+				return;
 
 			} else {
 				// エラーがない場合：保存して完了画面へ
@@ -115,14 +116,7 @@ public class TestRegistExecuteAction extends Action {
 				return;
 			}
 
-			//データーベースに一括で保存
-			testDao.save(saveList);
-			req.setAttribute("f1", entYearStr);
-			req.setAttribute("f2", classNum);
-			req.setAttribute("f3", subjectcd);
-			req.setAttribute("f4", numStr);
-
-			res.sendRedirect(req.getContextPath() + "/scoremanager/main/TestRegistDone.action");
+			
 		}
 	}
 }
