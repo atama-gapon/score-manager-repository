@@ -1,10 +1,7 @@
 package scoremanager.main;
 
-import java.util.List;
-
 import bean.School;
 import bean.Staff;
-import bean.Status;
 import dao.StatusDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,11 +12,12 @@ public class StatusListAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		StatusDao dao = new StatusDao();
-		List<Status> statusSet = dao.filter(school);
-
-		req.setAttribute("status_set", statusSet);
+		prepareViewData(req, school);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_list.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
+		req.setAttribute("status_list", new StatusDao().filter(school));
 	}
 }

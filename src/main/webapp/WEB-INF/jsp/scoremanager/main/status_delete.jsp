@@ -9,19 +9,15 @@
 			<table class="table">
 				<tr>
 					<th>ID</th>
-					<td>${ id }</td>
+					<td>${ status.id }</td>
 				</tr>
 				<tr>
 					<th>ステータス名</th>
-					<td>${ name }</td>
-				</tr>
-				<tr>
-					<th>並び順</th>
-					<td>${ sortOrder }</td>
+					<td>${ status.name }</td>
 				</tr>
 			</table>
 			<form action="StatusDeleteExecute.action" method="post">
-				<input type="hidden" name="id" value="${ id }">
+				<input type="hidden" name="id" value="${ status.id }">
 				<button class="btn btn-danger">削除する</button>
 				<a href="StatusList.action" class="btn btn-secondary ms-3">戻る</a>
 			</form>

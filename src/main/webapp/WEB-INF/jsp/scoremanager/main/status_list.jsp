@@ -8,8 +8,8 @@
 			<a href="StatusCreate.action">新規登録</a>
 		</div>
 		<c:choose>
-			<c:when test="${ status_set.size() > 0 }">
-				<div>検索結果：${ status_set.size() }件</div>
+			<c:when test="${ status_list.size() > 0 }">
+				<div>検索結果：${ status_list.size() }件</div>
 				<table class="table table-hover">
 					<tr>
 						<th>状態名</th>
@@ -17,7 +17,7 @@
 						<th></th>
 						<th></th>
 					</tr>
-					<c:forEach var="status" items="${status_set}">
+					<c:forEach var="status" items="${status_list}">
 						<tr>
 							<td>${ status.name }</td>
 							<td>${ status.sortOrder }</td>

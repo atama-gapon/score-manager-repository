@@ -19,8 +19,7 @@ public class StatusDeleteExecuteAction extends Action {
 		status.setId(id);
 		status.setSchool(school);
 
-		StatusDao dao = new StatusDao();
-		dao.delete(status);
+		new StatusDao().delete(status);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusDeleteDone.action");
 	}
