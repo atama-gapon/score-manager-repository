@@ -71,6 +71,7 @@
 								<td>${ test.student.name }</td>
 								<td><input type="number" name="point_${test.student.no}" value="${test.point == -1 ? '' : test.point}" class="form-control" style="width: 100px;"> <c:if test="${not empty message_over && (test.point < 0 || test.point > 100)}">
 										<div class="text-warning">${message_over}</div>
+										<input type="hidden" name="old_point_${test.student.no}" value="${test.point}">
 									</c:if> <input type="hidden" name="student_no_list" value="${test.student.no}"></td>
 								<td>${ test.marker_staff_no }</td>
 							</tr>
