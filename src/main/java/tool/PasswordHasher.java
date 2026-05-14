@@ -7,8 +7,8 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class PasswordUtil {
-	public static String hashPassword(String password) throws Exception {
+public class PasswordHasher {
+	public static String hash(String password) throws Exception {
 		// 毎回異なるランダムなソルト生成
 		byte[] salt = new byte[16];
 		SecureRandom random = new SecureRandom();
@@ -24,7 +24,7 @@ public class PasswordUtil {
 	}
 
 	// パスワード照合
-	public static boolean verifyPassword(String password, String storedPasswordHash) throws Exception {
+	public static boolean verify(String password, String storedPasswordHash) throws Exception {
 		// 連結されたソルトとハッシュ値を分解
 		String[] parts = storedPasswordHash.split(":");
 		byte[] salt = Base64.getDecoder().decode(parts[0]);

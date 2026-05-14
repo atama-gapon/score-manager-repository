@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
-import tool.PasswordUtil;
+import tool.PasswordHasher;
 
 public class LoginExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -20,7 +20,7 @@ public class LoginExecuteAction extends Action {
 		String storedPasswordHash = staffDao.findPasswordHashByStaffNo(no, schoolCd);
 
 		if (storedPasswordHash == null || storedPasswordHash.isEmpty()
-				|| !PasswordUtil.verifyPassword(password, storedPasswordHash)) {
+				|| !PasswordHasher.verify(password, storedPasswordHash)) {
 			req.setAttribute("message", "ログインに失敗しました。学校コードまたは職員番号またはパスワードが正しくありません");
 			req.setAttribute("school_cd", schoolCd);
 			req.setAttribute("no", no);
