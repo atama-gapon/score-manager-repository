@@ -91,14 +91,50 @@ public class StaffDao extends Dao {
 		return staff;
 	}
 
-	// 役割：ログイン認証を行う
+	public String findPasswordHashByStaffNo(String no, String schoolCd) throws Exception {
+		String passwordHash = "";
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		String sql = "SELECT password_hash FROM staff WHERE no=? AND school_cd=?";
+
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, no);
+			statement.setString(2, schoolCd);
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				passwordHash = resultSet.getString("password_hash");
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					throw e;
+				}
+			}
+		}
+		return passwordHash;
+	}
+
+	// ログイン認証を行う
 	public Staff login(String schoolCd, String no, String password) throws Exception {
 		Staff staff = new Staff();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 
 		try {
-			statement = connection.prepareStatement("select * from staff where school_cd=? and no=? and password=?");
+			statement = connection.prepareStatement("select * from staff where school_cd=? and no=? and password_hash=?");
 			statement.setString(1, schoolCd);
 			statement.setString(2, no);
 			statement.setString(3, password);
@@ -107,7 +143,7 @@ public class StaffDao extends Dao {
 
 			if (resultSet.next()) {
 				staff.setNo(resultSet.getString("no"));
-				staff.setPassword(resultSet.getString("password"));
+				staff.setPassword(resultSet.getString("password_hash"));
 				staff.setLastName(resultSet.getString("last_name"));
 				staff.setFirstName(resultSet.getString("first_name"));
 				staff.setLastNameKana(resultSet.getString("last_name_kana"));
@@ -227,7 +263,7 @@ public class StaffDao extends Dao {
 			if (old == null) {
 				// 学生が存在しなかった場合
 				statement = connection.prepareStatement(
-						"insert into staff(no, last_name, first_name, last_name_kana, first_name_kana, password, position_id, status_id, school_cd) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						"insert into staff(no, last_name, first_name, last_name_kana, first_name_kana, password_hash, position_id, status_id, school_cd) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				statement.setString(1, staff.getNo());
 				statement.setString(2, staff.getLastName());
 				statement.setString(3, staff.getFirstName());

@@ -3,6 +3,7 @@ package scoremanager.main;
 import java.util.HashMap;
 import java.util.Map;
 
+import tool.PasswordUtil;
 import bean.School;
 import bean.Staff;
 import dao.PositionDao;
@@ -96,7 +97,7 @@ public class StaffForm {
 		staff.setFirstName(firstName);
 		staff.setLastNameKana(lastNameKana);
 		staff.setFirstNameKana(firstNameKana);
-		staff.setPassword(password);
+		staff.setPassword(PasswordUtil.hashPassword(password));
 		staff.setSchool(school);
 
 		// IDからインスタンスを取得してセット

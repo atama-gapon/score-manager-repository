@@ -18,15 +18,12 @@ public class LoginAction extends Action {
 				return;
 			}
 		}
-		
-		
-		String timeout = req.getParameter("timeout");
-		
-		if (timeout != null) {
-            req.setAttribute("message", "セッションが終了しました。再度ログインをお願いします。");
-		}
 
-		
+		String timeout = req.getParameter("timeout");
+
+		if (timeout != null) {
+			req.setAttribute("message", "セッションが終了しました。再度ログインをお願いします。");
+		}
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/index.jsp").forward(req, res);
 	}
