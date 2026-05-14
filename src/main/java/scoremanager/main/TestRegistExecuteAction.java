@@ -50,7 +50,7 @@ public class TestRegistExecuteAction extends Action {
 				for (int i = 0; i < studentList.length; i++) {
 					String stNo = studentList[i];
 					String pStr = req.getParameter("point_" + stNo);
-
+					
 					// 点数が未入力の場合
 					if (pStr == null || pStr.isEmpty()) {
 						over = true;
@@ -60,13 +60,17 @@ public class TestRegistExecuteAction extends Action {
 
 					try {
 						int p = Integer.parseInt(pStr);
-						testList.get(i).setPoint(p);
+						int oldPoint = testList.get(i).getPoint();
+						
 						if (p < 0 || p > 100) {
 							over = true;
+							testList.get(i).setPoint(p);
 						} else {
-							testList.get(i).setMarker_staff_no(staff.getNo());
-			                
-			                saveList.add(testList.get(i));
+							if (p != oldPoint) {
+			                    testList.get(i).setPoint(p);
+			                    testList.get(i).setMarker_staff_no(staff.getNo()); // 自分を採点者にする
+			                    saveList.add(testList.get(i));
+							}
 						}
 					} catch (NumberFormatException e) {
 						over = true;
