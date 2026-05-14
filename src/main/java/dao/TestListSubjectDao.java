@@ -14,7 +14,7 @@ import bean.Subject;
 import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
-	private String baseSql = "select s.ent_year, s.name, s.no, s.class_num, t.no as test_no, t.point from student s join test t on s.no = t.student_no where s.school_cd = ?";
+	private String baseSql = "select s.ent_year, s.name, s.no, s.class_num, t.no as test_no, t.point from student s join test t on s.no = t.student_no and s.school_cd = t.school_cd where s.school_cd = ?";
 
 	private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
 		// 学生番号(no)をキーにして、重複を防ぐためのMapを用意
@@ -53,7 +53,7 @@ public class TestListSubjectDao extends Dao {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		String condition = " and s.ent_year = ? and s.class_num = ? and t.subject_cd = ? and t.no >= 0";
+		String condition = " and s.ent_year = ? and s.class_num = ? and t.subject_cd = ? and t.no > 0";
 		String order = " order by s.no,t.no";
 		try {
 			statement = connection.prepareStatement(baseSql + condition + order);
