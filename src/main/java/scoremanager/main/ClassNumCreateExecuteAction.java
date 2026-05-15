@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-public class ClassCreateExecuteAction extends Action {
+public class ClassNumCreateExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
@@ -26,7 +26,7 @@ public class ClassCreateExecuteAction extends Action {
 			errors.put("class_num_duplication", "クラス番号が重複しています");
 			req.setAttribute("errors", errors);
 			req.setAttribute("class_num", class_num);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_create.jsp").forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_create.jsp").forward(req, res);
 			return;
 		}
 
@@ -35,6 +35,6 @@ public class ClassCreateExecuteAction extends Action {
 		classNum2.setSchool(school);
 		classNumDao.save(classNum2);
 
-		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassCreateDone.action");
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassNumCreateDone.action");
 	}
 }

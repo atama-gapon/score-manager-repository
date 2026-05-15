@@ -4,7 +4,7 @@
 	<c:param name="title">クラス情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="ClassDeleteExecute.action" method="post">
+		<form action="ClassNumDeleteExecute.action" method="post">
 			<p>「${class_num}」を削除してもよろしいですか</p>
 			<div class="text-warning">${ errors.get("invalid") }</div>
 			<div class="text-warning">${ errors.get("has_student") }</div>
@@ -12,7 +12,7 @@
 			<input type="submit" value="削除">
 		</form>
 		<p>
-			<a href="ClassList.action">戻る</a>
+			<a href="ClassNumList.action">戻る</a>
 		</p>
 	</c:param>
 </c:import>

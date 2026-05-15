@@ -314,4 +314,44 @@ public class StaffDao extends Dao {
 			return false;
 		}
 	}
+	public boolean update(Staff staff) throws Exception {
+	    Connection connection = getConnection();
+	    PreparedStatement statement = null;
+	    int count = 0;
+
+	    String sql = """
+	        UPDATE staff
+	        SET
+	            last_name = ?,
+	            first_name = ?,
+	            last_name_kana = ?,
+	            first_name_kana = ?,
+	            position_id = ?,
+	            status_id = ?
+	        WHERE
+	            no = ? AND school_cd = ?
+	        """;
+
+	    try {
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setString(1, staff.getLastName());
+	        statement.setString(2, staff.getFirstName());
+	        statement.setString(3, staff.getLastNameKana());
+	        statement.setString(4, staff.getFirstNameKana());
+	        statement.setInt(5, staff.getPosition().getId());
+	        statement.setInt(6, staff.getStatus().getId());
+	        statement.setString(7, staff.getNo());
+	        statement.setString(8, staff.getSchool().getCd());
+
+	        count = statement.executeUpdate();
+
+	    } finally {
+	        if (statement != null) statement.close();
+	        if (connection != null) connection.close();
+	    }
+
+	    return count > 0;
+	}
+
 }

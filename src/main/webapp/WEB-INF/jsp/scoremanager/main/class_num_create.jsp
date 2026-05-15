@@ -4,7 +4,7 @@
 	<c:param name="title">クラス情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="ClassCreateExecute.action" method="post" class="px-4">
+		<form action="ClassNumCreateExecute.action" method="post" class="px-4">
 			<div class="mb-3">
 				<label class="form-label">クラス番号</label>
 				<input type="text" name="class_num" value="${class_num}" class="form-control" maxlength="3" placeholder="クラス番号を入力してください" required>
@@ -16,7 +16,7 @@
 				<button type="submit" class="btn btn-secondary">登録</button>
 			</div>
 			<div class="mt-3">
-				<a href="ClassList.action">戻る</a>
+				<a href="ClassNumList.action">戻る</a>
 			</div>
 		</form>
 	</c:param>

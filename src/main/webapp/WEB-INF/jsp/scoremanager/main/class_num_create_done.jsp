@@ -7,8 +7,8 @@
 		<c:import url="/WEB-INF/jsp/common/done.jsp">
 			<c:param name="successMessage">登録が完了しました</c:param>
 			<c:param name="nextStepLinks">
-				<a href="ClassCreate.action" class="text-decoration-underline">戻る</a>
-				<a href="ClassList.action" class="text-decoration-underline">クラス一覧</a>
+				<a href="ClassNumCreate.action" class="text-decoration-underline">戻る</a>
+				<a href="ClassNumList.action" class="text-decoration-underline">クラス一覧</a>
 			</c:param>
 		</c:import>
 	</c:param>

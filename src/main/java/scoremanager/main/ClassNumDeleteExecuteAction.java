@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-public class ClassDeleteExecuteAction extends Action {
+public class ClassNumDeleteExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
@@ -27,7 +27,7 @@ public class ClassDeleteExecuteAction extends Action {
 			errors.put("invalid", "クラスが存在していません");
 			req.setAttribute("errors", errors);
 			req.setAttribute("class_num", classNum);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_delete.jsp").forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_delete.jsp").forward(req, res);
 			return;
 		}
 
@@ -38,7 +38,7 @@ public class ClassDeleteExecuteAction extends Action {
 			errors.put("has_student", "クラスのなかに生徒が存在しているため削除できません");
 			req.setAttribute("errors", errors);
 			req.setAttribute("class_num", classNum);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_delete.jsp").forward(req, res);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_delete.jsp").forward(req, res);
 			return;
 		}
 
@@ -47,6 +47,6 @@ public class ClassDeleteExecuteAction extends Action {
 		classNum2.setSchool(school);
 		classNumDao.delete(classNum2);
 
-		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassDeleteDone.action");
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassNumDeleteDone.action");
 	}
 }
