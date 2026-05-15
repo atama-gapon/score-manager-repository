@@ -11,6 +11,7 @@
 				<a href="StaffCreate.action">新規登録</a>
 			</c:if>
 		</div>
+		<!--
 		<form method="get">
 			<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-light" id="filter">
 				<div class="col-md-3">
@@ -43,9 +44,10 @@
 				</c:if>
 			</div>
 		</form>
+		-->
 		<c:choose>
 			<c:when test="${ staff_list.size() > 0 }">
-				<div>検索結果：${ staff_list.size() }件</div>
+				<!-- <div>検索結果：${ staff_list.size() }件</div>-->
 				<table class="table table-hover">
 					<tr>
 						<th>職員番号</th>
