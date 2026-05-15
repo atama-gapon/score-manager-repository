@@ -15,7 +15,7 @@
 								<label class="form-label small mb-1" for="f1">入学年度</label>
 								<select class="form-select form-select-sm" name="f1" id="f1">
 									<option value="0">----------</option>
-									<c:forEach var="year" items="${ent_year_set}">
+									<c:forEach var="year" items="${ent_year_list}">
 										<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
 									</c:forEach>
 								</select>
@@ -24,7 +24,7 @@
 								<label class="form-label small mb-1" for="f2">クラス</label>
 								<select class="form-select form-select-sm" name="f2" id="f2">
 									<option value="0">----------</option>
-									<c:forEach var="num" items="${class_num_set}">
+									<c:forEach var="num" items="${class_num_list}">
 										<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
 									</c:forEach>
 								</select>

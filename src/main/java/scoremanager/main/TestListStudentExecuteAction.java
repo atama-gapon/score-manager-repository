@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -41,18 +39,12 @@ public class TestListStudentExecuteAction extends Action {
 		// 科目コードに合致するデータを取得
 		List<Subject> subjects = subjectDao.filter(school);
 		// 入学年度リストを生成
-		LocalDate todaysDate = LocalDate.now();
-		int year = todaysDate.getYear();
-		// 10年前から1年後までをリストに追加
-		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
-		}
+		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
-		req.setAttribute("class_num_set", cNumSet);
+		req.setAttribute("class_num_list", cNumSet);
 		req.setAttribute("subjects", subjects);
-		req.setAttribute("ent_year_set", entYearSet);
+		req.setAttribute("ent_year_list", entYearList);
 
 		req.setAttribute("f4", no);
 		// 入力欄に取得したデータを初期値としてセットし、一覧で表示する

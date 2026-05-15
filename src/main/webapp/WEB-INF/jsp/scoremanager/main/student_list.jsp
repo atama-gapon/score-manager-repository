@@ -5,8 +5,8 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
-			<a href="StudentBatchExport.action" class="me-3">学生情報取得</a>
-			<a href="StudentBulk.action" class="me-3">一括登録</a>
+			<a href="StudentBatchExport.action" class="me-3">CSV出力</a>
+			<a href="StudentBulk.action" class="me-3">CSV取込</a>
 			<a href="StudentCreate.action">新規登録</a>
 		</div>
 		<form method="get">
@@ -15,7 +15,7 @@
 					<label class="form-label" for="ent_year">入学年度</label>
 					<select class="form-select" id="ent_year" name="ent_year">
 						<option value="0">--------</option>
-						<c:forEach var="year" items="${ ent_year_set }">
+						<c:forEach var="year" items="${ ent_year_list }">
 							<option value="${ year }" <c:if test="${ year==ent_year }">selected</c:if>>${ year }</option>
 						</c:forEach>
 					</select>
@@ -24,7 +24,7 @@
 					<label class="form-label" for="class_num">クラス</label>
 					<select class="form-select" id="class_num" name="class_num">
 						<option value="0">--------</option>
-						<c:forEach var="num" items="${ class_num_set }">
+						<c:forEach var="num" items="${ class_num_list }">
 							<option value="${ num }" <c:if test="${ num eq class_num }">selected</c:if>>${ num }</option>
 						</c:forEach>
 					</select>
@@ -44,8 +44,8 @@
 			</div>
 		</form>
 		<c:choose>
-			<c:when test="${ student_set.size() > 0 }">
-				<div>検索結果：${ student_set.size() }件</div>
+			<c:when test="${ student_list.size() > 0 }">
+				<div>検索結果：${ student_list.size() }件</div>
 				<table class="table table-hover">
 					<tr>
 						<th>入学年度</th>
@@ -55,7 +55,7 @@
 						<th class="text-center">在学中</th>
 						<th></th>
 					</tr>
-					<c:forEach var="student" items="${ student_set }">
+					<c:forEach var="student" items="${ student_list }">
 						<tr>
 							<td>${ student.entYear }</td>
 							<td>${ student.no }</td>

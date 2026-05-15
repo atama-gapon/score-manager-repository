@@ -86,14 +86,14 @@ public class TestRegistExecuteAction extends Action {
 				// セットアップ処理（ループの外に出す！）
 				java.time.LocalDate todaysDate = java.time.LocalDate.now();
 				int year = todaysDate.getYear();
-				List<Integer> entYearSet = new ArrayList<>();
+				List<Integer> entYearList = new ArrayList<>();
 				for (int i = year - 10; i <= year + 1; i++) {
-					entYearSet.add(i);
+					entYearList.add(i);
 				}
-				req.setAttribute("ent_year_set", entYearSet);
+				req.setAttribute("ent_year_list", entYearList);
 				ClassNumDao classNumDao = new ClassNumDao();
-				req.setAttribute("class_num_set", classNumDao.filter(school));
-				req.setAttribute("subject_set", subjectDao.filter(school));
+				req.setAttribute("class_num_list", classNumDao.filter(school));
+				req.setAttribute("subject_list", subjectDao.filter(school));
 				req.setAttribute("tests", testList);
 				req.setAttribute("f1", entYear);
 				req.setAttribute("f2", classNum);

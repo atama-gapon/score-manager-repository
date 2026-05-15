@@ -48,20 +48,20 @@ public class StudentCreateExecuteAction extends Action {
 		if (!errors.isEmpty()) {
 			LocalDate today = LocalDate.now();
 			int year = today.getYear();
-			List<Integer> entYearSet = new ArrayList<>();
+			List<Integer> entYearList = new ArrayList<>();
 			for (int i = year - 10; i <= year + 1; i++) {
-				entYearSet.add(i);
+				entYearList.add(i);
 			}
 
 			ClassNumDao cNumDao = new ClassNumDao();
-			List<String> classNumSet = cNumDao.filter(school);
+			List<String> classNumList = cNumDao.filter(school);
 
 			req.setAttribute("ent_year", entYear);
 			req.setAttribute("no", no);
 			req.setAttribute("name", name);
 			req.setAttribute("class_num", classNum);
-			req.setAttribute("ent_year_set", entYearSet);
-			req.setAttribute("class_num_set", classNumSet);
+			req.setAttribute("ent_year_list", entYearList);
+			req.setAttribute("class_num_list", classNumList);
 			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_create.jsp").forward(req, res);
 			return;

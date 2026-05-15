@@ -58,16 +58,16 @@ public class StudentUpdateExecuteAction extends Action {
 		LocalDate todaysDate = LocalDate.now();
 		int year = todaysDate.getYear();
 
-		List<Integer> entYearSet = new ArrayList<>();
+		List<Integer> entYearList = new ArrayList<>();
 		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
+			entYearList.add(i);
 		}
-		req.setAttribute("ent_year_set", entYearSet);
+		req.setAttribute("ent_year_list", entYearList);
 
 		// クラス一覧をセット（エラー時用）
 		ClassNumDao cNumDao = new ClassNumDao();
-		List<String> classNumSet = cNumDao.filter(school);
-		req.setAttribute("class_num_set", classNumSet);
+		List<String> classNumList = cNumDao.filter(school);
+		req.setAttribute("class_num_list", classNumList);
 
 		// Student オブジェクトに値を入れる
 		Student s = new Student();

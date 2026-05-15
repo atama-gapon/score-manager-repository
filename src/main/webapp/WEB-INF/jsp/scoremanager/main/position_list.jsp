@@ -36,10 +36,6 @@
 			<c:otherwise>
 				<div>役職情報が存在しませんでした。</div>
 			</c:otherwise>
-			
 		</c:choose>
-		<div class="mt-3">
-				<a href="StaffList.action">戻る</a>
-			</div>
 	</c:param>
 </c:import>

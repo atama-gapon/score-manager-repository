@@ -17,9 +17,9 @@ public class SubjectListAction extends Action {
 
 		// 【セッションのユーザーデータから、ユーザーが所属している学校の科目一覧用データを取得】
 		SubjectDao sDao = new SubjectDao();
-		List<Subject> subjectSet = sDao.filter(school);
+		List<Subject> subjectList = sDao.filter(school);
 
-		req.setAttribute("subjects", subjectSet);
+		req.setAttribute("subjects", subjectList);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_list.jsp").forward(req, res);
 	}
 }

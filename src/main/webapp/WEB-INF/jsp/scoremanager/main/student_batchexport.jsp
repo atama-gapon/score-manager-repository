@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
-	<c:param name="title">得点管理システム</c:param>
+	<c:param name="title">学生情報CSV出力</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">学生情報一括保存（CSVダウンロード）</h2>
 			<div class="card-body">
 				<p class="text-muted small">
 					 学籍番号, 氏名, 入学年度, クラス番号, 在学フラグ(true/false)の形式で保存されます。
@@ -15,7 +14,7 @@
 							<label class="form-label" for="student-f1-select">入学年度</label>
 							<select class="form-select" id="student-f1-select" name="f1" required>
 								<option value="">--------</option>
-								<c:forEach var="year" items="${ ent_year_set }">
+								<c:forEach var="year" items="${ ent_year_list }">
 									<option value="${ year }" <c:if test="${ year==f1 }">selected</c:if>>${ year }</option>
 								</c:forEach>
 							</select>
@@ -24,7 +23,7 @@
 							<label class="form-label" for="student-f2-select">クラス</label>
 							<select class="form-select" id="student-f2-select" name="f2" required>
 								<option value="">--------</option>
-								<c:forEach var="num" items="${ class_num_set }">
+								<c:forEach var="num" items="${ class_num_list }">
 									<option value="${ num }" <c:if test="${ num==f2 }">selected</c:if>>${ num }</option>
 								</c:forEach>
 							</select>
@@ -32,7 +31,7 @@
 						<div class="col-md-3 pb-2">
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="student-f3-check" name="f3" value="t" <c:if test="${ f3 }">checked</c:if>>
-								<label class="form-check-label" for="student-f3-check">在学中のみ</label>
+								<label class="form-check-label" for="student-f3-check">在学中</label>
 							</div>
 						</div>
 						<div class="col-md-3 d-grid">

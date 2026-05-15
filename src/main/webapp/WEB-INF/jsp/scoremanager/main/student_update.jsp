@@ -40,7 +40,7 @@
 			<div class="mb-3">
 				<label class="form-label">クラス</label>
 				<select class="form-select" name="class_num">
-					<c:forEach var="c" items="${class_num_set}">
+					<c:forEach var="c" items="${class_num_list}">
 						<!-- 今のクラスなら selected -->
 						<option value="${c}" <c:if test="${c == student.classNum}">selected</c:if>>${c}</option>
 					</c:forEach>

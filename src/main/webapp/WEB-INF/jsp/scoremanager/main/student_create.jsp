@@ -9,7 +9,7 @@
 				<label class="form-label">入学年度</label>
 				<select name="ent_year" class="form-select">
 					<option value="">--------</option>
-					<c:forEach var="y" items="${ent_year_set}">
+					<c:forEach var="y" items="${ent_year_list}">
 						<option value="${y}" <c:if test="${y == ent_year}">selected</c:if>>${y}</option>
 					</c:forEach>
 				</select>
@@ -35,7 +35,7 @@
 				<label class="form-label">クラス</label>
 				<select name="class_num" class="form-select" required>
 					<option value="">--------</option>
-					<c:forEach var="c" items="${class_num_set}">
+					<c:forEach var="c" items="${class_num_list}">
 						<option value="${c}" <c:if test="${c == class_num}">selected</c:if>>${c}</option>
 					</c:forEach>
 				</select>

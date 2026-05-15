@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -9,6 +7,7 @@ import bean.Staff;
 import bean.Subject;
 import bean.TestListSubject;
 import dao.ClassNumDao;
+import dao.StudentDao;
 import dao.SubjectDao;
 import dao.TestListSubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,17 +27,14 @@ public class TestListSubjectExecuteAction extends Action {
 		if (entYearStr.equals("0") || classNum.equals("0") || subjectCd.equals("0")) {
 			req.setAttribute("message", "入学年度とクラスと科目を選択してください");
 			ClassNumDao cDao = new ClassNumDao();
-			req.setAttribute("class_num_set", cDao.filter(school));
+			req.setAttribute("class_num_list", cDao.filter(school));
 
 			SubjectDao sDao = new SubjectDao();
 			req.setAttribute("subjects", sDao.filter(school));
 
-			List<Integer> entYearSet = new ArrayList<>();
-			int year = LocalDate.now().getYear();
-			for (int i = year - 10; i <= year + 1; i++) {
-				entYearSet.add(i);
-			}
-			req.setAttribute("ent_year_set", entYearSet);
+			StudentDao studentDao = new StudentDao();
+			List<Integer> entYearList = studentDao.getEntYearList(school);
+			req.setAttribute("ent_year_list", entYearList);
 			req.setAttribute("f1", entYearStr);
 			req.setAttribute("f2", classNum);
 			req.setAttribute("f3", subjectCd);
@@ -59,18 +55,13 @@ public class TestListSubjectExecuteAction extends Action {
 		// 科目コードに合致するデータを取得
 		List<Subject> subjects = subjectDao.filter(school);
 		// 入学年度リストを生成
-		LocalDate todaysDate = LocalDate.now();
-		int year = todaysDate.getYear();
-		// 10年前から1年後までをリストに追加
-		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
-		}
+		StudentDao studentDao = new StudentDao();
+		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
-		req.setAttribute("class_num_set", cNumSet);
+		req.setAttribute("class_num_list", cNumSet);
 		req.setAttribute("subjects", subjects);
-		req.setAttribute("ent_year_set", entYearSet);
+		req.setAttribute("ent_year_list", entYearList);
 
 		req.setAttribute("f1", entYearStr);
 		req.setAttribute("f2", classNum);

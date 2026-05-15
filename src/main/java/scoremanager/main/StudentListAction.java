@@ -22,7 +22,7 @@ public class StudentListAction extends Action {
 		// 初期化
 		ClassNumDao classNumDao = new ClassNumDao();
 		StudentDao studentDao = new StudentDao();
-		List<Student> studentSet = new ArrayList<>();
+		List<Student> studentList = new ArrayList<>();
 		Map<String, String> errors = new HashMap<>();
 		boolean isClassNumSelected = false;
 		boolean isEntYearSelected = false;
@@ -33,16 +33,16 @@ public class StudentListAction extends Action {
 		String classNum = req.getParameter("class_num");
 		String isAttendStr = req.getParameter("is_attend");
 
-		List<String> classNumSet = classNumDao.filter(school);
-		List<Integer> entYearSet = studentDao.getEntYearList(school);
+		List<String> classNumList = classNumDao.filter(school);
+		List<Integer> entYearList = studentDao.getEntYearList(school);
 
-		req.setAttribute("class_num_set", classNumSet);
-		req.setAttribute("ent_year_set", entYearSet);
+		req.setAttribute("class_num_list", classNumList);
+		req.setAttribute("ent_year_list", entYearList);
 
 		// 初回アクセス
 		if (classNum == null || entYearStr == null) {
-			studentSet = studentDao.filter(school, isAttend);
-			req.setAttribute("student_set", studentSet);
+			studentList = studentDao.filter(school, isAttend);
+			req.setAttribute("student_list", studentList);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
 			return;
 		}
@@ -77,15 +77,15 @@ public class StudentListAction extends Action {
 
 		// 検索条件
 		if (isClassNumSelected && isEntYearSelected) {
-			studentSet = studentDao.filter(school, entYear, classNum, isAttend);
+			studentList = studentDao.filter(school, entYear, classNum, isAttend);
 		} else if (isEntYearSelected) {
-			studentSet = studentDao.filter(school, entYear, isAttend);
+			studentList = studentDao.filter(school, entYear, isAttend);
 		} else {
-			studentSet = studentDao.filter(school, isAttend);
+			studentList = studentDao.filter(school, isAttend);
 		}
 
 		req.setAttribute("errors", errors);
-		req.setAttribute("student_set", studentSet);
+		req.setAttribute("student_list", studentList);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
 	}

@@ -1,6 +1,5 @@
 package scoremanager.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -8,6 +7,7 @@ import bean.Staff;
 import bean.Subject;
 import bean.Test;
 import dao.ClassNumDao;
+import dao.StudentDao;
 import dao.SubjectDao;
 import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,23 +21,20 @@ public class TestRegistAction extends Action {
 
 		// ユーザーが所属している学校のクラスデータを取得
 		ClassNumDao classNumDao = new ClassNumDao();
-		List<String> classNumSet = classNumDao.filter(school);
+		List<String> classNumList = classNumDao.filter(school);
 
 		// ユーザーが所属している学校の科目データを取得
 		SubjectDao subjectDao = new SubjectDao();
-		List<Subject> subjectSet = subjectDao.filter(school);
+		List<Subject> subjectList = subjectDao.filter(school);
 
 		// 入学年度
-		java.time.LocalDate todaysDate = java.time.LocalDate.now();
-		int year = todaysDate.getYear();
-		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
-		}
+		StudentDao studentDao = new StudentDao();
+		List<Integer> entYearList = studentDao.getEntYearList(school);
 
-		req.setAttribute("class_num_set", classNumSet);
-		req.setAttribute("subject_set", subjectSet);
-		req.setAttribute("ent_year_set", entYearSet);
+
+		req.setAttribute("class_num_list", classNumList);
+		req.setAttribute("subject_list", subjectList);
+		req.setAttribute("ent_year_list", entYearList);
 
 		//　検索ボタンか登録ボタンが押されたかチェック
 		if (req.getParameter("search") != null || req.getParameter("regist") != null) {
@@ -49,10 +46,8 @@ public class TestRegistAction extends Action {
 			String numStr = req.getParameter("f4");
 
 			// 入学年度、クラス、科目、回数のいずれかが未入力の場合
-			if (entYearStr == null || entYearStr.isEmpty() ||
-					classNum == null || classNum.isEmpty() ||
-					subjectCd == null || subjectCd.equals("0") ||
-					numStr == null || numStr.equals("0")) {
+			if (entYearStr == null || entYearStr.isEmpty() || classNum == null || classNum.isEmpty()
+					|| subjectCd == null || subjectCd.equals("0") || numStr == null || numStr.equals("0")) {
 				req.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
 				req.setAttribute("f1", entYearStr);
 				req.setAttribute("f2", classNum);

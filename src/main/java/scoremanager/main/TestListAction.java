@@ -1,13 +1,12 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
 import bean.Staff;
 import bean.Subject;
 import dao.ClassNumDao;
+import dao.StudentDao;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,18 +26,13 @@ public class TestListAction extends Action {
 		// 科目コードに合致するデータを取得
 		List<Subject> subjects = sDao.filter(school);
 		// 入学年度リストを生成
-		LocalDate todaysDate = LocalDate.now();
-		int year = todaysDate.getYear();
-		// 10年前から1年後までをリストに追加
-		List<Integer> entYearSet = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearSet.add(i);
-		}
+		StudentDao studentDao = new StudentDao();
+		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
-		req.setAttribute("class_num_set", cNumSet);
+		req.setAttribute("class_num_list", cNumSet);
 		req.setAttribute("subjects", subjects);
-		req.setAttribute("ent_year_set", entYearSet);
+		req.setAttribute("ent_year_list", entYearList);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);
 		;
 	}
