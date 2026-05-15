@@ -61,7 +61,8 @@
 							<td>${ staff.lastNameKana }&nbsp;${ staff.firstNameKana }</td>
 							<td>${ staff.position.name }</td>
 							<td>${ staff.status.name }</td>
-							<td><a href="StaffUpdate.action?cd=${ staff.no }">変更</a></td>
+							<td><a href="StaffUpdate.action?no=${staff.no}">変更</a>
+</td>
 							<td><a href="StaffDelete.action?cd=${ staff.no }">削除</a></td>
 						</tr>
 					</c:forEach>
