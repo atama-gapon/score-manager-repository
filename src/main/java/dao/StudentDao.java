@@ -331,16 +331,21 @@ public class StudentDao extends Dao {
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
+		PreparedStatement classSt = null;
+		
+		
+		
 		String line;
 		int count = 0;
 		// SQLのパラメータ順序に合わせて整理
+		String classSql = "insert into class_num (school_cd, class_num) select ?, ? where not exists (select 1 from class_num where school_cd = ? and class_num = ?)";
 		String sql = "insert into student(school_cd, no, name, ent_year, class_num, is_attend) values(?, ?, ?, ?, ?, ?)";
 
 		try {
 			// オートコミットをオフにしてトランザクション開始
 			connection.setAutoCommit(false);
 			statement = connection.prepareStatement(sql);
-
+			classSt = connection.prepareStatement(classSql);
 			while ((line = br.readLine()) != null) {
 				// 空行をスキップ
 				if (line.trim().isEmpty())
@@ -357,6 +362,11 @@ public class StudentDao extends Dao {
 				if (!attend.equals("true") && !attend.equals("false")) {
 					throw new Exception("在学フラグを正しい形で入力してください。(true/false)");
 				}
+				classSt.setString(1, schoolCd);
+	            classSt.setString(2, data[3].trim());
+	            classSt.setString(3, schoolCd);
+	            classSt.setString(4, data[3].trim());
+	            classSt.executeUpdate();
 
 				statement.setString(1, schoolCd);
 				statement.setString(2, data[0].trim()); // 学籍番号

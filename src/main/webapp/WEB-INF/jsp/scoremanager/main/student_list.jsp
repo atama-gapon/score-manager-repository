@@ -10,8 +10,8 @@
 			<a href="StudentCreate.action">新規登録</a>
 		</div>
 		<form method="get">
-			<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-light" id="filter">
-				<div class="col-md-3">
+			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
+				<div class="col-4">
 					<label class="form-label" for="ent_year">入学年度</label>
 					<select class="form-select" id="ent_year" name="ent_year">
 						<option value="0">--------</option>
@@ -20,7 +20,7 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-md-3">
+				<div class="col-4">
 					<label class="form-label" for="class_num">クラス</label>
 					<select class="form-select" id="class_num" name="class_num">
 						<option value="0">--------</option>
@@ -29,13 +29,13 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-md-3 pb-2">
+				<div class="col-2 py-3">
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" id="is_attend" name="is_attend" value="true" <c:if test="${ is_attend }">checked</c:if>>
 						<label class="form-check-label" for=is_attend">在学中</label>
 					</div>
 				</div>
-				<div class="col-md-3 d-grid">
+				<div class="col-2 py-3 text-center">
 					<button type="submit" class="btn btn-secondary" id="filter-button">絞込み</button>
 				</div>
 				<c:if test="${not empty errors.get('ent_year')}">
