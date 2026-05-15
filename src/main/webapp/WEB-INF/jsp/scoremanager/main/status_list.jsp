@@ -6,7 +6,9 @@
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
 			<a href="StatusCreate.action">新規登録</a>
+			
 		</div>
+		
 		<c:choose>
 			<c:when test="${ status_list.size() > 0 }">
 				<div>検索結果：${ status_list.size() }件</div>
@@ -30,6 +32,11 @@
 			<c:otherwise>
 				<div>状態情報が存在しませんでした。</div>
 			</c:otherwise>
+			
+			
 		</c:choose>
+		<div class="mt-3">
+				<a href="StaffList.action">戻る</a>
+			</div>
 	</c:param>
 </c:import>
