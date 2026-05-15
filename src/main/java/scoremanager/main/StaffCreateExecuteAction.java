@@ -110,7 +110,7 @@ public class StaffCreateExecuteAction extends Action {
 //
 //		// エラーがある場合は入力画面へ戻す
 //		if (!errors.isEmpty()) {
-//			List<Position> positionSet = positionDao.filter(school);
+//			List<Position> positionList = positionDao.filter(school);
 //			List<Status> statusSet = statusDao.filter(school);
 //
 //			req.setAttribute("no", no);
@@ -120,7 +120,7 @@ public class StaffCreateExecuteAction extends Action {
 //			req.setAttribute("first_name_kana", firstNameKana);
 //			req.setAttribute("position_id", positionId);
 //			req.setAttribute("status_id", statusId);
-//			req.setAttribute("position_list", positionSet);
+//			req.setAttribute("position_list", positionList);
 //			req.setAttribute("status_list", statusSet);
 //			req.setAttribute("errors", errors);
 //

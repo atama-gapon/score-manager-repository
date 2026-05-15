@@ -7,7 +7,9 @@
 		<div class="my-2 text-end px-4">
 			<a href="PositionList.action" class="me-3">役職管理</a>
 			<a href="StatusList.action" class="me-3">状態管理</a>
-			<a href="StaffCreate.action">新規登録</a>
+			<c:if test="${staff.position.name eq '管理者'}">
+				<a href="StaffCreate.action">新規登録</a>
+			</c:if>
 		</div>
 		<form method="get">
 			<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-light" id="filter">
@@ -51,18 +53,22 @@
 						<th>氏名（カナ）</th>
 						<th>役職</th>
 						<th>状態</th>
-						<th></th>
-						<th></th>
+						<c:if test="${staff.position.name eq '管理者'}">
+							<th></th>
+							<th></th>
+						</c:if>
 					</tr>
-					<c:forEach var="staff" items="${ staff_list }">
+					<c:forEach var="s" items="${ staff_list }">
 						<tr>
-							<td>${ staff.no }</td>
-							<td>${ staff.lastName }&nbsp;${ staff.firstName }</td>
-							<td>${ staff.lastNameKana }&nbsp;${ staff.firstNameKana }</td>
-							<td>${ staff.position.name }</td>
-							<td>${ staff.status.name }</td>
-							<td><a href="StaffUpdate.action?cd=${ staff.no }">変更</a></td>
-							<td><a href="StaffDelete.action?cd=${ staff.no }">削除</a></td>
+							<td>${ s.no }</td>
+							<td>${ s.lastName }&nbsp;${ s.firstName }</td>
+							<td>${ s.lastNameKana }&nbsp;${ s.firstNameKana }</td>
+							<td>${ s.position.name }</td>
+							<td>${ s.status.name }</td>
+							<c:if test="${staff.position.name eq '管理者'}">
+								<td><a href="StaffUpdate.action?cd=${ s.no }">変更</a></td>
+								<td><a href="StaffDelete.action?cd=${ s.no }">削除</a></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>

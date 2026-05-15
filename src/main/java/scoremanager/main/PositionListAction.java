@@ -16,9 +16,9 @@ public class PositionListAction extends Action {
 		School school = staff.getSchool();
 
 		PositionDao dao = new PositionDao();
-		List<Position> positionSet = dao.filter(school);
+		List<Position> positionList = dao.filter(school);
 
-		req.setAttribute("position_set", positionSet);
+		req.setAttribute("position_list", positionList);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_list.jsp").forward(req, res);
 	}
