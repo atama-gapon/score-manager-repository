@@ -163,12 +163,6 @@ public class TestDao extends Dao {
 	// 一括保存
 	private boolean save(Test test, Connection connection) throws Exception {
 		PreparedStatement statement = null;
-		
-		
-		statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
-		statement.setString(1, test.getClassNum());
-		statement.setString(2, test.getSchool().getCd());
-		statement.executeUpdate();
 		try {
 			statement = connection.prepareStatement(
 					"update test set point = ?, marker_staff_no = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?");
