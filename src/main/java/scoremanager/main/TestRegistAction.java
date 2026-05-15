@@ -40,18 +40,18 @@ public class TestRegistAction extends Action {
 		if (req.getParameter("search") != null || req.getParameter("regist") != null) {
 			req.setAttribute("message_over", null);
 
-			String entYearStr = req.getParameter("f1");
-			String classNum = req.getParameter("f2");
-			String subjectCd = req.getParameter("f3");
+			String entYearStr = req.getParameter("ent_year");
+			String classNum = req.getParameter("class_num");
+			String subjectCd = req.getParameter("is_attend");
 			String numStr = req.getParameter("f4");
 
 			// 入学年度、クラス、科目、回数のいずれかが未入力の場合
 			if (entYearStr == null || entYearStr.isEmpty() || classNum == null || classNum.isEmpty()
 					|| subjectCd == null || subjectCd.equals("0") || numStr == null || numStr.equals("0")) {
 				req.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
-				req.setAttribute("f1", entYearStr);
-				req.setAttribute("f2", classNum);
-				req.setAttribute("f3", subjectCd);
+				req.setAttribute("ent_year", entYearStr);
+				req.setAttribute("class_num", classNum);
+				req.setAttribute("is_attend", subjectCd);
 				req.setAttribute("f4", numStr);
 				req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_regist.jsp").forward(req, res);
 				return;
@@ -65,9 +65,9 @@ public class TestRegistAction extends Action {
 			//条件に合致する成績リストを取得
 			List<Test> test = testDao.filter(entYear, classNum, subject, num, school);
 
-			req.setAttribute("f1", entYearStr);
-			req.setAttribute("f2", classNum);
-			req.setAttribute("f3", subjectCd);
+			req.setAttribute("ent_year", entYearStr);
+			req.setAttribute("class_num", classNum);
+			req.setAttribute("is_attend", subjectCd);
 			req.setAttribute("f4", numStr);
 			req.setAttribute("tests", test);
 			req.setAttribute("num", num);

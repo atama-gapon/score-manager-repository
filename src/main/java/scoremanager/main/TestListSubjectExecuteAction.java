@@ -20,9 +20,9 @@ public class TestListSubjectExecuteAction extends Action {
 		School school = staff.getSchool();
 
 		// 入力内容のチェック
-		String entYearStr = req.getParameter("f1");
-		String classNum = req.getParameter("f2");
-		String subjectCd = req.getParameter("f3");
+		String entYearStr = req.getParameter("ent_year");
+		String classNum = req.getParameter("class_num");
+		String subjectCd = req.getParameter("is_attend");
 
 		if (entYearStr.equals("0") || classNum.equals("0") || subjectCd.equals("0")) {
 			req.setAttribute("message", "入学年度とクラスと科目を選択してください");
@@ -35,9 +35,9 @@ public class TestListSubjectExecuteAction extends Action {
 			StudentDao studentDao = new StudentDao();
 			List<Integer> entYearList = studentDao.getEntYearList(school);
 			req.setAttribute("ent_year_list", entYearList);
-			req.setAttribute("f1", entYearStr);
-			req.setAttribute("f2", classNum);
-			req.setAttribute("f3", subjectCd);
+			req.setAttribute("ent_year", entYearStr);
+			req.setAttribute("class_num", classNum);
+			req.setAttribute("is_attend", subjectCd);
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);
 			return;
 		}
@@ -63,9 +63,9 @@ public class TestListSubjectExecuteAction extends Action {
 		req.setAttribute("subjects", subjects);
 		req.setAttribute("ent_year_list", entYearList);
 
-		req.setAttribute("f1", entYearStr);
-		req.setAttribute("f2", classNum);
-		req.setAttribute("f3", subjectCd);
+		req.setAttribute("ent_year", entYearStr);
+		req.setAttribute("class_num", classNum);
+		req.setAttribute("is_attend", subjectCd);
 
 		// 入学年度、クラス、科目に合致するデータを取得
 		TestListSubjectDao tDao = new TestListSubjectDao();

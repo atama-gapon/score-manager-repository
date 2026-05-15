@@ -6,10 +6,11 @@ public class Test implements Serializable {
 	private Student student;
 	private String classNum;
 	private String subject;
-	private String marker_staff_no;
+	//	private String marker_staff_no;
 	private int no;
 	private int point;
 
+	private Staff markerStaff;
 	private School school;
 
 	public Student getStudent() {
@@ -40,12 +41,20 @@ public class Test implements Serializable {
 		return school;
 	}
 
-	public void setMarker_staff_no(String marker_staff_no) {
-		this.marker_staff_no = marker_staff_no;
+	//	public void setMarker_staff_no(String marker_staff_no) {
+	//		this.marker_staff_no = marker_staff_no;
+	//	}
+	//
+	//	public String getMarker_staff_no() {
+	//		return marker_staff_no;
+	//	}
+
+	public Staff getMarkerStaff() {
+		return markerStaff;
 	}
 
-	public String getMarker_staff_no() {
-		return marker_staff_no;
+	public void setMarkerStaff(Staff markerStaff) {
+		this.markerStaff = markerStaff;
 	}
 
 	public void setSchool(School school) {

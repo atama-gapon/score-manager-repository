@@ -89,7 +89,8 @@ public class TestDao extends Dao {
 				tNo = rSet.getInt("filter_num");
 			}
 			test.setNo(tNo);
-			test.setMarker_staff_no(rSet.getString("marker_staff_no"));
+			StaffDao staffDao = new StaffDao();
+			test.setMarkerStaff(staffDao.get(rSet.getString("marker_staff_no"), school));
 			test.setPoint(rSet.getInt("point"));
 			test.setClassNum(rSet.getString("class_num"));
 			test.setSchool(school);
@@ -167,7 +168,7 @@ public class TestDao extends Dao {
 			statement = connection.prepareStatement(
 					"update test set point = ?, marker_staff_no = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?");
 			statement.setInt(1, test.getPoint());
-			statement.setString(2, test.getMarker_staff_no());
+			statement.setString(2, test.getMarkerStaff().getNo());
 			statement.setString(3, test.getStudent().getNo());
 			statement.setString(4, test.getSubject());
 			statement.setInt(5, test.getNo());
@@ -183,7 +184,7 @@ public class TestDao extends Dao {
 				statement.setString(3, test.getSchool().getCd());
 				statement.setInt(4, test.getNo());
 				statement.setInt(5, test.getPoint());
-				statement.setString(6, test.getMarker_staff_no());
+				statement.setString(6, test.getMarkerStaff().getNo());
 				
 				statement.executeUpdate();
 			}

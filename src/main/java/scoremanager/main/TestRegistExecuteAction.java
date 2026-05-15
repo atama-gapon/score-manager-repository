@@ -19,9 +19,9 @@ public class TestRegistExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		String entYearStr = req.getParameter("f1");
-		String classNum = req.getParameter("f2");
-		String subjectcd = req.getParameter("f3");
+		String entYearStr = req.getParameter("ent_year");
+		String classNum = req.getParameter("class_num");
+		String subjectcd = req.getParameter("is_attend");
 		String numStr = req.getParameter("f4");
 
 		int entYear = Integer.parseInt(entYearStr);
@@ -68,7 +68,7 @@ public class TestRegistExecuteAction extends Action {
 						} else {
 							if (p != oldPoint) {
 								testList.get(i).setPoint(p);
-								testList.get(i).setMarker_staff_no(staff.getNo()); // 自分を採点者にする
+								testList.get(i).setMarkerStaff(staff);
 								saveList.add(testList.get(i));
 							}
 						}
@@ -95,9 +95,9 @@ public class TestRegistExecuteAction extends Action {
 				req.setAttribute("class_num_list", classNumDao.filter(school));
 				req.setAttribute("subject_list", subjectDao.filter(school));
 				req.setAttribute("tests", testList);
-				req.setAttribute("f1", entYear);
-				req.setAttribute("f2", classNum);
-				req.setAttribute("f3", subjectcd);
+				req.setAttribute("ent_year", entYear);
+				req.setAttribute("class_num", classNum);
+				req.setAttribute("is_attend", subjectcd);
 				req.setAttribute("f4", numStr);
 				req.setAttribute("num", num);
 				req.setAttribute("subject", subject);
@@ -108,9 +108,9 @@ public class TestRegistExecuteAction extends Action {
 				// エラーがない場合：保存して完了画面へ
 				testDao.save(saveList);
 
-				req.setAttribute("f1", entYearStr);
-				req.setAttribute("f2", classNum);
-				req.setAttribute("f3", subjectcd);
+				req.setAttribute("ent_year", entYearStr);
+				req.setAttribute("class_num", classNum);
+				req.setAttribute("is_attend", subjectcd);
 				req.setAttribute("f4", numStr);
 				req.setAttribute("tests", testList);
 				req.setAttribute("num", num);

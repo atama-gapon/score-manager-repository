@@ -12,38 +12,38 @@
 						<div class="text-center mt-4" style="width: 100px; flex-shrink: 0; margin-right: 20px;">科目情報</div>
 						<div class="d-flex align-items-end flex-wrap ms-4" style="gap: 15px;">
 							<div style="width: 140px;">
-								<label class="form-label small mb-1" for="f1">入学年度</label>
-								<select class="form-select form-select-sm" name="f1" id="f1">
+								<label class="form-label small mb-1" for="ent_year">入学年度</label>
+								<select class="form-select form-select-sm" name="ent_year" id="ent_year">
 									<option value="0">----------</option>
 									<c:forEach var="year" items="${ent_year_list}">
-										<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
+										<option value="${year}" <c:if test="${year == ent_year}">selected</c:if>>${year}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 120px;">
-								<label class="form-label small mb-1" for="f2">クラス</label>
-								<select class="form-select form-select-sm" name="f2" id="f2">
+								<label class="form-label small mb-1" for="class_num">クラス</label>
+								<select class="form-select form-select-sm" name="class_num" id="class_num">
 									<option value="0">----------</option>
 									<c:forEach var="num" items="${class_num_list}">
-										<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
+										<option value="${num}" <c:if test="${num == class_num}">selected</c:if>>${num}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 220px;">
-								<label class="form-label small mb-1" for="f3">科目</label>
-								<select class="form-select form-select-sm" name="f3" id="f3">
+								<label class="form-label small mb-1" for="is_attend">科目</label>
+								<select class="form-select form-select-sm" name="is_attend" id="is_attend">
 									<option value="0">----------</option>
 									<c:forEach var="subject" items="${subjects}">
-										<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
+										<option value="${subject.cd}" <c:if test="${subject.cd == is_attend}">selected</c:if>>${subject.name}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<button type="submit" class="btn btn-secondary btn-sm px-3">検索</button>
 						</div>
 					</div>
-					<input type="hidden" name="f1" value="${f1}">
-					<input type="hidden" name="f2" value="${f2}">
-					<input type="hidden" name="f3" value="${f3}">
+					<input type="hidden" name="ent_year" value="${ent_year}">
+					<input type="hidden" name="class_num" value="${class_num}">
+					<input type="hidden" name="is_attend" value="${is_attend}">
 				</form>
 				<c:if test="${not empty message}">
 					<div class=" mt-3 text-warning">${message}</div>

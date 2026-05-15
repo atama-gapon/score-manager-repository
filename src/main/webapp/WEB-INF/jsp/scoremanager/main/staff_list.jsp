@@ -39,8 +39,8 @@
 				<div class="col-md-3 d-grid">
 					<button type="submit" class="btn btn-secondary" id="filter-button">絞込み</button>
 				</div>
-				<c:if test="${not empty errors.get('f1')}">
-					<div class="col-12 mt-2 text-danger small">${ errors.get("f1") }</div>
+				<c:if test="${not empty errors.get('ent_year')}">
+					<div class="col-12 mt-2 text-danger small">${ errors.get("ent_year") }</div>
 				</c:if>
 			</div>
 		</form>

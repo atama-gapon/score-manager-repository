@@ -14,29 +14,29 @@
 						<div class="text-center mt-4" style="width: 100px; margin-right: 20px;">科目情報</div>
 						<div class="d-flex align-items-end flex-wrap ms-4" style="gap: 15px;">
 							<div style="width: 140px;">
-								<label class="form-label small mb-1" for="f1">入学年度</label>
-								<select class="form-select form-select-sm" name="f1" id="f1">
+								<label class="form-label small mb-1" for="ent_year">入学年度</label>
+								<select class="form-select form-select-sm" name="ent_year" id="ent_year">
 									<option value="0">----------</option>
 									<c:forEach var="year" items="${ent_year_list}">
-										<option value="${year}" <c:if test="${year == f1}">selected</c:if>>${year}</option>
+										<option value="${year}" <c:if test="${year == ent_year}">selected</c:if>>${year}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 120px;">
-								<label class="form-label small mb-1" for="f2">クラス</label>
-								<select class="form-select form-select-sm" name="f2" id="f2">
+								<label class="form-label small mb-1" for="class_num">クラス</label>
+								<select class="form-select form-select-sm" name="class_num" id="class_num">
 									<option value="0">----------</option>
 									<c:forEach var="num" items="${class_num_list}">
-										<option value="${num}" <c:if test="${num == f2}">selected</c:if>>${num}</option>
+										<option value="${num}" <c:if test="${num == class_num}">selected</c:if>>${num}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 220px;">
-								<label class="form-label small mb-1" for="f3">科目</label>
-								<select class="form-select form-select-sm" name="f3" id="f3">
+								<label class="form-label small mb-1" for="is_attend">科目</label>
+								<select class="form-select form-select-sm" name="is_attend" id="is_attend">
 									<option value="0">----------</option>
 									<c:forEach var="subject" items="${subjects}">
-										<option value="${subject.cd}" <c:if test="${subject.cd == f3}">selected</c:if>>${subject.name}</option>
+										<option value="${subject.cd}" <c:if test="${subject.cd == is_attend}">selected</c:if>>${subject.name}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -96,51 +96,91 @@
 						</div>
 					</div>
 					<script>
-	                    document.addEventListener("DOMContentLoaded", function() {
-	                        const ctx = document.getElementById('gradeRadarChart').getContext('2d');
-	                        
-	                    
-	                        const labels = [];
-	                        const points = [];
-	                        
-	                        <c:forEach var="item" items="${testListStudents}">
-	                        
-	                            labels.push('${item.subjectName} (${item.num}回)');
-	                            points.push(${item.point});
-	                        </c:forEach>
-	
-	                        new Chart(ctx, {
-	                            type: 'radar',
-	                            data: {
-	                                labels: labels,
-	                                datasets: [{
-	                                    label: '得点',
-	                                    data: points,
-	                                    fill: true,
-	                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-	                                    borderColor: 'rgb(54, 162, 235)',
-	                                    pointBackgroundColor: 'rgb(54, 162, 235)',
-	                                    pointBorderColor: '#fff',
-	                                    pointHoverBackgroundColor: '#fff',
-	                                    pointHoverBorderColor: 'rgb(54, 162, 235)'
-	                                }]
-	                            },
-	                            options: {
-	                                scales: {
-	                                    r: {
-	                                        angleLines: { display: true },
-	                                        suggestedMin: 0,
-	                                        suggestedMax: 100,
-	                                        ticks: { stepSize: 20 }
-	                                    }
-	                                },
-	                                plugins: {
-	                                    legend: { display: false }
-	                                }
-	                            }
-	                        });
-	                    });
-	                </script>
+						document
+								.addEventListener(
+										"DOMContentLoaded",
+										function() {
+											const canvas = document
+													.getElementById('gradeRadarChart');
+											if (!canvas)
+												return; // キャンバスがない場合は終了
+
+											const ctx = canvas.getContext('2d');
+
+											// 1. データをオブジェクトに格納して整理する
+											const latestGrades = {};
+
+											<c:forEach var="item" items="${testListStudents}">(
+													function() {
+														const subject = '${item.subjectName}';
+														const currentNum = parseInt('${item.num}');
+														const currentPoint = parseInt('${item.point}');
+
+														if (!latestGrades[subject]
+																|| currentNum > latestGrades[subject].num) {
+															latestGrades[subject] = {
+																num : currentNum,
+																point : currentPoint
+															};
+														}
+													})();
+											</c:forEach>
+
+											// 2. 整理したデータからチャート用の配列を作成
+											const labels = [];
+											const points = [];
+
+											for ( const subject in latestGrades) {
+												labels
+														.push(subject
+																+ ' ('
+																+ latestGrades[subject].num
+																+ '回)');
+												points
+														.push(latestGrades[subject].point);
+											}
+
+											// 3. チャートの描画
+											new Chart(
+													ctx,
+													{
+														type : 'radar',
+														data : {
+															labels : labels,
+															datasets : [ {
+																label : '得点',
+																data : points,
+																fill : true,
+																backgroundColor : 'rgba(54, 162, 235, 0.2)',
+																borderColor : 'rgb(54, 162, 235)',
+																pointBackgroundColor : 'rgb(54, 162, 235)',
+																pointBorderColor : '#fff',
+																pointHoverBackgroundColor : '#fff',
+																pointHoverBorderColor : 'rgb(54, 162, 235)'
+															} ]
+														},
+														options : {
+															scales : {
+																r : {
+																	angleLines : {
+																		display : true
+																	},
+																	suggestedMin : 0,
+																	suggestedMax : 100,
+																	ticks : {
+																		stepSize : 20
+																	}
+																}
+															},
+															plugins : {
+																legend : {
+																	display : false
+																}
+															}
+														}
+													});
+										});
+					</script>
 				</c:when>
 				<c:otherwise>
 					<div class="alert alert-warning mt-3">成績情報が存在しませんでした。</div>

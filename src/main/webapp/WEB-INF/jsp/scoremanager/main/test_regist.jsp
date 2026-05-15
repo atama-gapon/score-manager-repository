@@ -7,29 +7,29 @@
 		<form method="post">
 			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
 				<div class="col-2">
-					<label class="form-label" for="student-f1-select">入学年度</label>
-					<select class="form-select" id="student-f1-select" name="f1">
+					<label class="form-label" for="student-ent_year-select">入学年度</label>
+					<select class="form-select" id="student-ent_year-select" name="ent_year">
 						<option value="0">----------</option>
 						<c:forEach var="year" items="${ ent_year_list }">
-							<option value="${ year }" <c:if test="${ year==f1 }">selected</c:if>>${ year }</option>
+							<option value="${ year }" <c:if test="${ year==ent_year }">selected</c:if>>${ year }</option>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="col-2">
-					<label class="form-label" for="student-f2-select">クラス</label>
-					<select class="form-select" id="student-f2-select" name="f2">
+					<label class="form-label" for="student-class_num-select">クラス</label>
+					<select class="form-select" id="student-class_num-select" name="class_num">
 						<option value="0">----------</option>
 						<c:forEach var="num" items="${ class_num_list }">
-							<option value="${ num }" <c:if test="${ num==f2 }">selected</c:if>>${ num }</option>
+							<option value="${ num }" <c:if test="${ num==class_num }">selected</c:if>>${ num }</option>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="col-3">
-					<label class="form-label" for="student-f3-select">科目</label>
-					<select class="form-select" id="student-f3-select" name="f3">
+					<label class="form-label" for="student-is_attend-select">科目</label>
+					<select class="form-select" id="student-is_attend-select" name="is_attend">
 						<option value="0">----------</option>
 						<c:forEach var="subject" items="${ subject_list }">
-							<option value="${ subject.cd }" <c:if test="${ subject.cd==f3 }">selected</c:if>>${ subject.name }</option>
+							<option value="${ subject.cd }" <c:if test="${ subject.cd==is_attend }">selected</c:if>>${ subject.name }</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -44,7 +44,7 @@
 				<div class="col-2">
 					<button type="submit" name="search" value="true" class="btn btn-secondary">検索</button>
 				</div>
-				<div class="col-12 mt-2 text-warning">${ errors.get("f1") }</div>
+				<div class="col-12 mt-2 text-warning">${ errors.get("ent_year") }</div>
 			</div>
 		</form>
 		<c:if test="${not empty message}">
@@ -73,23 +73,23 @@
 										<div class="text-warning">${message_over}</div>
 										<input type="hidden" name="old_point_${test.student.no}" value="${test.point}">
 									</c:if> <input type="hidden" name="student_no_list" value="${test.student.no}"></td>
-								<td>${ test.marker_staff_no }</td>
+								<td>${ test.markerStaff.lastName }&nbsp;${ test.markerStaff.firstName }（${ test.markerStaff.no }）</td>
 							</tr>
 						</c:forEach>
 					</table>
 					<div class="mt-3">
 						<button type="submit" name="regist" class="btn btn-secondary">登録して終了</button>
 					</div>
-					<input type="hidden" name="f1" value="${f1}">
-					<input type="hidden" name="f2" value="${f2}">
-					<input type="hidden" name="f3" value="${f3}">
+					<input type="hidden" name="ent_year" value="${ent_year}">
+					<input type="hidden" name="class_num" value="${class_num}">
+					<input type="hidden" name="is_attend" value="${is_attend}">
 					<input type="hidden" name="f4" value="${f4}">
 				</form>
 			</c:when>
 			<c:when test="${not empty tests}">
 				<div class="mt-3">科目：${subject.name} （${num}回）</div>
 			</c:when>
-			<c:when test="${not empty f1}">
+			<c:when test="${not empty ent_year}">
 				<c:if test="${empty message}">
 					<div class="alert alert-danger mt-3">学生情報が存在しませんでした。</div>
 				</c:if>
