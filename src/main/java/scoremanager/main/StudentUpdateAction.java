@@ -15,7 +15,6 @@ import tool.Action;
 
 public class StudentUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// 【セッションからユーザーデータを取得】
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 

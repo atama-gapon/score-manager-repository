@@ -16,7 +16,8 @@ import jakarta.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = { "/*" })
 public class LoginFilter implements Filter {
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();

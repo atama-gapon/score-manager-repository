@@ -23,7 +23,6 @@ public class StudentBulkExecuteAction extends Action {
 		BufferedReader br = null;
 
 		try {
-
 			if (csv != null && csv.getSize() > 0) {
 				InputStream is = csv.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is, "UTF-8");

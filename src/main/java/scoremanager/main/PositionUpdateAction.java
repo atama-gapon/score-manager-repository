@@ -22,8 +22,6 @@ public class PositionUpdateAction extends Action {
 
 		req.setAttribute("position", position);
 
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_update.jsp"
-		).forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_update.jsp").forward(req, res);
 	}
 }

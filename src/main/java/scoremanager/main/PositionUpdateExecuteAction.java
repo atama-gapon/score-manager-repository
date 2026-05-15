@@ -20,22 +20,18 @@ public class PositionUpdateExecuteAction extends Action {
 
 		req.setAttribute("name", name);
 
-		req.setAttribute("sort_order",
-				sortOrderStr);
+		req.setAttribute("sort_order", sortOrderStr);
 
 		Map<String, String> errors = new HashMap<>();
 
 		if (name == null || name.isEmpty()) {
 
-			errors.put("name",
-					"役職名を入力してください");
+			errors.put("name", "役職名を入力してください");
 		}
 
-		if (sortOrderStr == null
-				|| sortOrderStr.isEmpty()) {
+		if (sortOrderStr == null || sortOrderStr.isEmpty()) {
 
-			errors.put("sort_order",
-					"表示順を入力してください");
+			errors.put("sort_order", "表示順を入力してください");
 		}
 
 		if (!errors.isEmpty()) {
@@ -44,20 +40,16 @@ public class PositionUpdateExecuteAction extends Action {
 
 			Position position = new Position();
 
-			position.setId(
-					Integer.parseInt(idStr));
+			position.setId(Integer.parseInt(idStr));
 
 			position.setName(name);
 
-			if (sortOrderStr != null
-					&& !sortOrderStr.isEmpty()) {
+			if (sortOrderStr != null && !sortOrderStr.isEmpty()) {
 
-				position.setSortOrder(
-						Integer.parseInt(sortOrderStr));
+				position.setSortOrder(Integer.parseInt(sortOrderStr));
 			}
 
-			req.setAttribute("position",
-					position);
+			req.setAttribute("position", position);
 
 			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_update.jsp").forward(req, res);
 
@@ -70,8 +62,7 @@ public class PositionUpdateExecuteAction extends Action {
 
 		p.setName(name);
 
-		p.setSortOrder(
-				Integer.parseInt(sortOrderStr));
+		p.setSortOrder(Integer.parseInt(sortOrderStr));
 
 		PositionDao dao = new PositionDao();
 

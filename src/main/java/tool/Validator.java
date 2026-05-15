@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Validator {
 	public static void required(String value, String fieldName, String message, Map<String, String> errors) {
-		if (value == null || value.isEmpty()) {
+		if (value == null || value.isBlank()) {
 			errors.put(fieldName, message);
 		}
 	}

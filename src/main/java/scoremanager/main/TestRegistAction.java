@@ -18,15 +18,15 @@ public class TestRegistAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-		
+
 		// ユーザーが所属している学校のクラスデータを取得
 		ClassNumDao classNumDao = new ClassNumDao();
 		List<String> classNumSet = classNumDao.filter(school);
-		
+
 		// ユーザーが所属している学校の科目データを取得
 		SubjectDao subjectDao = new SubjectDao();
 		List<Subject> subjectSet = subjectDao.filter(school);
-		
+
 		// 入学年度
 		java.time.LocalDate todaysDate = java.time.LocalDate.now();
 		int year = todaysDate.getYear();
@@ -34,11 +34,11 @@ public class TestRegistAction extends Action {
 		for (int i = year - 10; i <= year + 1; i++) {
 			entYearSet.add(i);
 		}
-		
+
 		req.setAttribute("class_num_set", classNumSet);
 		req.setAttribute("subject_set", subjectSet);
 		req.setAttribute("ent_year_set", entYearSet);
-		
+
 		//　検索ボタンか登録ボタンが押されたかチェック
 		if (req.getParameter("search") != null || req.getParameter("regist") != null) {
 			req.setAttribute("message_over", null);
@@ -50,9 +50,9 @@ public class TestRegistAction extends Action {
 
 			// 入学年度、クラス、科目、回数のいずれかが未入力の場合
 			if (entYearStr == null || entYearStr.isEmpty() ||
-				classNum == null || classNum.isEmpty() ||
-				subjectCd == null || subjectCd.equals("0") ||
-				numStr == null || numStr.equals("0")) {
+					classNum == null || classNum.isEmpty() ||
+					subjectCd == null || subjectCd.equals("0") ||
+					numStr == null || numStr.equals("0")) {
 				req.setAttribute("message", "入学年度・クラス・科目・回数を入力してください");
 				req.setAttribute("f1", entYearStr);
 				req.setAttribute("f2", classNum);

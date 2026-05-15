@@ -22,11 +22,8 @@ public class PositionDeleteAction extends Action {
 
 		req.setAttribute("id", id);
 
-		req.setAttribute("name",
-				position.getName());
+		req.setAttribute("name", position.getName());
 
-		req.getRequestDispatcher(
-			"/WEB-INF/jsp/scoremanager/main/position_delete.jsp"
-		).forward(req, res);
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_delete.jsp").forward(req, res);
 	}
 }
