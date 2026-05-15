@@ -163,29 +163,34 @@ public class TestDao extends Dao {
 	// 一括保存
 	private boolean save(Test test, Connection connection) throws Exception {
 		PreparedStatement statement = null;
+		
+		
+		statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
+		statement.setString(1, test.getClassNum());
+		statement.setString(2, test.getSchool().getCd());
+		statement.executeUpdate();
 		try {
 			statement = connection.prepareStatement(
-					"update test set point = ?, class_num = ?, marker_staff_no = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?");
+					"update test set point = ?, marker_staff_no = ? where student_no = ? and subject_cd = ? and no = ? and school_cd = ?");
 			statement.setInt(1, test.getPoint());
-			statement.setString(2, test.getClassNum());
-			statement.setString(3, test.getMarker_staff_no());
-			statement.setString(4, test.getStudent().getNo());
-			statement.setString(5, test.getSubject());
-			statement.setInt(6, test.getNo());
-			statement.setString(7, test.getSchool().getCd());
+			statement.setString(2, test.getMarker_staff_no());
+			statement.setString(3, test.getStudent().getNo());
+			statement.setString(4, test.getSubject());
+			statement.setInt(5, test.getNo());
+			statement.setString(6, test.getSchool().getCd());
 
 			int rowCount = statement.executeUpdate();
 			if (rowCount == 0) {
 				statement.close();
 				statement = connection.prepareStatement(
-						"insert into test (student_no, subject_cd, school_cd, no, point, marker_staff_no, class_num) values(?,?,?,?,?,?,?)");
+						"insert into test (student_no, subject_cd, school_cd, no, point, marker_staff_no) values(?,?,?,?,?,?)");
 				statement.setString(1, test.getStudent().getNo());
 				statement.setString(2, test.getSubject());
 				statement.setString(3, test.getSchool().getCd());
 				statement.setInt(4, test.getNo());
 				statement.setInt(5, test.getPoint());
 				statement.setString(6, test.getMarker_staff_no());
-				statement.setString(7, test.getClassNum());
+				
 				statement.executeUpdate();
 			}
 		} catch (Exception e) {

@@ -331,6 +331,8 @@ public class StudentDao extends Dao {
 	public boolean Bulk(BufferedReader br, String schoolCd) throws Exception {
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
+		
+		
 		String line;
 		int count = 0;
 		// SQLのパラメータ順序に合わせて整理
