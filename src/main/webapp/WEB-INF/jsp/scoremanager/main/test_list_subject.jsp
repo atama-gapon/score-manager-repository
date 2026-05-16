@@ -101,7 +101,7 @@
 					</table>
 				</c:when>
 				<c:otherwise>
-					<div class="mt-2 text-warning">学生情報が存在しませんでした</div>
+					<div class="mx-2 my-2">学生情報が存在しませんでした</div>
 				</c:otherwise>
 			</c:choose>
 		</section>

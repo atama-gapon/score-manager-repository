@@ -83,7 +83,7 @@
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div class="px-4 py-3 text-muted">学生情報が存在しませんでした</div>
+				<div class="mx-2 my-2">学生情報が存在しませんでした</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>

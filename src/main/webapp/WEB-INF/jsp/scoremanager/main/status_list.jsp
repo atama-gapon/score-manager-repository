@@ -38,7 +38,7 @@
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div class="px-4 py-3 text-muted">状態情報が存在しませんでした</div>
+				<div class="mx-2 my-2">状態情報が存在しませんでした</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>

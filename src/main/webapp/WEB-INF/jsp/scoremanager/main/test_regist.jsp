@@ -54,7 +54,11 @@
 		<c:choose>
 			<c:when test="${not empty tests}">
 				<div class="mb-2 px-3">
-					科目：<c:out value="${subject.name}" />（<c:out value="${num}" />回）
+					科目：
+					<c:out value="${subject.name}" />
+					（
+					<c:out value="${num}" />
+					回）
 				</div>
 				<form class="px-3" action="TestRegistExecute.action" method="post">
 					<table class="table table-hover">
@@ -96,7 +100,7 @@
 			</c:when>
 			<c:when test="${not empty ent_year}">
 				<c:if test="${empty message}">
-					<div class="alert alert-warning mt-3 mx-3">学生情報が存在しませんでした</div>
+					<div class="mx-2 my-2">学生情報が存在しませんでした</div>
 				</c:if>
 			</c:when>
 		</c:choose>

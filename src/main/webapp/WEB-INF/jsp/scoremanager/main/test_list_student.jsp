@@ -180,7 +180,7 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<div class="mt-2 text-warning">成績情報が存在しませんでした</div>
+					<div class="mx-2 my-2">成績情報が存在しませんでした</div>
 				</c:otherwise>
 			</c:choose>
 		</section>

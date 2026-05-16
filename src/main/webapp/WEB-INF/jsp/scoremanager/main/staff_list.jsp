@@ -71,7 +71,7 @@
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div class="mx-3">職員情報が存在しませんでした</div>
+				<div class="mx-2 my-2">職員情報が存在しませんでした</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>
