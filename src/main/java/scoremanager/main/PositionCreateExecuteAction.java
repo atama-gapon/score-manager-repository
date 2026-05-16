@@ -1,8 +1,5 @@
 package scoremanager.main;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import bean.Position;
 import bean.School;
 import bean.Staff;
@@ -16,48 +13,21 @@ public class PositionCreateExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
+		// インスタンス化
+		PositionDao positionDao = new PositionDao();
+
+		// リクエストパラメータの取得
 		String name = req.getParameter("name");
-		String sortOrderStr = req.getParameter("sort_order");
+		String sortOrder = req.getParameter("sort_order");
 
-		req.setAttribute("name", name);
-		req.setAttribute("sort_order", sortOrderStr);
+		// バリデーション（追加予定）
 
-		Map<String, String> errors = new HashMap<>();
-
-		if (name == null || name.isEmpty()) {
-			errors.put("name", "役職名を入力してください");
-		}
-
-		if (sortOrderStr == null || sortOrderStr.isEmpty()) {
-			errors.put("sort_order", "表示順を入力してください");
-		}
-
-		if (!errors.isEmpty()) {
-
-			req.setAttribute("errors", errors);
-
-			req.getRequestDispatcher(
-					"/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
-
-			return;
-		}
-
-		Position p = new Position();
-
-		p.setSchool(school);
-
-		p.setName(name);
-		p.setSortOrder(Integer.parseInt(sortOrderStr));
-
-		PositionDao dao = new PositionDao();
-
-		boolean result = dao.save(p);
-
-		if (!result) {
-			req.setAttribute("message", "登録に失敗しました");
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
-			return;
-		}
+		// DBへ反映
+		Position position = new Position();
+		position.setSchool(school);
+		position.setName(name);
+		position.setSortOrder(Integer.parseInt(sortOrder));
+		positionDao.save(position);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/PositionCreateDone.action");
 	}

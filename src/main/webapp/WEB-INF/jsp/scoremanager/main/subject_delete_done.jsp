@@ -6,7 +6,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<my:done message="削除が完了しました">
-			<a href="SubjectList.action" class="text-decoration-underline">科目一覧</a>
+			<a class="text-decoration-underline" href="SubjectList.action">科目一覧</a>
 		</my:done>
 	</c:param>
 </c:import>

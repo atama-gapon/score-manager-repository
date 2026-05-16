@@ -7,7 +7,7 @@
 	<c:param name="content">
 		<div class="card-body">
 			<p class="text-muted small">学籍番号, 氏名, 入学年度, クラス番号, 在学フラグ(true/false)の形式で保存されます。</p>
-			<form action="StudentBatchExportExecute.action" method="post">
+			<form class="px-0" action="StudentBatchExportExecute.action" method="post">
 				<input type="hidden" name="submitted" value="true">
 				<div class="row border mx-3 mb-3 py-3 align-items-end rounded" id="filter">
 					<div class="col-4">
@@ -15,7 +15,7 @@
 						<select class="form-select" id="ent_year" name="ent_year">
 							<option value="">--------</option>
 							<c:forEach var="year" items="${ ent_year_list }">
-								<option value="${ year }" <c:if test="${ year==ent_year }">selected</c:if>>${ year }</option>
+								<option value="<c:out value='${year}' />" <c:if test="${ year==ent_year }">selected</c:if>><c:out value="${year}" /></option>
 							</c:forEach>
 						</select>
 					</div>
@@ -24,7 +24,7 @@
 						<select class="form-select" id="class_num" name="class_num">
 							<option value="">--------</option>
 							<c:forEach var="num" items="${ class_num_list }">
-								<option value="${ num }" <c:if test="${ num eq class_num }">selected</c:if>>${ num }</option>
+								<option value="<c:out value='${num}' />" <c:if test="${ num eq class_num }">selected</c:if>><c:out value="${num}" /></option>
 							</c:forEach>
 						</select>
 					</div>
@@ -35,14 +35,18 @@
 						</div>
 					</div>
 					<div class="col-2 text-end">
-						<button type="submit" class="btn btn-secondary px-3" id="filter-button">ダウンロード</button>
+						<button class="btn btn-secondary px-3" type="submit" id="filter-button">ダウンロード</button>
 					</div>
-					<my:error message="${errors.exist}" />
+					<c:if test="${not empty errors.exist}">
+						<div class="col-12 mt-2">
+							<my:error message="${errors.exist}" />
+						</div>
+					</c:if>
 				</div>
 			</form>
 		</div>
 		<div class="mt-3">
-			<a href="StudentList.action" class="text-decoration-underline">戻る</a>
+			<a class="btn btn-link p-0 text-decoration-underline" href="StudentList.action">戻る</a>
 		</div>
 	</c:param>
 </c:import>

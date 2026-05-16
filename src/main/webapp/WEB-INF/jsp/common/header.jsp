@@ -6,7 +6,7 @@
 </div>
 <c:if test="${user.isAuthenticated()}">
 	<div class="nav align-self-end">
-		<span class="nav-item px-2">${user.school.name}</span> <span class="nav-item px-2">${user.lastName}様</span>
+		<span class="nav-item px-2"><c:out value="${user.school.name}" /></span> <span class="nav-item px-2"><c:out value="${user.lastName}" />様</span>
 		<a class="nav-item px-2" href="Logout.action">ログアウト</a>
 	</div>
 </c:if>

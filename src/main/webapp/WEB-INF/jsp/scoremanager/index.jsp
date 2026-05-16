@@ -13,15 +13,16 @@ li {
 	text-align: center; /* テキストを中央寄せ */
 }
 </style>
-<script>
-	function togglePassword() {
-		const pw = document.getElementById("password");
-		pw.type = (pw.type === "password") ? "text" : "password";
-	}
-</script>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
 	<c:param name="title">得点管理システム</c:param>
-	<c:param name="scripts"></c:param>
+	<c:param name="scripts">
+		<script>
+			function togglePassword() {
+				const pw = document.getElementById("password");
+				pw.type = (pw.type === "password") ? "text" : "password";
+			}
+		</script>
+	</c:param>
 	<c:param name="content">
 		<div class="container mt-5">
 			<div class="row justify-content-center">
@@ -34,31 +35,26 @@ li {
 							<c:if test="${message != null}">
 								<div class="mb-2">
 									<ul>
-										<li>${message}</li>
+										<li><c:out value="${message}" /></li>
 									</ul>
 								</div>
 							</c:if>
-							<form action="LoginExecute.action" method="post">
-								<!-- 学校コード -->
+							<form class="px-0" action="LoginExecute.action" method="post">
 								<div class="mb-3">
-									<input type="text" class="form-control" maxlength="3" name="school_cd" placeholder="学校コード" value="${school_cd}" required>
+									<input class="form-control" type="text" name="school_cd" value="<c:out value='${school_cd}' />" placeholder="学校コード" maxlength="3" required>
 								</div>
-								<!-- 職員番号 -->
 								<div class="mb-3">
-									<input type="text" class="form-control" maxlength="10" name="no" placeholder="職員番号" value="${no}" required>
+									<input class="form-control" type="text" name="no" value="<c:out value='${no}' />" placeholder="職員番号" maxlength="10" required>
 								</div>
-								<!-- パスワード -->
 								<div class="mb-3">
-									<input type="password" class="form-control" maxlength="30" id="password" name="password" placeholder="パスワード" required>
+									<input class="form-control" type="password" id="password" name="password" placeholder="パスワード" maxlength="30" required>
 								</div>
-								<!-- チェックボックス -->
 								<div class="form-check d-flex justify-content-center mb-3">
 									<input class="form-check-input me-2" type="checkbox" id="showPw" name="chk_d_ps" onclick="togglePassword()">
 									<label class="form-check-label" for="showPw"> パスワードを表示 </label>
 								</div>
-								<!-- ボタン -->
 								<div class="text-center">
-									<button type="submit" name="login" class="btn btn-primary px-4">ログイン</button>
+									<button class="btn btn-primary px-4" type="submit" name="login">ログイン</button>
 								</div>
 							</form>
 						</div>

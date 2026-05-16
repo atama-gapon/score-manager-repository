@@ -4,23 +4,19 @@
 	<c:param name="title">状態情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<div class="px-4">
-			<p>以下のステータスを削除します。よろしいですか？</p>
-			<table class="table">
-				<tr>
-					<th>ID</th>
-					<td>${ status.id }</td>
-				</tr>
-				<tr>
-					<th>ステータス名</th>
-					<td>${ status.name }</td>
-				</tr>
-			</table>
-			<form action="StatusDeleteExecute.action" method="post">
-				<input type="hidden" name="id" value="${ status.id }">
-				<button class="btn btn-danger">削除する</button>
-				<a href="StatusList.action" class="btn btn-secondary ms-3">戻る</a>
-			</form>
-		</div>
+		<form class="px-4" action="StatusDeleteExecute.action" method="post">
+			<p>
+				「
+				<c:out value="${status.name}" />
+				」 を削除してもよろしいですか
+			</p>
+			<input type="hidden" name="id" value="<c:out value='${status.id}' />">
+			<div class="mt-4">
+				<input class="btn btn-danger px-3" type="submit" value="削除">
+			</div>
+			<div class="mt-3">
+				<a class="btn btn-link p-0" href="StatusList.action">戻る</a>
+			</div>
+		</form>
 	</c:param>
 </c:import>

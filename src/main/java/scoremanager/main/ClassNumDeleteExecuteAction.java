@@ -17,35 +17,35 @@ public class ClassNumDeleteExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		String classNum = req.getParameter("class_num");
+		// インスタンス化
+		ClassNumDao classNumDao = new ClassNumDao();
+		StudentDao studentDao = new StudentDao();
 		Map<String, String> errors = new HashMap<>();
 
-		ClassNumDao classNumDao = new ClassNumDao();
-		ClassNum GetclassNum = classNumDao.get(classNum, school);
+		// リクエストパラメータの取得
+		String num = req.getParameter("num");
 
-		if (GetclassNum == null) {
-			errors.put("invalid", "クラスが存在していません");
+		// バリデーション
+		if (classNumDao.get(num, school) == null) {
+			errors.put("num", "クラスが存在していません");
+		}
+
+		if (studentDao.hasStudentInClass(num)) {
+			errors.put("num", "クラスのなかに生徒が存在しているため削除できません");
+		}
+
+		// エラーがある場合は入力画面へ戻す
+		if (!errors.isEmpty()) {
 			req.setAttribute("errors", errors);
-			req.setAttribute("class_num", classNum);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_delete.jsp").forward(req, res);
+			req.getRequestDispatcher("ClassNumDelete.action").forward(req, res);
 			return;
 		}
 
-		StudentDao studentDao = new StudentDao();
-		boolean isFound = studentDao.hasStudentInClass(classNum);
-
-		if (isFound) {
-			errors.put("has_student", "クラスのなかに生徒が存在しているため削除できません");
-			req.setAttribute("errors", errors);
-			req.setAttribute("class_num", classNum);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_delete.jsp").forward(req, res);
-			return;
-		}
-
-		ClassNum classNum2 = new ClassNum();
-		classNum2.setClassNum(classNum);
-		classNum2.setSchool(school);
-		classNumDao.delete(classNum2);
+		// DBへ反映
+		ClassNum classNum = new ClassNum();
+		classNum.setClassNum(num);
+		classNum.setSchool(school);
+		classNumDao.delete(classNum);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassNumDeleteDone.action");
 	}

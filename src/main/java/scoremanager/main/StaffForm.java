@@ -23,6 +23,10 @@ public class StaffForm {
 	private String positionId;
 	private String statusId;
 
+	private PositionDao positionDao = new PositionDao();
+	private StatusDao statusDao = new StatusDao();
+	private StaffDao staffDao = new StaffDao();
+
 	// リクエストから値を取り出す
 	public StaffForm(HttpServletRequest req) {
 		this.no = req.getParameter("no");
@@ -42,7 +46,6 @@ public class StaffForm {
 
 	public Map<String, String> validate(School school) throws Exception {
 		Map<String, String> errors = new HashMap<>();
-		StaffDao staffDao = new StaffDao();
 
 		// 職員番号のチェック
 		Validator.required(no, "no", "職員番号を選択してください", errors);
@@ -85,8 +88,6 @@ public class StaffForm {
 		Validator.required(lastNameKana, "last_name_kana", "姓（カタカナ）を入力してください", errors);
 		Validator.required(firstNameKana, "first_name_kana", "名（カタカナ）を入力してください", errors);
 
-		// パスワードは変更不可なのでチェックしない
-
 		// 役職と状態のチェック
 		Validator.required(positionId, "position_id", "役職を選択してください", errors);
 		Validator.required(statusId, "status_id", "状態を選択してください", errors);
@@ -112,10 +113,8 @@ public class StaffForm {
 		staff.setSchool(school);
 
 		// 役職と状態をセット
-		PositionDao positionDao = new PositionDao();
 		staff.setPosition(positionDao.get(Integer.parseInt(positionId)));
 
-		StatusDao statusDao = new StatusDao();
 		staff.setStatus(statusDao.get(Integer.parseInt(statusId)));
 
 		return staff;
@@ -136,10 +135,8 @@ public class StaffForm {
 		}
 
 		// 役職と状態を上書き
-		PositionDao positionDao = new PositionDao();
 		original.setPosition(positionDao.get(Integer.parseInt(positionId)));
 
-		StatusDao statusDao = new StatusDao();
 		original.setStatus(statusDao.get(Integer.parseInt(statusId)));
 
 		return original;

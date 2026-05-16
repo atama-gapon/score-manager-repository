@@ -6,34 +6,38 @@
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
 			<c:if test="${staff.position.name eq '管理者'}">
-				<a href="SubjectCreate.action">新規登録</a>
+				<a href="StaffCreate.action">新規登録</a>
 			</c:if>
 		</div>
 		<c:choose>
-		<c:when test="${ not empty subject_list }">
+			<c:when test="${ not empty subject_list }">
 				<table class="table table-hover">
-					<tr>
-						<th>科目コード</th>
-						<th>科目名</th>
-						<c:if test="${staff.position.name eq '管理者'}">
-							<th></th>
-							<th></th>
-						</c:if>
-					</tr>
-					<c:forEach var="subject" items="${ subject_list }">
+					<thead>
 						<tr>
-							<td>${ subject.cd }</td>
-							<td>${ subject.name }</td>
+							<th>科目コード</th>
+							<th>科目名</th>
 							<c:if test="${staff.position.name eq '管理者'}">
-								<td><a href="SubjectUpdate.action?cd=${ subject.cd }">変更</a></td>
-								<td><a href="SubjectDelete.action?cd=${ subject.cd }">削除</a></td>
+								<th></th>
+								<th></th>
 							</c:if>
 						</tr>
-					</c:forEach>
+					</thead>
+					<tbody>
+						<c:forEach var="subject" items="${ subject_list }">
+							<tr>
+								<td><c:out value="${subject.cd}" /></td>
+								<td><c:out value="${subject.name}" /></td>
+								<c:if test="${staff.position.name eq '管理者'}">
+									<td><a class="btn btn-link p-0" href="SubjectUpdate.action?cd=<c:out value='${subject.cd}' />">変更</a></td>
+									<td><a class="text-danger btn btn-link p-0" href="SubjectDelete.action?cd=<c:out value='${subject.cd}' />">削除</a></td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div>科目情報が存在しませんでした。</div>
+				<div class="px-4 py-3 text-muted">科目情報が存在しませんでした</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>

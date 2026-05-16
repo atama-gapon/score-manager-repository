@@ -16,24 +16,31 @@ public class ClassNumCreateExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		String class_num = req.getParameter("class_num");
+		// インスタンス化
+		ClassNumDao classNumDao = new ClassNumDao();
 		Map<String, String> errors = new HashMap<>();
 
-		ClassNumDao classNumDao = new ClassNumDao();
-		ClassNum classNum = classNumDao.get(class_num, school);
+		// リクエストパラメータの取得
+		String num = req.getParameter("num");
 
-		if (classNum != null) {
-			errors.put("class_num_duplication", "クラス番号が重複しています");
+		// バリデーション
+		if (classNumDao.get(num, school) != null) {
+			errors.put("num", "クラス番号が重複しています");
+		}
+
+		// エラーがある場合は入力画面へ戻す
+		if (!errors.isEmpty()) {
+			req.setAttribute("num", num);
 			req.setAttribute("errors", errors);
-			req.setAttribute("class_num", class_num);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_create.jsp").forward(req, res);
+			req.getRequestDispatcher("ClassNumCreate.action").forward(req, res);
 			return;
 		}
 
-		ClassNum classNum2 = new ClassNum();
-		classNum2.setClassNum(class_num);
-		classNum2.setSchool(school);
-		classNumDao.save(classNum2);
+		// DBへ反映
+		ClassNum classNum = new ClassNum();
+		classNum.setClassNum(num);
+		classNum.setSchool(school);
+		classNumDao.save(classNum);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/ClassNumCreateDone.action");
 	}

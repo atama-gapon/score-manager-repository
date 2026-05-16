@@ -7,18 +7,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionUpdateAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// インスタンス化
+		PositionDao positionDao = new PositionDao();
 
-	public void execute(HttpServletRequest req,
-			HttpServletResponse res)
-			throws Exception {
+		// リクエストパラメータの取得
+		String id = req.getParameter("id");
 
-		String idStr = req.getParameter("id");
-
-		int id = Integer.parseInt(idStr);
-
-		PositionDao dao = new PositionDao();
-
-		Position position = dao.get(id);
+		Position position = positionDao.get(Integer.parseInt(id));
 
 		req.setAttribute("position", position);
 

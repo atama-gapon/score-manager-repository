@@ -6,7 +6,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<my:done message="変更が完了しました">
-			<a href="StudentList.action" class="text-decoration-underline">学生一覧</a>
+			<a class="text-decoration-underline" href="StudentList.action">学生一覧</a>
 		</my:done>
 	</c:param>
 </c:import>

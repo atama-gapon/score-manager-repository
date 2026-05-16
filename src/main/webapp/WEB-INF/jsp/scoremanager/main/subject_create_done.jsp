@@ -6,8 +6,8 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<my:done message="登録が完了しました">
-			<a href="SubjectCreate.action" class="text-decoration-underline">戻る</a>
-			<a href="SubjectList.action" class="text-decoration-underline">科目一覧</a>
+			<a class="text-decoration-underline" href="SubjectCreate.action">戻る</a>
+			<a class="text-decoration-underline" href="SubjectList.action">科目一覧</a>
 		</my:done>
 	</c:param>
 </c:import>

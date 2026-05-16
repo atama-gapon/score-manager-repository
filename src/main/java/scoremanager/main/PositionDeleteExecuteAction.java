@@ -1,6 +1,5 @@
 package scoremanager.main;
 
-import bean.Position;
 import dao.PositionDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,18 +7,16 @@ import tool.Action;
 
 public class PositionDeleteExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// インスタンス化
+		PositionDao positionDao = new PositionDao();
 
-		String idStr = req.getParameter("id");
+		// リクエストパラメータの取得
+		String id = req.getParameter("id");
 
-		int id = Integer.parseInt(idStr);
+		// バリデーション（追加予定）
 
-		Position p = new Position();
-
-		p.setId(id);
-
-		PositionDao dao = new PositionDao();
-
-		dao.delete(p);
+		// DBへ反映
+		positionDao.delete(Integer.parseInt(id));
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/PositionDeleteDone.action");
 	}

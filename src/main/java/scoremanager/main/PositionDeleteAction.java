@@ -7,22 +7,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionDeleteAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// インスタンス化
+		PositionDao positionDao = new PositionDao();
 
-	public void execute(HttpServletRequest req,
-			HttpServletResponse res)
-			throws Exception {
+		// リクエストパラメータの取得
+		String id = req.getParameter("id");
 
-		String idStr = req.getParameter("id");
+		Position position = positionDao.get(Integer.parseInt(id));
 
-		int id = Integer.parseInt(idStr);
-
-		PositionDao dao = new PositionDao();
-
-		Position position = dao.get(id);
-
-		req.setAttribute("id", id);
-
-		req.setAttribute("name", position.getName());
+		req.setAttribute("position", position);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_delete.jsp").forward(req, res);
 	}

@@ -7,28 +7,28 @@
 		<div class="card-body">
 			<c:if test="${not empty error}">
 				<div class="alert alert-danger" role="alert">
-					<i class="bi bi-exclamation-triangle-fill"></i> ${error}
+					<i class="bi bi-exclamation-triangle-fill"></i>
+					<c:out value="${error}" />
 				</div>
 			</c:if>
 			<p class="text-muted small">
 				以下の形式のCSVファイルを選択してください。<br> 学籍番号, 氏名, 入学年度, クラス番号, 在学フラグ(true/false)
 			</p>
-			<form action="StudentBulkExecute.action" method="post" enctype="multipart/form-data" class="mt-4">
+			<form class="mt-4" action="StudentBulkExecute.action" method="post" enctype="multipart/form-data">
 				<div class="mb-3">
-					<label for="csv" class="form-label fw-bold">CSVファイルを選択</label>
-					<input type="file" id="csv" name="csv" class="form-control" accept=".csv" required>
+					<label class="form-label fw-bold" for="csv">CSVファイルを選択</label>
+					<input class="form-control" type="file" id="csv" name="csv" accept=".csv" required>
 					<div class="form-text">※ファイル形式は .csv のみ読み込めます。</div>
 				</div>
 				<div class="d-flex justify-content-between align-items-center mt-4">
-					<a href="StudentList.action" class="btn btn-outline-secondary">
+					<a class="btn btn-outline-secondary" href="StudentList.action">
 						<i class="bi bi-arrow-left"></i> 学生一覧に戻る
 					</a>
-					<button type="submit" class="btn btn-primary px-5">
+					<button class="btn btn-primary px-5" type="submit">
 						<i class="bi bi-cloud-upload"></i> 登録を実行する
 					</button>
 				</div>
 			</form>
-		</div>
 		</div>
 	</c:param>
 </c:import>

@@ -5,10 +5,10 @@
 	<c:param name="title">学生情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form action="StudentCreateExecute.action" method="post" class="px-4">
+		<form class="px-4" method="post" action="StudentCreateExecute.action">
 			<div class="mb-3">
 				<label class="form-label">入学年度</label>
-				<select name="ent_year" class="form-select" required>
+				<select class="form-select" name="ent_year" required>
 					<option value="">--------</option>
 					<c:forEach var="y" items="${ent_year_list}">
 						<option value="<c:out value='${y}' />" <c:if test="${y == student.entYear}">selected</c:if>><c:out value="${y}" /></option>
@@ -18,17 +18,17 @@
 			</div>
 			<div class="mb-3">
 				<label class="form-label">学生番号</label>
-				<input type="text" name="no" value="<c:out value='${student.no}' />" class="form-control" maxlength="10" placeholder="学生番号を入力してください" required>
+				<input class="form-control" type="text" name="no" value="<c:out value='${student.no}' />" maxlength="10" placeholder="学生番号を入力してください" required>
 				<my:error message="${errors.no}" />
 			</div>
 			<div class="mb-3">
 				<label class="form-label">氏名</label>
-				<input type="text" name="name" value="<c:out value='${student.name}' />" class="form-control" placeholder="氏名を入力してください" required>
+				<input class="form-control" type="text" name="name" value="<c:out value='${student.name}' />" placeholder="氏名を入力してください" required>
 				<my:error message="${errors.name}" />
 			</div>
 			<div class="mb-3">
 				<label class="form-label">クラス</label>
-				<select name="class_num" class="form-select" required>
+				<select class="form-select" name="class_num" required>
 					<option value="">--------</option>
 					<c:forEach var="c" items="${class_num_list}">
 						<option value="<c:out value='${c}' />" <c:if test="${c == student.classNum}">selected</c:if>><c:out value="${c}" /></option>
@@ -42,7 +42,7 @@
 				<my:error message="${errors.is_attend}" />
 			</div>
 			<div class="mt-4">
-				<button type="submit" class="btn btn-secondary">登録</button>
+				<button class="btn btn-secondary" type="submit">登録</button>
 			</div>
 			<div class="mt-3">
 				<a href="StudentList.action">戻る</a>

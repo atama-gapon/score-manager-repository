@@ -11,6 +11,17 @@ import tool.PasswordHasher;
 
 public class LoginExecuteAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		HttpSession session = req.getSession(false);
+
+		if (session != null) {
+			Staff staff = (Staff) session.getAttribute("user");
+			// ログイン済みなら
+			if (staff != null) {
+				res.sendRedirect(req.getContextPath() + "/scoremanager/main/Menu.action");
+				return;
+			}
+		}
+
 		String schoolCd = req.getParameter("school_cd");
 		String no = req.getParameter("no");
 		String password = req.getParameter("password");
@@ -32,7 +43,7 @@ public class LoginExecuteAction extends Action {
 		staff.setAuthenticated(true);
 
 		// ユーザーデータをセッションに格納
-		HttpSession session = req.getSession();
+		session = req.getSession();
 		session.setAttribute("user", staff);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/Menu.action");

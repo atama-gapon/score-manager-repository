@@ -6,14 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <style>
 html {
 	overflow-y: scroll;
 }
 </style>
-<title>得点管理システム|${param.title}</title>
+<title>得点管理システム|<c:out value="${param.title}" /></title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 ${param.scripts}
 </head>
@@ -31,7 +30,9 @@ ${param.scripts}
 					</nav>
 					<main class="col-9 border-start">
 						<section class="me-4">
-							<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">${param.title}</h2>
+							<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">
+								<c:out value="${param.title}" />
+							</h2>
 							${param.content}
 						</section>
 					</main>

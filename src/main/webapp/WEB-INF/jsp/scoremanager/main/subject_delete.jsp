@@ -4,17 +4,21 @@
 	<c:param name="title">科目情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<p>「${ cd }(${ name })」を削除してもよろしいですか</p>
-		<form action="SubjectDeleteExecute.action" method="post">
-			<input name="cd" type="hidden" value="${ cd }">
-			<input type="submit" class="btn btn-danger px-3" value="削除">
+		<form class="px-4" action="SubjectDeleteExecute.action" method="post">
+			<p>
+				「
+				<c:out value="${cd}" />
+				(
+				<c:out value="${name}" />
+				)」を削除してもよろしいですか
+			</p>
+			<input type="hidden" name="cd" value="<c:out value='${cd}' />">
+			<div class="mt-4">
+				<input class="btn btn-danger px-3" type="submit" value="削除">
+			</div>
+			<div class="mt-3">
+				<a class="btn btn-link p-0" href="SubjectList.action">戻る</a>
+			</div>
 		</form>
-		<br>
-		<br>
-		<br>
-		<br>
-		<p>
-			<a href="SubjectList.action">戻る</a>
-		</p>
 	</c:param>
 </c:import>

@@ -5,7 +5,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
-			<a href="StaffList.action" class="me-3">戻る</a>
+			<a class="me-3" href="StaffList.action">戻る</a>
 			<c:if test="${staff.position.name eq '管理者'}">
 				<a href="PositionCreate.action">新規登録</a>
 			</c:if>
@@ -23,18 +23,22 @@
 					</tr>
 					<c:forEach var="position" items="${ position_list }">
 						<tr>
-							<td>${ position.name }</td>
-							<td>${ position.sortOrder }</td>
+							<td><c:out value="${ position.name }" /></td>
+							<td><c:out value="${ position.sortOrder }" /></td>
 							<c:if test="${staff.position.name eq '管理者' and position.name ne '管理者' }">
 								<td><a href="PositionUpdate.action?id=${ position.id }">変更</a></td>
 								<td><a href="PositionDelete.action?id=${ position.id }">削除</a></td>
+							</c:if>
+							<c:if test="${staff.position.name eq '管理者' and position.name eq '管理者' }">
+								<td></td>
+								<td></td>
 							</c:if>
 						</tr>
 					</c:forEach>
 				</table>
 			</c:when>
 			<c:otherwise>
-				<div>役職情報が存在しませんでした。</div>
+				<div>役職情報が存在しませんでした</div>
 			</c:otherwise>
 		</c:choose>
 	</c:param>

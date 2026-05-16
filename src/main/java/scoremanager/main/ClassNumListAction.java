@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import java.util.List;
-
 import bean.School;
 import bean.Staff;
 import dao.ClassNumDao;
@@ -14,11 +12,12 @@ public class ClassNumListAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		ClassNumDao classNumDao = new ClassNumDao();
-		List<String> classNumList = classNumDao.filter(school);
-
-		req.setAttribute("class_num_list", classNumList);
+		prepareViewData(req, school);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_list.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
+		req.setAttribute("class_num_list", new ClassNumDao().filter(school));
 	}
 }
