@@ -4,12 +4,9 @@
 	<c:param name="title">学生情報登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<c:import url="/WEB-INF/jsp/common/done.jsp">
-			<c:param name="successMessage">登録が完了しました</c:param>
-			<c:param name="nextStepLinks">
-				<a href="StudentCreate.action" class="text-decoration-underline">戻る</a>
-				<a href="StudentList.action" class="text-decoration-underline">学生一覧</a>
-			</c:param>
-		</c:import>
+		<my:done message="登録が完了しました">
+			<a href="StudentCreate.action" class="text-decoration-underline">戻る</a>
+			<a href="StudentList.action" class="text-decoration-underline">学生一覧</a>
+		</my:done>
 	</c:param>
 </c:import>
