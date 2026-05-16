@@ -5,6 +5,9 @@
 	<c:param name="title">学生情報CSV出力</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
+		<div class="my-2 text-end px-4">
+			<a class="me-3" href="StudentList.action">戻る</a>
+		</div>
 		<div class="card-body">
 			<p class="text-muted small">学籍番号, 氏名, 入学年度, クラス番号, 在学フラグ(true/false)の形式で保存されます。</p>
 			<form class="px-0" action="StudentBatchExportExecute.action" method="post">
@@ -35,7 +38,7 @@
 						</div>
 					</div>
 					<div class="col-2 text-end">
-						<button class="btn btn-secondary px-3" type="submit" id="filter-button">ダウンロード</button>
+						<button class="btn btn-primary px-3" type="submit" id="filter-button">ダウンロード</button>
 					</div>
 					<c:if test="${not empty errors.exist}">
 						<div class="col-12 mt-2">

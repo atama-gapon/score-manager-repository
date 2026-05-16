@@ -54,7 +54,7 @@ li {
 									<label class="form-check-label" for="showPw"> パスワードを表示 </label>
 								</div>
 								<div class="text-center">
-									<button class="btn btn-primary px-4" type="submit" name="login">ログイン</button>
+									<button class="btn btn-primary px-3" type="submit" name="login">ログイン</button>
 								</div>
 							</form>
 						</div>

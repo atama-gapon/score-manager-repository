@@ -62,7 +62,7 @@
 				<my:error message="${errors.status_id}" />
 			</div>
 			<div class="mt-4">
-				<button class="btn btn-secondary" type="submit">登録</button>
+				<button class="btn btn-primary px-3" type="submit">登録</button>
 			</div>
 			<div class="mt-3">
 				<a href="StaffList.action">戻る</a>

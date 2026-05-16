@@ -90,7 +90,7 @@
 						</tbody>
 					</table>
 					<div class="mt-4">
-						<button class="btn btn-primary" type="submit" name="regist">登録して終了</button>
+						<button class="btn btn-primary px-3" type="submit" name="regist">登録して終了</button>
 					</div>
 					<input type="hidden" name="ent_year" value="<c:out value='${ent_year}' />">
 					<input type="hidden" name="class_num" value="<c:out value='${class_num}' />">

@@ -14,7 +14,7 @@
 			</p>
 			<my:error message="${errors.num}" />
 			<div class="mt-4">
-				<button class="btn btn-danger" type="submit">削除</button>
+				<button class="btn btn-danger px-3" type="submit">削除</button>
 			</div>
 			<div class="mt-3">
 				<a href="ClassNumList.action">戻る</a>

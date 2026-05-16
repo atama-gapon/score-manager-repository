@@ -12,7 +12,7 @@
 				<my:error message="${errors.num}" />
 			</div>
 			<div class="mt-4">
-				<button class="btn btn-secondary" type="submit">登録</button>
+				<button class="btn btn-primary px-3" type="submit">登録</button>
 			</div>
 			<div class="mt-3">
 				<a href="ClassNumList.action">戻る</a>
