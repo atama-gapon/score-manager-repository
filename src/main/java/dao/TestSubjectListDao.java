@@ -11,25 +11,25 @@ import java.util.Map;
 
 import bean.School;
 import bean.Subject;
-import bean.TestListSubject;
+import bean.TestSubjectList;
 
-public class TestListSubjectDao extends Dao {
+public class TestSubjectListDao extends Dao {
 	private String baseSql = "select s.ent_year, s.name, s.no, s.class_num, t.no as test_no, t.point from student s join test t on s.no = t.student_no and s.school_cd = t.school_cd where s.school_cd = ?";
 
-	private List<TestListSubject> postFilter(ResultSet rSet) throws Exception {
+	private List<TestSubjectList> postFilter(ResultSet rSet) throws Exception {
 		// 学生番号(no)をキーにして、重複を防ぐためのMapを用意
-		Map<String, TestListSubject> map = new HashMap<>();
+		Map<String, TestSubjectList> map = new HashMap<>();
 
 		try {
 			while (rSet.next()) {
 				String studentNo = rSet.getString("no");
 
 				// すでにその学生のインスタンスがMapにあるか確認
-				TestListSubject subject = map.get(studentNo);
+				TestSubjectList subject = map.get(studentNo);
 
 				if (subject == null) {
 					// 初めて出てきた学生なら、新しく作ってMapに入れる
-					subject = new TestListSubject();
+					subject = new TestSubjectList();
 					subject.setEntYear(rSet.getInt("ent_year"));
 					subject.setStudentName(rSet.getString("name"));
 					subject.setStudentNo(studentNo);
@@ -48,8 +48,8 @@ public class TestListSubjectDao extends Dao {
 		return new ArrayList<>(map.values());
 	}
 
-	public List<TestListSubject> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
-		List<TestListSubject> list = new ArrayList<>();
+	public List<TestSubjectList> filter(int entYear, String classNum, Subject subject, School school) throws Exception {
+		List<TestSubjectList> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;

@@ -7,7 +7,7 @@
 		<c:import url="/WEB-INF/jsp/common/done.jsp">
 			<c:param name="successMessage">削除が完了しました</c:param>
 			<c:param name="nextStepLinks">
-				<a href="TestListStudentExecute.action?f4=${student_no}" class="text-decoration-underline">成績一覧</a>
+				<a href="TestStudentListExecute.action?f4=${student_no}" class="text-decoration-underline">成績一覧</a>
 			</c:param>
 		</c:import>
 	</c:param>

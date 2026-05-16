@@ -31,7 +31,6 @@ public class TestRegistAction extends Action {
 		StudentDao studentDao = new StudentDao();
 		List<Integer> entYearList = studentDao.getEntYearList(school);
 
-
 		req.setAttribute("class_num_list", classNumList);
 		req.setAttribute("subject_list", subjectList);
 		req.setAttribute("ent_year_list", entYearList);

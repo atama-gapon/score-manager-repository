@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Student;
-import bean.TestListStudent;
+import bean.TestStudentList;
 
-public class TestListStudentDao extends Dao {
-//	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.subject_cd = s.cd where t.school_cd = ?";
+public class TestStudentListDao extends Dao {
+	//	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.subject_cd = s.cd where t.school_cd = ?";
 	private String baseSql = "select s.name, t.subject_cd, t.no as test_no, t.point from test t join subject s on t.school_cd = s.school_cd and t.subject_cd = s.cd where t.school_cd = ?";
 
 	//SQLの結果をList<Test>に変換する
-	private List<TestListStudent> postFilter(ResultSet rSet) throws Exception {
-		List<TestListStudent> list = new ArrayList<>();
+	private List<TestStudentList> postFilter(ResultSet rSet) throws Exception {
+		List<TestStudentList> list = new ArrayList<>();
 		try {
 			while (rSet.next()) {
-				TestListStudent student = new TestListStudent();
+				TestStudentList student = new TestStudentList();
 
 				student.setSubjectName(rSet.getString("name"));
 				student.setSubjectCd(rSet.getString("subject_cd"));
@@ -29,15 +29,15 @@ public class TestListStudentDao extends Dao {
 				list.add(student);
 			}
 		} catch (SQLException | NullPointerException e) {
-			
+
 		}
 
 		return list;
 	}
 
 	//学籍番号でデータを取得
-	public List<TestListStudent> filter(Student student) throws Exception {
-		List<TestListStudent> list = new ArrayList<>();
+	public List<TestStudentList> filter(Student student) throws Exception {
+		List<TestStudentList> list = new ArrayList<>();
 		Connection connection = getConnection();
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;

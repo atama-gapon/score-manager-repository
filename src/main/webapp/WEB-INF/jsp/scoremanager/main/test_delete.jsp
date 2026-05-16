@@ -33,7 +33,7 @@
 			</tr>
 		</table>
 		<p>
-			<a href="TestListStudentExecute.action?f4=${test.student.no}">戻る</a>
+			<a href="TestStudentListExecute.action?f4=${test.student.no}">戻る</a>
 		</p>
 	</c:param>
 </c:import>
