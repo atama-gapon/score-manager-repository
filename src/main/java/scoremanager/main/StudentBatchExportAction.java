@@ -1,7 +1,5 @@
 package scoremanager.main;
 
-import java.util.List;
-
 import bean.School;
 import bean.Staff;
 import dao.ClassNumDao;
@@ -15,15 +13,18 @@ public class StudentBatchExportAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
+		// インスタンス化
 		ClassNumDao classNumDao = new ClassNumDao();
-		List<String> classNumList = classNumDao.filter(school);
-
 		StudentDao studentDao = new StudentDao();
-		List<Integer> entYearList = studentDao.getEntYearList(school);
 
-		req.setAttribute("ent_year_list", entYearList);
-		req.setAttribute("class_num_list", classNumList);
+		// データの準備
+		prepareViewData(req, school, studentDao, classNumDao);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_batchexport.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school, StudentDao studentDao, ClassNumDao classNumDao) throws Exception {
+		req.setAttribute("class_num_list", classNumDao.filter(school));
+		req.setAttribute("ent_year_list", studentDao.getEntYearList(school));
 	}
 }

@@ -1,53 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
 	<c:param name="title">学生情報CSV出力</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<div class="card-body">
 			<p class="text-muted small">学籍番号, 氏名, 入学年度, クラス番号, 在学フラグ(true/false)の形式で保存されます。</p>
-			<form action="StudentBatchExportExecute.action" method="post" class="mt-4">
-				<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-light" id="filter">
-					<div class="col-md-3">
-						<label class="form-label" for="student-ent_year-select">入学年度</label>
-						<select class="form-select" id="student-ent_year-select" name="ent_year" required>
+			<form action="StudentBatchExportExecute.action" method="post">
+				<input type="hidden" name="submitted" value="true">
+				<div class="row border mx-3 mb-3 py-3 align-items-end rounded" id="filter">
+					<div class="col-4">
+						<label class="form-label mb-1" for="ent_year">入学年度</label>
+						<select class="form-select" id="ent_year" name="ent_year">
 							<option value="">--------</option>
 							<c:forEach var="year" items="${ ent_year_list }">
 								<option value="${ year }" <c:if test="${ year==ent_year }">selected</c:if>>${ year }</option>
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-3">
-						<label class="form-label" for="student-class_num-select">クラス</label>
-						<select class="form-select" id="student-class_num-select" name="class_num" required>
+					<div class="col-4">
+						<label class="form-label mb-1" for="class_num">クラス</label>
+						<select class="form-select" id="class_num" name="class_num">
 							<option value="">--------</option>
 							<c:forEach var="num" items="${ class_num_list }">
-								<option value="${ num }" <c:if test="${ num==class_num }">selected</c:if>>${ num }</option>
+								<option value="${ num }" <c:if test="${ num eq class_num }">selected</c:if>>${ num }</option>
 							</c:forEach>
 						</select>
 					</div>
-					<div class="col-md-3 pb-2">
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" id="student-is_attend-check" name="is_attend" value="t" <c:if test="${ is_attend }">checked</c:if>>
-							<label class="form-check-label" for="student-is_attend-check">在学中</label>
+					<div class="col-2">
+						<div class="form-check mb-2">
+							<input class="form-check-input me-2" type="checkbox" id="is_attend" name="is_attend" value="true" <c:if test="${ is_attend }">checked</c:if>>
+							<label class="form-check-label" for="is_attend">在学中</label>
 						</div>
 					</div>
-					<div class="col-md-3 d-grid">
-						<button type="submit" class="btn btn-secondary" id="filter-button">ダウンロード</button>
+					<div class="col-2 text-end">
+						<button type="submit" class="btn btn-secondary px-3" id="filter-button">ダウンロード</button>
 					</div>
-					<c:if test="${not empty errors.get('ent_year')}">
-						<div class="col-12 mt-2 text-danger small">${ errors.get("ent_year") }</div>
-					</c:if>
+					<my:error message="${errors.exist}" />
 				</div>
 			</form>
-			<c:if test="${not empty message}">
-				<div class="alert alert-danger mt-3">${message}</div>
-			</c:if>
-			<c:if test="${not empty errors.get('student_list_size')}">
-				<div class="alert alert-danger mt-3">${errors.get('student_list_size')}</div>
-			</c:if>
 		</div>
-		<a href="StudentList.action" class="text-decoration-underline">戻る</a>
+		<div class="mt-3">
+			<a href="StudentList.action" class="text-decoration-underline">戻る</a>
 		</div>
 	</c:param>
 </c:import>

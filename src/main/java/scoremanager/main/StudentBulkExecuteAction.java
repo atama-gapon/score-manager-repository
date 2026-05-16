@@ -47,7 +47,7 @@ public class StudentBulkExecuteAction extends Action {
 				try {
 					br.close();
 				} catch (Exception e) {
-
+					throw e;
 				}
 			}
 		}

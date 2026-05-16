@@ -12,9 +12,9 @@
 		</div>
 		<form method="get">
 			<input type="hidden" name="submitted" value="true">
-			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
+			<div class="row border mx-3 mb-3 py-3 align-items-end rounded" id="filter">
 				<div class="col-4">
-					<label class="form-label" for="ent_year">入学年度</label>
+					<label class="form-label mb-1" for="ent_year">入学年度</label>
 					<select class="form-select" id="ent_year" name="ent_year">
 						<option value="">--------</option>
 						<c:forEach var="year" items="${ ent_year_list }">
@@ -23,7 +23,7 @@
 					</select>
 				</div>
 				<div class="col-4">
-					<label class="form-label" for="class_num">クラス</label>
+					<label class="form-label mb-1" for="class_num">クラス</label>
 					<select class="form-select" id="class_num" name="class_num">
 						<option value="">--------</option>
 						<c:forEach var="num" items="${ class_num_list }">
@@ -31,14 +31,14 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-2 py-3">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" id="is_attend" name="is_attend" value="true" <c:if test="${ is_attend }">checked</c:if>>
+				<div class="col-2">
+					<div class="form-check mb-2">
+						<input class="form-check-input me-2" type="checkbox" id="is_attend" name="is_attend" value="true" <c:if test="${ is_attend }">checked</c:if>>
 						<label class="form-check-label" for="is_attend">在学中</label>
 					</div>
 				</div>
-				<div class="col-2 py-3 text-center">
-					<button type="submit" class="btn btn-secondary" id="filter-button">絞込み</button>
+				<div class="col-2 text-end">
+					<button type="submit" class="btn btn-secondary px-3" id="filter-button">絞込み</button>
 				</div>
 				<my:error message="${errors.search}" />
 			</div>
