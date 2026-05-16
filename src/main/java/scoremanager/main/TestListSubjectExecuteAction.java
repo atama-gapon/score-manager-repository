@@ -30,7 +30,7 @@ public class TestListSubjectExecuteAction extends Action {
 			req.setAttribute("class_num_list", cDao.filter(school));
 
 			SubjectDao sDao = new SubjectDao();
-			req.setAttribute("subjects", sDao.filter(school));
+			req.setAttribute("subject_list", sDao.filter(school));
 
 			StudentDao studentDao = new StudentDao();
 			List<Integer> entYearList = studentDao.getEntYearList(school);
@@ -53,14 +53,14 @@ public class TestListSubjectExecuteAction extends Action {
 		// ユーザーデータからユーザーが所属している学校の科目データを取得
 		SubjectDao subjectDao = new SubjectDao();
 		// 科目コードに合致するデータを取得
-		List<Subject> subjects = subjectDao.filter(school);
+		List<Subject> subject_list = subjectDao.filter(school);
 		// 入学年度リストを生成
 		StudentDao studentDao = new StudentDao();
 		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
 		req.setAttribute("class_num_list", cNumSet);
-		req.setAttribute("subjects", subjects);
+		req.setAttribute("subject_list", subject_list);
 		req.setAttribute("ent_year_list", entYearList);
 
 		req.setAttribute("ent_year", entYearStr);

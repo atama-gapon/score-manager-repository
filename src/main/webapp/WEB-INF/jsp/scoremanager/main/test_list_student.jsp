@@ -35,7 +35,7 @@
 								<label class="form-label small mb-1" for="is_attend">科目</label>
 								<select class="form-select form-select-sm" name="is_attend" id="is_attend">
 									<option value="0">----------</option>
-									<c:forEach var="subject" items="${subjects}">
+									<c:forEach var="subject" items="${subject_list}">
 										<option value="${subject.cd}" <c:if test="${subject.cd == is_attend}">selected</c:if>>${subject.name}</option>
 									</c:forEach>
 								</select>
@@ -62,7 +62,7 @@
 		<section class="mt-4">
 			<div class="mt-3 h5">氏名：${ student.name }（${ student.no }）</div>
 			<c:choose>
-				<c:when test="${ testListStudents.size() > 0 }">
+				<c:when test="${ not empty testListStudents }">
 					<div class="row mt-4">
 						<div class="col-lg-7">
 							<table class="table table-hover border">

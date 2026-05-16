@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
 	<c:param name="title">学生管理</c:param>
 	<c:param name="scripts"></c:param>
@@ -10,11 +11,12 @@
 			<a href="StudentCreate.action">新規登録</a>
 		</div>
 		<form method="get">
+			<input type="hidden" name="searched" value="true">
 			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
 				<div class="col-4">
 					<label class="form-label" for="ent_year">入学年度</label>
 					<select class="form-select" id="ent_year" name="ent_year">
-						<option value="0">--------</option>
+						<option value="">--------</option>
 						<c:forEach var="year" items="${ ent_year_list }">
 							<option value="${ year }" <c:if test="${ year==ent_year }">selected</c:if>>${ year }</option>
 						</c:forEach>
@@ -23,7 +25,7 @@
 				<div class="col-4">
 					<label class="form-label" for="class_num">クラス</label>
 					<select class="form-select" id="class_num" name="class_num">
-						<option value="0">--------</option>
+						<option value="">--------</option>
 						<c:forEach var="num" items="${ class_num_list }">
 							<option value="${ num }" <c:if test="${ num eq class_num }">selected</c:if>>${ num }</option>
 						</c:forEach>
@@ -32,19 +34,17 @@
 				<div class="col-2 py-3">
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" id="is_attend" name="is_attend" value="true" <c:if test="${ is_attend }">checked</c:if>>
-						<label class="form-check-label" for=is_attend">在学中</label>
+						<label class="form-check-label" for="is_attend">在学中</label>
 					</div>
 				</div>
 				<div class="col-2 py-3 text-center">
 					<button type="submit" class="btn btn-secondary" id="filter-button">絞込み</button>
 				</div>
-				<c:if test="${not empty errors.get('ent_year')}">
-					<div class="col-12 mt-2 text-danger small">${ errors.get("ent_year") }</div>
-				</c:if>
+				<my:error message="${errors.search}" />
 			</div>
 		</form>
 		<c:choose>
-			<c:when test="${ student_list.size() > 0 }">
+			<c:when test="${ not empty student_list }">
 				<div>検索結果：${ student_list.size() }件</div>
 				<table class="table table-hover">
 					<tr>
@@ -57,17 +57,17 @@
 					</tr>
 					<c:forEach var="student" items="${ student_list }">
 						<tr>
-							<td>${ student.entYear }</td>
-							<td>${ student.no }</td>
-							<td>${ student.name }</td>
-							<td>${ student.classNum }</td>
+							<td><c:out value="${ student.entYear }" /></td>
+							<td><c:out value="${ student.no }" /></td>
+							<td><c:out value="${ student.name }" /></td>
+							<td><c:out value="${ student.classNum }" /></td>
 							<td class="text-center">
 								<%-- 在学フラグがたっている場合「○」それ以外は「×」を表示 --%> <c:choose>
 									<c:when test="${ student.attend }">○</c:when>
 									<c:otherwise>×</c:otherwise>
 								</c:choose>
 							</td>
-							<td><a href="StudentUpdate.action?no=${ student.no }">変更</a></td>
+							<td><a href="<c:url value='StudentUpdate.action'><c:param name='no' value='${student.no}' /></c:url>">変更</a></td>
 						</tr>
 					</c:forEach>
 				</table>

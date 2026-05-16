@@ -46,7 +46,7 @@
 		</form>
 		-->
 		<c:choose>
-			<c:when test="${ staff_list.size() > 0 }">
+			<c:when test="${ not empty staff_list }">
 				<!-- <div>検索結果：${ staff_list.size() }件</div>-->
 				<table class="table table-hover">
 					<tr>

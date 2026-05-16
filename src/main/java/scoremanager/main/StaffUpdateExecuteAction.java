@@ -12,37 +12,33 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StaffUpdateExecuteAction extends Action {
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Staff staff = (Staff) req.getAttribute("staff");
+		School school = staff.getSchool();
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		StaffForm form = new StaffForm(req);
 
-        Staff loginStaff = (Staff) req.getAttribute("staff");
-        School school = loginStaff.getSchool();
+		// 元の職員情報
+		Staff original = new StaffDao().get(form.getNo(), school);
 
-        StaffForm form = new StaffForm(req);
+		// バリデーション
+		Map<String, String> errors = form.validateForUpdate(school);
 
-        // 元の職員情報
-        Staff original = new StaffDao().get(form.getNo(), school);
+		if (!errors.isEmpty()) {
+			form.setAttributes(req);
+			req.setAttribute("errors", errors);
 
-        // バリデーション
-        Map<String, String> errors = form.validateForUpdate(school);
+			req.setAttribute("position_list", new PositionDao().filter(school));
+			req.setAttribute("status_list", new StatusDao().filter(school));
 
-        if (!errors.isEmpty()) {
-            form.setAttributes(req);
-            req.setAttribute("errors", errors);
+			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_update.jsp").forward(req, res);
+			return;
+		}
 
-            req.setAttribute("position_list", new PositionDao().filter(school));
-            req.setAttribute("status_list", new StatusDao().filter(school));
+		// 更新
+		Staff updated = form.toEntityForUpdate(original, school);
+		new StaffDao().update(updated);
 
-            req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_update.jsp")
-               .forward(req, res);
-            return;
-        }
-
-        // 更新
-        Staff updated = form.toEntityForUpdate(original, school);
-        new StaffDao().update(updated);
-
-        res.sendRedirect(req.getContextPath() + "/scoremanager/main/StaffUpdateDone.action");
-    }
+		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StaffUpdateDone.action");
+	}
 }

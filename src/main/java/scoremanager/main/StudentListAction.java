@@ -19,74 +19,68 @@ public class StudentListAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// 初期化
-		ClassNumDao classNumDao = new ClassNumDao();
+		// インスタンス化
 		StudentDao studentDao = new StudentDao();
-		List<Student> studentList = new ArrayList<>();
+		ClassNumDao classNumDao = new ClassNumDao();
 		Map<String, String> errors = new HashMap<>();
-		boolean isClassNumSelected = false;
-		boolean isEntYearSelected = false;
-		boolean isAttend = false;
+		List<Student> studentList = new ArrayList<>();
 
-		// ゲット
+		// 入力値を取得
 		String entYearStr = req.getParameter("ent_year");
+		if (entYearStr == null)
+			entYearStr = "";
 		String classNum = req.getParameter("class_num");
+		if (classNum == null)
+			classNum = "";
 		String isAttendStr = req.getParameter("is_attend");
+		String searched = req.getParameter("searched");
 
-		List<String> classNumList = classNumDao.filter(school);
-		List<Integer> entYearList = studentDao.getEntYearList(school);
+		boolean isEntYearSelected = !entYearStr.isEmpty();
+		boolean isClassNumSelected = !classNum.isEmpty();
+		boolean isAttend = isAttendStr != null;
 
-		req.setAttribute("class_num_list", classNumList);
-		req.setAttribute("ent_year_list", entYearList);
-
-		// 初回アクセス
-		if (classNum == null || entYearStr == null) {
-			studentList = studentDao.filter(school, isAttend);
-			req.setAttribute("student_list", studentList);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
-			return;
+		int entYear = 0;
+		if (isEntYearSelected) {
+			entYear = Integer.parseInt(entYearStr);
 		}
 
-		int entYear = Integer.parseInt(entYearStr);
-
-		if (isAttendStr != null) {
-			isAttend = true;
-		}
-
-		// セット
-		req.setAttribute("ent_year", entYear);
+		// データの準備
+		prepareViewData(req, school, studentDao, classNumDao);
+		req.setAttribute("ent_year", entYearStr);
 		req.setAttribute("class_num", classNum);
-		req.setAttribute("is_attend", isAttend);
+		req.setAttribute("is_attend", isAttendStr);
 
-		// バリデーション
-		// 選択されたクラスがうちのクラスのなかか
-		// 選択された年度がうちの年度のなかか
-		// こんな不正な入力に対するバリデーションは、どこまで対応するべきか
-
-		if (!classNum.equals("0")) {
-			isClassNumSelected = true;
-		}
-
-		if (entYear != 0) {
-			isEntYearSelected = true;
-		}
-
-		if (isClassNumSelected != isEntYearSelected) {
-			errors.put("ent_year", "クラスを指定する場合は入学年度も指定してください");
-		}
-
-		// 検索条件
-		if (isClassNumSelected && isEntYearSelected) {
-			studentList = studentDao.filter(school, entYear, classNum, isAttend);
-		} else if (isEntYearSelected) {
-			studentList = studentDao.filter(school, entYear, isAttend);
-		} else {
+		if (!"true".equals(searched) || (entYearStr.isEmpty() && classNum.isEmpty())) {
 			studentList = studentDao.filter(school, isAttend);
+		} else {
+			// バリデーション
+			if (isClassNumSelected && !isEntYearSelected) {
+				errors.put("search", "クラスを指定する場合は入学年度も指定してください");
+			}
+
+			if (errors.isEmpty()) {
+				studentList = findStudents(school, entYear, classNum, isEntYearSelected, isClassNumSelected, isAttend, studentDao);
+			} else {
+				studentList = studentDao.filter(school, isAttend);
+				req.setAttribute("errors", errors);
+			}
 		}
 
-		req.setAttribute("errors", errors);
 		req.setAttribute("student_list", studentList);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_list.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school, StudentDao studentDao, ClassNumDao classNumDao) throws Exception {
+		req.setAttribute("class_num_list", classNumDao.filter(school));
+		req.setAttribute("ent_year_list", studentDao.getEntYearList(school));
+	}
+
+	private List<Student> findStudents(School school, Integer entYear, String classNum, boolean isEntYearSelected, boolean isClassNumSelected, boolean isAttend, StudentDao studentDao) throws Exception {
+		if (isClassNumSelected) {
+			return studentDao.filter(school, entYear, classNum, isAttend);
+		}
+
+		return studentDao.filter(school, entYear, isAttend);
 	}
 }

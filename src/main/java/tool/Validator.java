@@ -9,11 +9,13 @@ public class Validator {
 		}
 	}
 
-	public static void integer(String value, String fieldName, String message, Map<String, String> errors) {
+	public static Integer integer(String value, String fieldName, String message, Map<String, String> errors) {
 		try {
-			Integer.parseInt(value);
+			return Integer.parseInt(value);
+
 		} catch (NumberFormatException e) {
 			errors.put(fieldName, message);
+			return null;
 		}
 	}
 }

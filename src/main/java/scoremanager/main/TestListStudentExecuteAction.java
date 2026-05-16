@@ -37,13 +37,13 @@ public class TestListStudentExecuteAction extends Action {
 		// ユーザーデータからユーザーが所属している学校の科目データを取得
 		SubjectDao subjectDao = new SubjectDao();
 		// 科目コードに合致するデータを取得
-		List<Subject> subjects = subjectDao.filter(school);
+		List<Subject> subjectList = subjectDao.filter(school);
 		// 入学年度リストを生成
 		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
 		req.setAttribute("class_num_list", cNumSet);
-		req.setAttribute("subjects", subjects);
+		req.setAttribute("subject_list", subjectList);
 		req.setAttribute("ent_year_list", entYearList);
 
 		req.setAttribute("f4", no);

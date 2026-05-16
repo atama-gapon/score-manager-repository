@@ -11,7 +11,7 @@
 			</c:if>
 		</div>
 		<c:choose>
-			<c:when test="${ position_list.size() > 0 }">
+			<c:when test="${ not empty position_list }">
 				<table class="table table-hover">
 					<tr>
 						<th>役職名</th>

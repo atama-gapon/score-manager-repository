@@ -10,7 +10,7 @@
 			</c:if>
 		</div>
 		<c:choose>
-			<c:when test="${ subjects.size() > 0 }">
+		<c:when test="${ not empty subject_list }">
 				<table class="table table-hover">
 					<tr>
 						<th>科目コード</th>
@@ -20,7 +20,7 @@
 							<th></th>
 						</c:if>
 					</tr>
-					<c:forEach var="subject" items="${ subjects }">
+					<c:forEach var="subject" items="${ subject_list }">
 						<tr>
 							<td>${ subject.cd }</td>
 							<td>${ subject.name }</td>

@@ -24,14 +24,14 @@ public class TestListAction extends Action {
 		// ユーザーデータからユーザーが所属している学校の科目データを取得
 		SubjectDao sDao = new SubjectDao();
 		// 科目コードに合致するデータを取得
-		List<Subject> subjects = sDao.filter(school);
+		List<Subject> subjectList = sDao.filter(school);
 		// 入学年度リストを生成
 		StudentDao studentDao = new StudentDao();
 		List<Integer> entYearList = studentDao.getEntYearList(school);
 
 		// 収集したデータをリクエストに設定
 		req.setAttribute("class_num_list", cNumSet);
-		req.setAttribute("subjects", subjects);
+		req.setAttribute("subject_list", subjectList);
 		req.setAttribute("ent_year_list", entYearList);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/test_list.jsp").forward(req, res);
 		;

@@ -10,7 +10,7 @@
 			</c:if>
 		</div>
 		<c:choose>
-			<c:when test="${ class_num_list.size() > 0 }">
+			<c:when test="${ not empty class_num_list }">
 				<table class="table table-hover">
 					<tr>
 						<th>クラス番号</th>

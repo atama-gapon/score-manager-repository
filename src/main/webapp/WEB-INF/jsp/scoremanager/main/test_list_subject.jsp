@@ -32,7 +32,7 @@
 								<label class="form-label small mb-1" for="is_attend">科目</label>
 								<select class="form-select form-select-sm" name="is_attend" id="is_attend">
 									<option value="0">----------</option>
-									<c:forEach var="subject" items="${subjects}">
+									<c:forEach var="subject" items="${subject_list}">
 										<option value="${subject.cd}" <c:if test="${subject.cd == is_attend}">selected</c:if>>${subject.name}</option>
 									</c:forEach>
 								</select>
@@ -57,8 +57,7 @@
 			</div>
 		</div>
 		<c:choose>
-			<%-- データが存在する場合 --%>
-			<c:when test="${ testListSubjects.size() > 0 }">
+			<c:when test="${ not empty testListSubjects }">
 				<div class="mt-3">科目：${ subject.name }</div>
 				<table class="table table-hover">
 					<thead>

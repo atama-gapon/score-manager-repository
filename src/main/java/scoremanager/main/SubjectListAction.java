@@ -19,7 +19,7 @@ public class SubjectListAction extends Action {
 		SubjectDao sDao = new SubjectDao();
 		List<Subject> subjectList = sDao.filter(school);
 
-		req.setAttribute("subjects", subjectList);
+		req.setAttribute("subject_list", subjectList);
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_list.jsp").forward(req, res);
 	}
 }

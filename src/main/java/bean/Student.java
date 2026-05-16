@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Student implements Serializable {
 	private String no;
 	private String name;
-	private int entYear;
 	private String classNum;
+	private int entYear;
 	private boolean isAttend;
 
 	private School school;
@@ -27,20 +27,20 @@ public class Student implements Serializable {
 		this.name = name;
 	}
 
-	public int getEntYear() {
-		return entYear;
-	}
-
-	public void setEntYear(int entYear) {
-		this.entYear = entYear;
-	}
-
 	public String getClassNum() {
 		return classNum;
 	}
 
 	public void setClassNum(String classNum) {
 		this.classNum = classNum;
+	}
+
+	public int getEntYear() {
+		return entYear;
+	}
+
+	public void setEntYear(int entYear) {
+		this.entYear = entYear;
 	}
 
 	public boolean isAttend() {

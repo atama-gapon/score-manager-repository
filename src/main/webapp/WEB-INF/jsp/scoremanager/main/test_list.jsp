@@ -33,7 +33,7 @@
 								<label class="form-label small mb-1" for="is_attend">科目</label>
 								<select class="form-select form-select-sm" name="is_attend" id="is_attend">
 									<option value="0">----------</option>
-									<c:forEach var="subject" items="${subjects}">
+									<c:forEach var="subject" items="${subject_list}">
 										<option value="${subject.cd}" <c:if test="${subject.cd == is_attend}">selected</c:if>>${subject.name}</option>
 									</c:forEach>
 								</select>
