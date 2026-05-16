@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,189 +10,99 @@ import bean.ClassNum;
 import bean.School;
 
 public class ClassNumDao extends Dao {
-	// 取得したクラス番号、学校情報をもとにクラス情報を返却するメソッド
-	public ClassNum get(String class_num, School school) throws Exception {
-		ClassNum classNum = new ClassNum();
-		Connection connection = getConnection();
-		PreparedStatement statement = null;
-		try {
-			statement = connection.prepareStatement("select * from class_num where class_num = ? and school_cd = ?");
-			statement.setString(1, class_num);
+
+	// クラス番号と学校情報を条件に、該当するクラスの詳細情報を取得
+	public ClassNum get(String classNumStr, School school) throws Exception {
+		ClassNum classNum = null;
+		String sql = "SELECT * FROM class_num WHERE class_num = ? AND school_cd = ?";
+
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
+			statement.setString(1, classNumStr);
 			statement.setString(2, school.getCd());
-			ResultSet resultSet = statement.executeQuery();
-			SchoolDao sDao = new SchoolDao();
-			if (resultSet.next()) {
-				classNum.setClassNum(resultSet.getString("class_num"));
-				classNum.setSchool(sDao.get(resultSet.getString("school_cd")));
-			} else {
-				classNum = null;
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					throw e;
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					classNum = new ClassNum();
+					classNum.setClassNum(resultSet.getString("class_num"));
+
+					// 実際に使用するタイミングでDaoのインスタンスを生成
+					SchoolDao sDao = new SchoolDao();
+					classNum.setSchool(sDao.get(resultSet.getString("school_cd")));
 				}
 			}
 		}
+
 		return classNum;
 	}
 
-	// 引数で指定された学校に所属している、クラス一覧を取得
+	// 指定された学校に所属しているクラス番号の一覧を昇順で取得
 	public List<String> filter(School school) throws Exception {
 		List<String> list = new ArrayList<>();
+		String sql = "SELECT class_num FROM class_num WHERE school_cd = ? ORDER BY class_num ASC";
 
-		Connection connection = getConnection();
-		PreparedStatement statement = null;
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-		try {
-			statement = connection
-					.prepareStatement("select class_num from class_num where school_cd=? order by class_num");
 			statement.setString(1, school.getCd());
-			ResultSet resultSet = statement.executeQuery();
 
-			while (resultSet.next()) {
-				list.add(resultSet.getString("class_num"));
-			}
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					throw e;
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					list.add(resultSet.getString("class_num"));
 				}
 			}
 		}
+
 		return list;
 	}
 
+	// 新しいクラス情報を登録
 	public boolean save(ClassNum classNum) throws Exception {
-		Connection connection = getConnection();
-		PreparedStatement statement = null;
+		String sql = "INSERT INTO class_num (class_num, school_cd) VALUES (?, ?)";
 		int count = 0;
 
-		try {
-			statement = connection.prepareStatement("insert into class_num(class_num, school_cd) values(?, ?);");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
 			statement.setString(1, classNum.getClassNum());
 			statement.setString(2, classNum.getSchool().getCd());
 			count = statement.executeUpdate();
+		}
 
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-		}
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return count > 0;
 	}
 
+	// 既存のクラス番号を新しいクラス番号へ更新
 	public boolean save(ClassNum classNum, String newClassNum) throws Exception {
-		Connection connection = getConnection();
-		PreparedStatement statement = null;
+		String sql = "UPDATE class_num SET class_num = ? WHERE class_num = ? AND school_cd = ?";
 		int count = 0;
 
-		try {
-			statement = connection
-					.prepareStatement("update class_num set class_num=? where class_num=? and school_cd=?");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
 			statement.setString(1, newClassNum);
 			statement.setString(2, classNum.getClassNum());
 			statement.setString(3, classNum.getSchool().getCd());
 			count = statement.executeUpdate();
+		}
 
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-		}
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return count > 0;
 	}
 
+	// 指定されたクラス情報を削除
 	public boolean delete(ClassNum classNum) throws Exception {
-		Connection connection = getConnection();
-		PreparedStatement statement = null;
+		String sql = "DELETE FROM class_num WHERE school_cd = ? AND class_num = ?";
 		int count = 0;
 
-		try {
-			statement = connection.prepareStatement("delete from class_num where school_cd=? and class_num=?;");
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
 			statement.setString(1, classNum.getSchool().getCd());
 			statement.setString(2, classNum.getClassNum());
-
 			count = statement.executeUpdate();
+		}
 
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					throw e;
-				}
-			}
-		}
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return count > 0;
 	}
 }

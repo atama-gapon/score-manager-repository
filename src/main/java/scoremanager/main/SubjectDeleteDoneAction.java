@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class SubjectDeleteDoneAction extends Action {
+
+	// 科目削除完了画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_delete_done.jsp").forward(req, res);
 	}

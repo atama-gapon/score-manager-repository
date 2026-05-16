@@ -9,17 +9,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StaffCreateAction extends Action {
+
+	// 所属する学校の役職・状態一覧を取得し、教職員登録画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
+		// 画面表示用のデータを準備
 		prepareViewData(req, school);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_create.jsp").forward(req, res);
 	}
 
 	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
-		req.setAttribute("position_list", new PositionDao().filter(school));
-		req.setAttribute("status_list", new StatusDao().filter(school));
+		PositionDao positionDao = new PositionDao();
+		StatusDao statusDao = new StatusDao();
+
+		req.setAttribute("position_list", positionDao.filter(school));
+		req.setAttribute("status_list", statusDao.filter(school));
 	}
 }

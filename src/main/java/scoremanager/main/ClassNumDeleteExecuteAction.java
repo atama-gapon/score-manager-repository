@@ -13,17 +13,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class ClassNumDeleteExecuteAction extends Action {
+
+	// 削除対象のクラスに対するバリデーションを行い、問題がなければデータベースから削除する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
+		String num = req.getParameter("num");
 
 		// インスタンス化
 		ClassNumDao classNumDao = new ClassNumDao();
 		StudentDao studentDao = new StudentDao();
 		Map<String, String> errors = new HashMap<>();
-
-		// リクエストパラメータの取得
-		String num = req.getParameter("num");
 
 		// バリデーション
 		if (classNumDao.get(num, school) == null) {

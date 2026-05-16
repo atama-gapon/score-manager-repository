@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionCreateAction extends Action {
+
+	// 役職登録画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_create.jsp").forward(req, res);
 	}

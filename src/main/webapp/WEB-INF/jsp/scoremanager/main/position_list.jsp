@@ -11,30 +11,34 @@
 			</c:if>
 		</div>
 		<c:choose>
-			<c:when test="${ not empty position_list }">
+			<c:when test="${not empty position_list}">
 				<table class="table table-hover">
-					<tr>
-						<th>役職名</th>
-						<th>並び順</th>
-						<c:if test="${staff.position.name eq '管理者'}">
-							<th></th>
-							<th></th>
-						</c:if>
-					</tr>
-					<c:forEach var="position" items="${ position_list }">
+					<thead>
 						<tr>
-							<td><c:out value="${ position.name }" /></td>
-							<td><c:out value="${ position.sortOrder }" /></td>
-							<c:if test="${staff.position.name eq '管理者' and position.name ne '管理者' }">
-								<td><a href="PositionUpdate.action?id=${ position.id }">変更</a></td>
-								<td><a href="PositionDelete.action?id=${ position.id }">削除</a></td>
-							</c:if>
-							<c:if test="${staff.position.name eq '管理者' and position.name eq '管理者' }">
-								<td></td>
-								<td></td>
+							<th>役職名</th>
+							<th>並び順</th>
+							<c:if test="${staff.position.name eq '管理者'}">
+								<th></th>
+								<th></th>
 							</c:if>
 						</tr>
-					</c:forEach>
+					</thead>
+					<tbody>
+						<c:forEach var="position" items="${position_list}">
+							<tr>
+								<td><c:out value="${position.name}" /></td>
+								<td><c:out value="${position.sortOrder}" /></td>
+								<c:if test="${staff.position.name eq '管理者' and position.name ne '管理者'}">
+									<td><a href="PositionUpdate.action?id=<c:out value='${position.id}' />"> 変更 </a></td>
+									<td><a class="text-danger" href="PositionDelete.action?id=<c:out value='${position.id}' />"> 削除 </a></td>
+								</c:if>
+								<c:if test="${staff.position.name eq '管理者' and position.name eq '管理者'}">
+									<td></td>
+									<td></td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 			</c:when>
 			<c:otherwise>

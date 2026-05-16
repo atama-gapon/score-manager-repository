@@ -7,17 +7,29 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionUpdateAction extends Action {
+
+	// 選択された役職情報を取得し、変更画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		// インスタンス化
-		PositionDao positionDao = new PositionDao();
-
-		// リクエストパラメータの取得
-		String id = req.getParameter("id");
-
-		Position position = positionDao.get(Integer.parseInt(id));
-
-		req.setAttribute("position", position);
+		// 画面表示用のデータを準備
+		prepareViewData(req);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_update.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req) throws Exception {
+		// 必要なリクエスト情報の取得
+		String idStr = req.getParameter("id");
+
+		PositionDao positionDao = new PositionDao();
+		Position position = null;
+
+		// IDが取得できている場合はデータベースから役職情報を取得
+		if (idStr != null && !idStr.isEmpty()) {
+			int id = Integer.parseInt(idStr);
+			position = positionDao.get(id);
+		}
+
+		req.setAttribute("position", position);
 	}
 }

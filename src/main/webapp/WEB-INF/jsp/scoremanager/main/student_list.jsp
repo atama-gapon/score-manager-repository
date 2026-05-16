@@ -6,9 +6,9 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
-			<a class="btn btn-link p-0 me-3" href="StudentBatchExport.action">CSV出力</a>
-			<a class="btn btn-link p-0 me-3" href="StudentBulk.action">CSV取込</a>
-			<a class="btn btn-link p-0" href="StudentCreate.action">新規登録</a>
+			<a class="me-3" href="StudentBatchExport.action">CSV出力</a>
+			<a class="me-3" href="StudentBulk.action">CSV取込</a>
+			<a href="StudentCreate.action">新規登録</a>
 		</div>
 		<form class="px-0" method="get">
 			<input type="hidden" name="submitted" value="true">

@@ -37,7 +37,7 @@
 				</tbody>
 			</table>
 			<div class="mt-4">
-				<a class="btn btn-link p-0" href="TestStudentListExecute.action?f4=<c:out value='${test.student.no}' />">戻る</a>
+				<a href="TestStudentListExecute.action?f4=<c:out value='${test.student.no}' />">戻る</a>
 			</div>
 		</div>
 	</c:param>

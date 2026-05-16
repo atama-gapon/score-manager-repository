@@ -13,6 +13,8 @@ import tool.PasswordHasher;
 import tool.Validator;
 
 public class StaffForm {
+
+	// フィールド
 	private String no;
 	private String lastName;
 	private String firstName;
@@ -23,11 +25,7 @@ public class StaffForm {
 	private String positionId;
 	private String statusId;
 
-	private PositionDao positionDao = new PositionDao();
-	private StatusDao statusDao = new StatusDao();
-	private StaffDao staffDao = new StaffDao();
-
-	// リクエストから値を取り出す
+	// コンストラクタ：リクエストから値を取り出す
 	public StaffForm(HttpServletRequest req) {
 		this.no = req.getParameter("no");
 		this.lastName = req.getParameter("last_name");
@@ -40,11 +38,14 @@ public class StaffForm {
 		this.statusId = req.getParameter("status_id");
 	}
 
+	// ゲッター
 	public String getNo() {
 		return no;
 	}
 
+	// 新規登録用のバリデーションチェック
 	public Map<String, String> validate(School school) throws Exception {
+		StaffDao staffDao = new StaffDao();
 		Map<String, String> errors = new HashMap<>();
 
 		// 職員番号のチェック
@@ -78,7 +79,7 @@ public class StaffForm {
 		return errors;
 	}
 
-	// 更新用のバリデーション
+	// 更新用のバリデーションチェック
 	public Map<String, String> validateForUpdate(School school) throws Exception {
 		Map<String, String> errors = new HashMap<>();
 
@@ -97,6 +98,8 @@ public class StaffForm {
 
 	// 新規登録用のエンティティ変換
 	public Staff toEntity(School school) throws Exception {
+		PositionDao positionDao = new PositionDao();
+		StatusDao statusDao = new StatusDao();
 		Staff staff = new Staff();
 
 		// 基本情報をセット
@@ -105,23 +108,28 @@ public class StaffForm {
 		staff.setFirstName(firstName);
 		staff.setLastNameKana(lastNameKana);
 		staff.setFirstNameKana(firstNameKana);
-
-		// パスワードをハッシュ化してセット
-		staff.setPassword(PasswordHasher.hash(password));
-
-		// 学校情報をセット
 		staff.setSchool(school);
 
-		// 役職と状態をセット
-		staff.setPosition(positionDao.get(Integer.parseInt(positionId)));
+		// パスワードをハッシュ化してセット
+		if (password != null && !password.isEmpty()) {
+			staff.setPassword(PasswordHasher.hash(password));
+		}
 
-		staff.setStatus(statusDao.get(Integer.parseInt(statusId)));
+		// 役職と状態を数値変換してセット
+		if (positionId != null && !positionId.isEmpty()) {
+			staff.setPosition(positionDao.get(Integer.parseInt(positionId)));
+		}
+		if (statusId != null && !statusId.isEmpty()) {
+			staff.setStatus(statusDao.get(Integer.parseInt(statusId)));
+		}
 
 		return staff;
 	}
 
 	// 更新用のエンティティ変換
 	public Staff toEntityForUpdate(Staff original, School school) throws Exception {
+		PositionDao positionDao = new PositionDao();
+		StatusDao statusDao = new StatusDao();
 
 		// 基本情報を上書き
 		original.setLastName(lastName);
@@ -129,20 +137,23 @@ public class StaffForm {
 		original.setLastNameKana(lastNameKana);
 		original.setFirstNameKana(firstNameKana);
 
-		// パスワードは入力があったときだけ更新
+		// パスワードは入力があったときだけハッシュ化して上書き
 		if (password != null && !password.isEmpty()) {
 			original.setPassword(PasswordHasher.hash(password));
 		}
 
-		// 役職と状態を上書き
-		original.setPosition(positionDao.get(Integer.parseInt(positionId)));
-
-		original.setStatus(statusDao.get(Integer.parseInt(statusId)));
+		// 役職と状態を数値変換して上書き
+		if (positionId != null && !positionId.isEmpty()) {
+			original.setPosition(positionDao.get(Integer.parseInt(positionId)));
+		}
+		if (statusId != null && !statusId.isEmpty()) {
+			original.setStatus(statusDao.get(Integer.parseInt(statusId)));
+		}
 
 		return original;
 	}
 
-	// エラー時に入力値を戻す
+	// 画面表示用のデータを準備（エラー発生時の入力値の復元）
 	public void setAttributes(HttpServletRequest req) {
 		req.setAttribute("no", no);
 		req.setAttribute("last_name", lastName);

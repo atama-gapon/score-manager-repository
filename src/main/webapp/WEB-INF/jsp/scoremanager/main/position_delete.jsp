@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <c:import url="/WEB-INF/jsp/common/base.jsp">
 	<c:param name="title">役職情報削除</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<form class="px-4" action="PositionDeleteExecute.action" method="post">
+			<input type="hidden" name="id" value="<c:out value='${position.id}' />">
 			<p>
 				「
-				<c:out value="${name}" />
+				<c:out value="${position.name}" />
 				」 を削除してもよろしいですか
 			</p>
-			<input type="hidden" name="id" value="<c:out value='${id}' />">
+			<my:error message="${errors.position}" />
 			<div class="mt-4">
 				<input class="btn btn-danger px-3" type="submit" value="削除">
 			</div>
 			<div class="mt-3">
-				<a class="btn btn-link p-0" href="PositionList.action">戻る</a>
+				<a href="PositionList.action">戻る</a>
 			</div>
 		</form>
 	</c:param>

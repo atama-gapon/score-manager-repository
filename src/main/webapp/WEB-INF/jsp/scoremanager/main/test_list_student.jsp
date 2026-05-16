@@ -92,8 +92,8 @@
 						<div class="d-flex align-items-end flex-wrap ms-4 gap-3">
 							<div style="width: 140px;">
 								<label class="form-label small mb-1" for="ent_year">入学年度</label>
-								<select class="form-select form-select-sm" id="ent_year" name="ent_year">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="ent_year" name="ent_year" required>
+									<option value="">----------</option>
 									<c:forEach var="year" items="${ent_year_list}">
 										<option value="<c:out value='${year}' />" <c:if test="${year == ent_year}">selected</c:if>><c:out value="${year}" /></option>
 									</c:forEach>
@@ -101,19 +101,19 @@
 							</div>
 							<div style="width: 120px;">
 								<label class="form-label small mb-1" for="class_num">クラス</label>
-								<select class="form-select form-select-sm" id="class_num" name="class_num">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="class_num" name="class_num" required>
+									<option value="">----------</option>
 									<c:forEach var="num" items="${class_num_list}">
 										<option value="<c:out value='${num}' />" <c:if test="${num == class_num}">selected</c:if>><c:out value="${num}" /></option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 220px;">
-								<label class="form-label small mb-1" for="is_attend">科目</label>
-								<select class="form-select form-select-sm" id="is_attend" name="is_attend">
-									<option value="0">----------</option>
+								<label class="form-label small mb-1" for="subject_cd">科目</label>
+								<select class="form-select form-select-sm" id="subject_cd" name="subject_cd" required>
+									<option value="">----------</option>
 									<c:forEach var="subject" items="${subject_list}">
-										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd == is_attend}">selected</c:if>><c:out value="${subject.name}" /></option>
+										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd == subject_cd}">selected</c:if>><c:out value="${subject.name}" /></option>
 									</c:forEach>
 								</select>
 							</div>
@@ -136,53 +136,51 @@
 				</form>
 			</div>
 		</div>
-		<section class="mt-4 px-4">
-			<c:choose>
-				<c:when test="${ not empty test_student_list }">
-					<div class="mt-3 h5">
-						氏名：
-						<c:out value="${ student.name }" />
-						（
-						<c:out value="${ student.no }" />
-						）
-					</div>
-					<div class="row mt-4">
-						<div class="col-lg-7">
-							<table class="table table-hover border">
-								<thead class="table-light">
+		<c:choose>
+			<c:when test="${ not empty test_student_list }">
+				<div class="mt-3">
+					氏名：
+					<c:out value="${ student.name }" />
+					（
+					<c:out value="${ student.no }" />
+					）
+				</div>
+				<div class="row mt-4">
+					<div class="col-lg-7">
+						<table class="table table-hover border">
+							<thead class="table-light">
+								<tr>
+									<th>科目名</th>
+									<th>科目コード</th>
+									<th>回数</th>
+									<th>点数</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="tlstudent" items="${ test_student_list }">
 									<tr>
-										<th>科目名</th>
-										<th>科目コード</th>
-										<th>回数</th>
-										<th>点数</th>
-										<th></th>
+										<td><c:out value="${ tlstudent.subjectName }" /></td>
+										<td><c:out value="${ tlstudent.subjectCd }" /></td>
+										<td><c:out value="${ tlstudent.num }" /></td>
+										<td><c:out value="${ tlstudent.point }" /></td>
+										<td><a class="text-danger btn btn-link p-0" href="TestDelete.action?studentNo=<c:out value='${student.no}' />&subjectCd=<c:out value='${tlstudent.subjectCd}' />&schoolCd=<c:out value='${student.school.cd}' />&num=<c:out value='${tlstudent.num}' />">削除</a></td>
 									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="tlstudent" items="${ test_student_list }">
-										<tr>
-											<td><c:out value="${ tlstudent.subjectName }" /></td>
-											<td><c:out value="${ tlstudent.subjectCd }" /></td>
-											<td><c:out value="${ tlstudent.num }" /></td>
-											<td><c:out value="${ tlstudent.point }" /></td>
-											<td><a class="text-danger btn btn-link p-0" href="TestDelete.action?studentNo=<c:out value='${student.no}' />&subjectCd=<c:out value='${tlstudent.subjectCd}' />&schoolCd=<c:out value='${student.school.cd}' />&num=<c:out value='${tlstudent.num}' />">削除</a></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-						<div class="col-lg-5">
-							<div class="card shadow-sm p-3">
-								<h3 class="h6 text-center mb-3">成績分析レーダー</h3>
-								<canvas id="gradeRadarChart" style="max-height: 400px;"></canvas>
-							</div>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-5">
+						<div class="card shadow-sm p-3">
+							<h3 class="h6 text-center mb-3">成績分析レーダー</h3>
+							<canvas id="gradeRadarChart" style="max-height: 400px;"></canvas>
 						</div>
 					</div>
-				</c:when>
-				<c:otherwise>
-					<div class="mx-2 my-2">成績情報が存在しませんでした</div>
-				</c:otherwise>
-			</c:choose>
-		</section>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="mx-2 my-2">成績情報が存在しませんでした</div>
+			</c:otherwise>
+		</c:choose>
 	</c:param>
 </c:import>

@@ -13,8 +13,8 @@
 						<div class="d-flex align-items-end flex-wrap ms-4 gap-3">
 							<div style="width: 140px;">
 								<label class="form-label small mb-1" for="ent_year">入学年度</label>
-								<select class="form-select form-select-sm" id="ent_year" name="ent_year">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="ent_year" name="ent_year" required>
+									<option value="">----------</option>
 									<c:forEach var="year" items="${ent_year_list}">
 										<option value="<c:out value='${year}' />" <c:if test="${year == ent_year}">selected</c:if>><c:out value="${year}" /></option>
 									</c:forEach>
@@ -22,19 +22,19 @@
 							</div>
 							<div style="width: 120px;">
 								<label class="form-label small mb-1" for="class_num">クラス</label>
-								<select class="form-select form-select-sm" id="class_num" name="class_num">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="class_num" name="class_num" required>
+									<option value="">----------</option>
 									<c:forEach var="num" items="${class_num_list}">
 										<option value="<c:out value='${num}' />" <c:if test="${num == class_num}">selected</c:if>><c:out value="${num}" /></option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 220px;">
-								<label class="form-label small mb-1" for="is_attend">科目</label>
-								<select class="form-select form-select-sm" id="is_attend" name="is_attend">
-									<option value="0">----------</option>
+								<label class="form-label small mb-1" for="subject_cd">科目</label>
+								<select class="form-select form-select-sm" id="subject_cd" name="subject_cd" required>
+									<option value="">----------</option>
 									<c:forEach var="subject" items="${subject_list}">
-										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd == is_attend}">selected</c:if>><c:out value="${subject.name}" /></option>
+										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd eq cd}">selected</c:if>><c:out value="${subject.name}" /></option>
 									</c:forEach>
 								</select>
 							</div>
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 		<c:if test="${empty test_subject_list && empty test_student_list}">
-			<div class="alert alert-info mt-4 mx-4">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</div>
+			<div class="mt-2 text-info">科目情報を選択または学生情報を入力して検索ボタンをクリックしてください</div>
 		</c:if>
 	</c:param>
 </c:import>

@@ -46,7 +46,7 @@
 			</form>
 		</div>
 		<div class="mt-3">
-			<a class="btn btn-link p-0 text-decoration-underline" href="StudentList.action">戻る</a>
+			<a class="text-decoration-underline" href="StudentList.action">戻る</a>
 		</div>
 	</c:param>
 </c:import>

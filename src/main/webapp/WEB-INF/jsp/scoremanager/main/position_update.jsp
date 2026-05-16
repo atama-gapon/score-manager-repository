@@ -5,23 +5,23 @@
 	<c:param name="title">役職情報変更</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form class="px-4" method="post" action="PositionUpdateExecute.action">
+		<form class="px-4" action="PositionUpdateExecute.action" method="post">
 			<input type="hidden" name="id" value="<c:out value='${position.id}' />">
 			<div class="mb-3">
 				<label class="form-label">役職名</label>
-				<input class="form-control" type="text" name="name" value="<c:out value='${name}' />" placeholder="役職名を入力してください" maxlength="20" required>
+				<input class="form-control" type="text" name="name" value="<c:out value='${position.name}' />" placeholder="役職名を入力してください" maxlength="20" required>
 				<my:error message="${errors.name}" />
 			</div>
 			<div class="mb-3">
 				<label class="form-label">並び順</label>
-				<input class="form-control" type="number" name="sort_order" value="<c:out value='${sort_order}' />" placeholder="並び順を入力してください" required>
+				<input class="form-control" type="number" name="sort_order" value="<c:out value='${position.sortOrder}' />" placeholder="並び順を入力してください" required>
 				<my:error message="${errors.sort_order}" />
 			</div>
 			<div class="mt-4">
 				<button class="btn btn-secondary" type="submit">変更</button>
 			</div>
 			<div class="mt-3">
-				<a class="text-decoration-none" href="PositionList.action">戻る</a>
+				<a href="PositionList.action">戻る</a>
 			</div>
 		</form>
 	</c:param>

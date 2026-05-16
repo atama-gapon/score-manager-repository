@@ -6,7 +6,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<my:done message="登録が完了しました">
-			<a class="text-decoration-underline" href="TestRegist.action?ent_year=${ent_year}&class_num=${class_num}&is_attend=${is_attend}&f4=${f4}&search=true">戻る</a>
+			<a class="text-decoration-underline" href="TestRegist.action?ent_year=${ent_year}&class_num=${class_num}&subject_cd=${subject_cd}&num=${num}&search=true">戻る</a>
 			<a class="text-decoration-underline" href="TestList.action">成績参照</a>
 		</my:done>
 	</c:param>

@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class PositionDeleteDoneAction extends Action {
+
+	// 役職削除完了画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/position_delete_done.jsp").forward(req, res);
 	}

@@ -6,7 +6,7 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<my:done message="ログアウトしました">
-			<a class="text-decoration-underline" href="<c:url value='/Login.action' />">ログイン</a>
+			<a class="text-decoration-underline" href="../Login.action">ログイン</a>
 		</my:done>
 	</c:param>
 </c:import>

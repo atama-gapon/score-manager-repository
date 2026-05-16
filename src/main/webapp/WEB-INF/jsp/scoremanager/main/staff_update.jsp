@@ -55,7 +55,7 @@
 				<button class="btn btn-secondary" type="submit">変更</button>
 			</div>
 			<div class="mt-3">
-				<a class="btn btn-link p-0" href="StaffList.action">戻る</a>
+				<a href="StaffList.action">戻る</a>
 			</div>
 		</form>
 	</c:param>

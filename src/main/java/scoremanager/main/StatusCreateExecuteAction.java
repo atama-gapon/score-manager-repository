@@ -12,89 +12,60 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StatusCreateExecuteAction extends Action {
+
+	// 入力された在籍状態登録情報のバリデーションを行い、問題がなければデータベースに登録する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
-
-		// リクエストパラメータ
 		String name = req.getParameter("name");
 		String sortOrderStr = req.getParameter("sort_order");
 
-		req.setAttribute("name", name);
-		req.setAttribute("sort_order", sortOrderStr);
-
+		// インスタンス化
+		StatusDao statusDao = new StatusDao();
 		Map<String, String> errors = new HashMap<>();
-		req.setAttribute("errors", errors);
-
-		// バリデーション
-		if (name == null || name.isEmpty()) {
-			errors.put("name", "ステータス名を入力してください");
-		}
 
 		int sortOrder = 0;
+
+		// バリデーション
 		try {
-			sortOrder = Integer.parseInt(sortOrderStr);
-
-			if (sortOrder < 0) {
-				errors.put("sortOrder", "並び順は 0 以上の整数で入力してください");
+			if (sortOrderStr != null && !sortOrderStr.isEmpty()) {
+				sortOrder = Integer.parseInt(sortOrderStr);
+				if (sortOrder < 0) {
+					errors.put("sort_order", "並び順は 0 以上の整数で入力してください");
+				}
+			} else {
+				errors.put("sort_order", "並び順を入力してください");
 			}
-
 		} catch (NumberFormatException e) {
-			errors.put("sortOrder", "並び順は数字で入力してください");
+			errors.put("sort_order", "並び順は半角数字で入力してください");
 		}
 
-		StatusDao dao = new StatusDao();
-
-		// 重複チェック
-		if (dao.existsByName(name, school)) {
-			errors.put("name", "同じ名前のステータスがすでに存在します");
+		if (name != null && !name.isEmpty()) {
+			if (statusDao.existsByName(name, school)) {
+				errors.put("name", "同じ名前の状態がすでに存在します");
+			}
+		} else {
+			errors.put("name", "状態名を入力してください");
 		}
 
-		// エラーがあれば戻す
+		// エラーがある場合は入力画面へ戻す
 		if (!errors.isEmpty()) {
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create.jsp").forward(req, res);
+			req.setAttribute("name", name);
+			req.setAttribute("sort_order", sortOrderStr);
+			req.setAttribute("errors", errors);
+			req.getRequestDispatcher("StatusCreate.action").forward(req, res);
 			return;
 		}
 
-		// 登録処理
-		Status s = new Status();
-		s.setName(name);
-		s.setSortOrder(sortOrder);
-		s.setSchool(school);
-
-		boolean result = dao.save(s);
-
-		if (!result) {
-			req.setAttribute("message", "登録に失敗しました");
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create.jsp")
-					.forward(req, res);
-			return;
-		}
+		// DBへ反映
+		Status status = new Status();
+		status.setName(name);
+		status.setSortOrder(sortOrder);
+		status.setSchool(school);
+		statusDao.save(status);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusCreateDone.action");
 	}
 }
-
-//public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
-//	Staff staff = (Staff) req.getAttribute("staff");
-//	School school = staff.getSchool();
-//
-//	// パラメータの取得とFormへの詰め替え
-//	StatusForm form = new StatusForm(req);
-//
-//	// バリデーション
-//	Map<String, String> errors = form.validate(school);
-//
-//	if (!errors.isEmpty()) {
-//		form.setAttributes(req);
-//		req.setAttribute("errors", errors);
-//		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/status_create.jsp").forward(req, res);
-//		return;
-//	}
-//
-//	// 保存処理
-//	Status newStatus = form.toEntity(school);
-//	new StatusDao().save(newStatus);
-//
-//	res.sendRedirect(req.getContextPath() + "/scoremanager/main/StatusCreateDone.action");
-//}

@@ -6,7 +6,7 @@
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
 			<c:if test="${staff.position.name eq '管理者'}">
-				<a href="StaffCreate.action">新規登録</a>
+				<a href="SubjectCreate.action">新規登録</a>
 			</c:if>
 		</div>
 		<c:choose>
@@ -28,7 +28,7 @@
 								<td><c:out value="${subject.cd}" /></td>
 								<td><c:out value="${subject.name}" /></td>
 								<c:if test="${staff.position.name eq '管理者'}">
-									<td><a class="btn btn-link p-0" href="SubjectUpdate.action?cd=<c:out value='${subject.cd}' />">変更</a></td>
+									<td><a href="SubjectUpdate.action?cd=<c:out value='${subject.cd}' />">変更</a></td>
 									<td><a class="text-danger btn btn-link p-0" href="SubjectDelete.action?cd=<c:out value='${subject.cd}' />">削除</a></td>
 								</c:if>
 							</tr>

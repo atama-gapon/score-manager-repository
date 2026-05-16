@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class ClassNumCreateAction extends Action {
+
+	// クラス番号作成（登録）画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/class_num_create.jsp").forward(req, res);
 	}

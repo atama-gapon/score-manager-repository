@@ -20,7 +20,7 @@
 				<button class="btn btn-secondary" type="submit">登録</button>
 			</div>
 			<div class="mt-3">
-				<a class="btn btn-link p-0" href="SubjectList.action">戻る</a>
+				<a href="SubjectList.action">戻る</a>
 			</div>
 		</form>
 	</c:param>

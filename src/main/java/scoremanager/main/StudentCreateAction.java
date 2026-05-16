@@ -9,21 +9,24 @@ import tool.Action;
 import tool.StudentUtil;
 
 public class StudentCreateAction extends Action {
+
+	// 入学年度一覧およびクラス番号一覧を取得し、学生新規登録画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// インスタンス化
-		ClassNumDao classNumDao = new ClassNumDao();
-
-		// データの準備
-		prepareViewData(req, school, classNumDao);
+		// 画面表示用のデータを準備
+		prepareViewData(req, school);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_create.jsp").forward(req, res);
 	}
 
-	private void prepareViewData(HttpServletRequest req, School school, ClassNumDao classNumDao) throws Exception {
+	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
+		ClassNumDao classNumDao = new ClassNumDao();
+
 		req.setAttribute("class_num_list", classNumDao.filter(school));
-		req.setAttribute("ent_year_list", StudentUtil.createEntYearList(req));
+		req.setAttribute("ent_year_list", StudentUtil.createEntYearList());
 	}
 }

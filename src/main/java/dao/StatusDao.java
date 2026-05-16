@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,133 +11,118 @@ import bean.Status;
 
 public class StatusDao extends Dao {
 
-	// 一覧取得（学校ごと）
+	// 指定された学校に所属する在籍状態の一覧をソート順で取得
 	public List<Status> filter(School school) throws Exception {
 		List<Status> list = new ArrayList<>();
+		String sql = "SELECT id, name, sort_order FROM status WHERE school_cd = ? ORDER BY sort_order ASC";
 
-		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement(
-				"SELECT id, name, sort_order FROM status WHERE school_cd=? ORDER BY sort_order");
-		st.setString(1, school.getCd());
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-		ResultSet rs = st.executeQuery();
+			statement.setString(1, school.getCd());
 
-		while (rs.next()) {
-			Status s = new Status();
-			s.setId(rs.getInt("id"));
-			s.setName(rs.getString("name"));
-			s.setSortOrder(rs.getInt("sort_order"));
-			s.setSchool(school);
-			list.add(s);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					Status s = new Status();
+					s.setId(resultSet.getInt("id"));
+					s.setName(resultSet.getString("name"));
+					s.setSortOrder(resultSet.getInt("sort_order"));
+					s.setSchool(school);
+					list.add(s);
+				}
+			}
 		}
-
-		st.close();
-		con.close();
 		return list;
 	}
 
-	//同名チェック
+	// 同じ学校内に同名の在籍状態が既に存在するかチェック
 	public boolean existsByName(String name, School school) throws Exception {
-		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement("SELECT COUNT(*) FROM status WHERE name=? AND school_cd=?");
-		st.setString(1, name);
-		st.setString(2, school.getCd());
+		String sql = "SELECT COUNT(*) FROM status WHERE name = ? AND school_cd = ?";
+		int count = 0;
 
-		ResultSet rs = st.executeQuery();
-		rs.next();
-		int count = rs.getInt(1);
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-		st.close();
-		con.close();
+			statement.setString(1, name);
+			statement.setString(2, school.getCd());
 
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					count = resultSet.getInt(1);
+				}
+			}
+		}
 		return count > 0;
 	}
 
-	// 1件取得
+	// 指定されたIDに一致する在籍状態の詳細情報を取得
 	public Status get(int id) throws Exception {
-
-		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement("SELECT id, name, sort_order FROM status WHERE id=?");
-		st.setInt(1, id);
-
-		ResultSet rs = st.executeQuery();
-
+		String sql = "SELECT id, name, sort_order FROM status WHERE id = ?";
 		Status s = null;
-		if (rs.next()) {
-			s = new Status();
-			s.setId(rs.getInt("id"));
-			s.setName(rs.getString("name"));
-			s.setSortOrder(rs.getInt("sort_order"));
+
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+
+			statement.setInt(1, id);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					s = new Status();
+					s.setId(resultSet.getInt("id"));
+					s.setName(resultSet.getString("name"));
+					s.setSortOrder(resultSet.getInt("sort_order"));
+				}
+			}
 		}
-
-		st.close();
-		con.close();
-
 		return s;
 	}
 
-	// 新規登録
+	// 新しい在籍状態の情報を登録
 	public boolean save(Status s) throws Exception {
+		String sql = "INSERT INTO status (name, sort_order, school_cd) VALUES (?, ?, ?)";
+		int count = 0;
 
-		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement(
-				"INSERT INTO status(name, sort_order, school_cd) VALUES(?, ?, ?)");
-		st.setString(1, s.getName());
-		st.setInt(2, s.getSortOrder());
-		st.setString(3, s.getSchool().getCd());
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-		int line = st.executeUpdate();
+			statement.setString(1, s.getName());
+			statement.setInt(2, s.getSortOrder());
+			statement.setString(3, s.getSchool().getCd());
 
-		st.close();
-		con.close();
-
-		return line == 1;
+			count = statement.executeUpdate();
+		}
+		return count == 1;
 	}
 
-	// 更新
+	// 既存の在籍状態の名前やソート順を更新
 	public boolean update(Status s) throws Exception {
+		String sql = "UPDATE status SET name = ?, sort_order = ? WHERE id = ? AND school_cd = ?";
+		int count = 0;
 
-		Connection con = getConnection();
-		PreparedStatement st = con.prepareStatement(
-				"UPDATE status SET name=?, sort_order=? WHERE id=? AND school_cd=?");
-		st.setString(1, s.getName());
-		st.setInt(2, s.getSortOrder());
-		st.setInt(3, s.getId());
-		st.setString(4, s.getSchool().getCd());
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-		int line = st.executeUpdate();
+			statement.setString(1, s.getName());
+			statement.setInt(2, s.getSortOrder());
+			statement.setInt(3, s.getId());
+			statement.setString(4, s.getSchool().getCd());
 
-		st.close();
-		con.close();
-
-		return line==1;
+			count = statement.executeUpdate();
+		}
+		return count == 1;
 	}
 
-	public boolean delete(Status status) throws Exception {
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
-        int count = 0;
+	// 指定されたIDの在籍状態情報を削除
+	public boolean delete(int id) throws Exception {
+		String sql = "DELETE FROM status WHERE id = ?";
+		int count = 0;
 
-        try {
-            statement = connection.prepareStatement(
-                "delete from status where id=? and school_cd=?"
-            );
-            statement.setInt(1, status.getId());
-            statement.setString(2, status.getSchool().getCd());  
-            count = statement.executeUpdate();
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-        } catch (Exception e) {
-            throw e;
-
-        } finally {
-            if (statement != null) {
-                try { statement.close(); } catch (SQLException e) { throw e; }
-            }
-            if (connection != null) {
-                try { connection.close(); } catch (SQLException e) { throw e; }
-            }
-        }
-
-        return count > 0;
-    }
+			statement.setInt(1, id);
+			count = statement.executeUpdate();
+		}
+		return count > 0;
+	}
 }

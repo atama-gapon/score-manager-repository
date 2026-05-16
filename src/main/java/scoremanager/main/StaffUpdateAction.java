@@ -11,21 +11,34 @@ import tool.Action;
 
 public class StaffUpdateAction extends Action {
 
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	// 選択された教職員情報、および選択肢となる役職・状態一覧を取得し、変更画面のJSPへフォワード遷移する
+	@Override
+	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
+		Staff loginStaff = (Staff) req.getAttribute("staff");
+		School school = loginStaff.getSchool();
+		String no = req.getParameter("no");
 
-        Staff loginStaff = (Staff) req.getAttribute("staff");
-        School school = loginStaff.getSchool();
+		// 画面表示用のデータを準備
+		prepareViewData(req, school, no);
 
-        String no = req.getParameter("no");
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_update.jsp").forward(req, res);
+	}
 
-        Staff target = new StaffDao().get(no, school);
+	private void prepareViewData(HttpServletRequest req, School school, String no) throws Exception {
+		StaffDao staffDao = new StaffDao();
+		PositionDao positionDao = new PositionDao();
+		StatusDao statusDao = new StatusDao();
 
-        req.setAttribute("staff", target);
-        req.setAttribute("position_list", new PositionDao().filter(school));
-        req.setAttribute("status_list", new StatusDao().filter(school));
+		Staff targetStaff = null;
 
-        req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_update.jsp")
-           .forward(req, res);
-    }
+		// 職員番号が取得できている場合はデータベースから教職員情報を取得
+		if (no != null && !no.isEmpty()) {
+			targetStaff = staffDao.get(no, school);
+		}
+
+		req.setAttribute("staff", targetStaff);
+		req.setAttribute("position_list", positionDao.filter(school));
+		req.setAttribute("status_list", statusDao.filter(school));
+	}
 }

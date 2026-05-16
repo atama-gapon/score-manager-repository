@@ -11,15 +11,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class SubjectListAction extends Action {
+
+	// ユーザーが所属している学校の科目一覧データを取得し、科目一覧画面のJSPへフォワード遷移する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// 【セッションのユーザーデータから、ユーザーが所属している学校の科目一覧用データを取得】
-		SubjectDao sDao = new SubjectDao();
-		List<Subject> subjectList = sDao.filter(school);
+		// 画面表示用のデータを準備
+		prepareViewData(req, school);
+
+		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_list.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
+		SubjectDao subjectDao = new SubjectDao();
+		List<Subject> subjectList = subjectDao.filter(school);
 
 		req.setAttribute("subject_list", subjectList);
-		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/subject_list.jsp").forward(req, res);
 	}
 }

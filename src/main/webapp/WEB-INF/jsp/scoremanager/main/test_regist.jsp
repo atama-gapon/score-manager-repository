@@ -9,8 +9,8 @@
 			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
 				<div class="col-2">
 					<label class="form-label" for="student-ent_year-select">入学年度</label>
-					<select class="form-select" id="student-ent_year-select" name="ent_year">
-						<option value="0">----------</option>
+					<select class="form-select" id="student-ent_year-select" name="ent_year" required>
+						<option value="">----------</option>
 						<c:forEach var="year" items="${ ent_year_list }">
 							<option value="<c:out value='${year}' />" <c:if test="${ year==ent_year }">selected</c:if>><c:out value="${year}" /></option>
 						</c:forEach>
@@ -18,28 +18,28 @@
 				</div>
 				<div class="col-2">
 					<label class="form-label" for="student-class_num-select">クラス</label>
-					<select class="form-select" id="student-class_num-select" name="class_num">
-						<option value="0">----------</option>
+					<select class="form-select" id="student-class_num-select" name="class_num" required>
+						<option value="">----------</option>
 						<c:forEach var="num" items="${ class_num_list }">
 							<option value="<c:out value='${num}' />" <c:if test="${ num==class_num }">selected</c:if>><c:out value="${num}" /></option>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="col-3">
-					<label class="form-label" for="student-is_attend-select">科目</label>
-					<select class="form-select" id="student-is_attend-select" name="is_attend">
-						<option value="0">----------</option>
+					<label class="form-label" for="student-subject_cd-select">科目</label>
+					<select class="form-select" id="student-subject_cd-select" name="subject_cd" required>
+						<option value="">----------</option>
 						<c:forEach var="subject" items="${ subject_list }">
-							<option value="<c:out value='${subject.cd}' />" <c:if test="${ subject.cd==is_attend }">selected</c:if>><c:out value="${subject.name}" /></option>
+							<option value="<c:out value='${subject.cd}' />" <c:if test="${ subject.cd==subject_cd }">selected</c:if>><c:out value="${subject.name}" /></option>
 						</c:forEach>
 					</select>
 				</div>
 				<div class="col-2">
-					<label class="form-label" for="student-f4-select">回数</label>
-					<select class="form-select" id="student-f4-select" name="f4">
-						<option value="0">----------</option>
-						<option value="1" <c:if test="${f4 == 1}">selected</c:if>>1</option>
-						<option value="2" <c:if test="${f4 == 2}">selected</c:if>>2</option>
+					<label class="form-label" for="student-num-select">回数</label>
+					<select class="form-select" id="student-num-select" name="num" required>
+						<option value="">----------</option>
+						<option value="1" <c:if test="${num == 1}">selected</c:if>>1</option>
+						<option value="2" <c:if test="${num == 2}">selected</c:if>>2</option>
 					</select>
 				</div>
 				<div class="col-2">
@@ -94,8 +94,8 @@
 					</div>
 					<input type="hidden" name="ent_year" value="<c:out value='${ent_year}' />">
 					<input type="hidden" name="class_num" value="<c:out value='${class_num}' />">
-					<input type="hidden" name="is_attend" value="<c:out value='${is_attend}' />">
-					<input type="hidden" name="f4" value="<c:out value='${f4}' />">
+					<input type="hidden" name="subject_cd" value="<c:out value='${subject_cd}' />">
+					<input type="hidden" name="num" value="<c:out value='${num}' />">
 				</form>
 			</c:when>
 			<c:when test="${not empty ent_year}">

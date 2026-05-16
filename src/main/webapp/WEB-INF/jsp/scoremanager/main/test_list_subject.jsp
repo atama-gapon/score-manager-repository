@@ -13,8 +13,8 @@
 						<div class="d-flex align-items-end flex-wrap ms-4 gap-3">
 							<div style="width: 140px;">
 								<label class="form-label small mb-1" for="ent_year">入学年度</label>
-								<select class="form-select form-select-sm" id="ent_year" name="ent_year">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="ent_year" name="ent_year" required>
+									<option value="">----------</option>
 									<c:forEach var="year" items="${ent_year_list}">
 										<option value="<c:out value='${year}' />" <c:if test="${year == ent_year}">selected</c:if>><c:out value="${year}" /></option>
 									</c:forEach>
@@ -22,19 +22,19 @@
 							</div>
 							<div style="width: 120px;">
 								<label class="form-label small mb-1" for="class_num">クラス</label>
-								<select class="form-select form-select-sm" id="class_num" name="class_num">
-									<option value="0">----------</option>
+								<select class="form-select form-select-sm" id="class_num" name="class_num" required>
+									<option value="">----------</option>
 									<c:forEach var="num" items="${class_num_list}">
 										<option value="<c:out value='${num}' />" <c:if test="${num == class_num}">selected</c:if>><c:out value="${num}" /></option>
 									</c:forEach>
 								</select>
 							</div>
 							<div style="width: 220px;">
-								<label class="form-label small mb-1" for="is_attend">科目</label>
-								<select class="form-select form-select-sm" id="is_attend" name="is_attend">
-									<option value="0">----------</option>
+								<label class="form-label small mb-1" for="subject_cd">科目</label>
+								<select class="form-select form-select-sm" id="subject_cd" name="subject_cd" required>
+									<option value="">----------</option>
 									<c:forEach var="subject" items="${subject_list}">
-										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd == is_attend}">selected</c:if>><c:out value="${subject.name}" /></option>
+										<option value="<c:out value='${subject.cd}' />" <c:if test="${subject.cd == subject_cd}">selected</c:if>><c:out value="${subject.name}" /></option>
 									</c:forEach>
 								</select>
 							</div>
@@ -58,52 +58,50 @@
 			</div>
 		</div>
 		<my:error message="${message}" />
-		<section class="mt-4 px-4">
-			<c:choose>
-				<c:when test="${ not empty test_subject_list }">
-					<div class="mt-3 h5">
-						科目：
-						<c:out value="${ subject.name }" />
-					</div>
-					<table class="table table-hover mt-3">
-						<thead>
+		<c:choose>
+			<c:when test="${ not empty test_subject_list }">
+				<div class="mt-3">
+					科目：
+					<c:out value="${ subject.name }" />
+				</div>
+				<table class="table table-hover mt-3">
+					<thead>
+						<tr>
+							<th>入学年度</th>
+							<th>クラス</th>
+							<th>学生番号</th>
+							<th>氏名</th>
+							<th>1回</th>
+							<th>2回</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="tlsubject" items="${ test_subject_list }">
 							<tr>
-								<th>入学年度</th>
-								<th>クラス</th>
-								<th>学生番号</th>
-								<th>氏名</th>
-								<th>1回</th>
-								<th>2回</th>
+								<td><c:out value="${ tlsubject.entYear }" /></td>
+								<td><c:out value="${ tlsubject.classNum }" /></td>
+								<td><c:out value="${ tlsubject.studentNo }" /></td>
+								<td><c:out value="${ tlsubject.studentName }" /></td>
+								<td><c:set var="done1" value="false" /> <c:forEach var="point" items="${tlsubject.points}">
+										<c:if test="${point.key == 1}">
+											<c:out value="${point.value}" />
+											<c:set var="done1" value="true" />
+										</c:if>
+									</c:forEach> <c:if test="${!done1}">-</c:if></td>
+								<td><c:set var="done2" value="false" /> <c:forEach var="point" items="${tlsubject.points}">
+										<c:if test="${point.key == 2}">
+											<c:out value="${point.value}" />
+											<c:set var="done2" value="true" />
+										</c:if>
+									</c:forEach> <c:if test="${!done2}">-</c:if></td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="tlsubject" items="${ test_subject_list }">
-								<tr>
-									<td><c:out value="${ tlsubject.entYear }" /></td>
-									<td><c:out value="${ tlsubject.classNum }" /></td>
-									<td><c:out value="${ tlsubject.studentNo }" /></td>
-									<td><c:out value="${ tlsubject.studentName }" /></td>
-									<td><c:set var="done1" value="false" /> <c:forEach var="point" items="${tlsubject.points}">
-											<c:if test="${point.key == 1}">
-												<c:out value="${point.value}" />
-												<c:set var="done1" value="true" />
-											</c:if>
-										</c:forEach> <c:if test="${!done1}">-</c:if></td>
-									<td><c:set var="done2" value="false" /> <c:forEach var="point" items="${tlsubject.points}">
-											<c:if test="${point.key == 2}">
-												<c:out value="${point.value}" />
-												<c:set var="done2" value="true" />
-											</c:if>
-										</c:forEach> <c:if test="${!done2}">-</c:if></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</c:when>
-				<c:otherwise>
-					<div class="mx-2 my-2">学生情報が存在しませんでした</div>
-				</c:otherwise>
-			</c:choose>
-		</section>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:when>
+			<c:otherwise>
+				<div class="mx-2 my-2">学生情報が存在しませんでした</div>
+			</c:otherwise>
+		</c:choose>
 	</c:param>
 </c:import>

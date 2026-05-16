@@ -12,7 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StaffCreateExecuteAction extends Action {
+
+	// 入力された教職員情報のバリデーションを行い、問題がなければデータベースに登録する
+	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// 必要なリクエスト情報の取得
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
@@ -22,23 +26,29 @@ public class StaffCreateExecuteAction extends Action {
 		// バリデーション
 		Map<String, String> errors = form.validate(school);
 
+		// エラーがある場合は入力画面へ戻す
 		if (!errors.isEmpty()) {
+			// 画面表示用のデータを準備
 			prepareViewData(req, school);
 			form.setAttributes(req);
 			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/staff_create.jsp").forward(req, res);
+			req.getRequestDispatcher("StaffCreate.action").forward(req, res);
 			return;
 		}
 
-		// 保存処理
+		// DBへ反映
 		Staff newStaff = form.toEntity(school);
-		new StaffDao().save(newStaff);
+		StaffDao staffDao = new StaffDao();
+		staffDao.save(newStaff);
 
 		res.sendRedirect(req.getContextPath() + "/scoremanager/main/StaffCreateDone.action");
 	}
 
 	private void prepareViewData(HttpServletRequest req, School school) throws Exception {
-		req.setAttribute("position_list", new PositionDao().filter(school));
-		req.setAttribute("status_list", new StatusDao().filter(school));
+		PositionDao positionDao = new PositionDao();
+		StatusDao statusDao = new StatusDao();
+
+		req.setAttribute("position_list", positionDao.filter(school));
+		req.setAttribute("status_list", statusDao.filter(school));
 	}
 }

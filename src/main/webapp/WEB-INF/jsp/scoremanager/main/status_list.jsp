@@ -5,9 +5,9 @@
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
 		<div class="my-2 text-end px-4">
-			<a class="btn btn-link p-0 me-3" href="StaffList.action">戻る</a>
+			<a class="me-3" href="StaffList.action">戻る</a>
 			<c:if test="${staff.position.name eq '管理者'}">
-				<a class="btn btn-primary" href="StatusCreate.action">新規登録</a>
+				<a href="StatusCreate.action">新規登録</a>
 			</c:if>
 		</div>
 		<c:choose>
@@ -29,8 +29,8 @@
 								<td><c:out value="${status.name}" /></td>
 								<td><c:out value="${status.sortOrder}" /></td>
 								<c:if test="${staff.position.name eq '管理者'}">
-									<td><a class="btn btn-link p-0" href="StatusUpdate.action?id=<c:out value='${status.id}' />">変更</a></td>
-									<td><a class="btn btn-link p-0 text-danger" href="StatusDelete.action?id=<c:out value='${status.id}' />">削除</a></td>
+									<td><a href="StatusUpdate.action?id=<c:out value='${status.id}' />">変更</a></td>
+									<td><a class="text-danger" href="StatusDelete.action?id=<c:out value='${status.id}' />">削除</a></td>
 								</c:if>
 							</tr>
 						</c:forEach>
