@@ -11,19 +11,19 @@
 				<select name="ent_year" class="form-select" required>
 					<option value="">--------</option>
 					<c:forEach var="y" items="${ent_year_list}">
-						<option value="<c:out value='${y}' />" <c:if test="${y == ent_year}">selected</c:if>><c:out value="${y}" /></option>
+						<option value="<c:out value='${y}' />" <c:if test="${y == student.entYear}">selected</c:if>><c:out value="${y}" /></option>
 					</c:forEach>
 				</select>
 				<my:error message="${errors.ent_year}" />
 			</div>
 			<div class="mb-3">
 				<label class="form-label">学生番号</label>
-				<input type="text" name="no" value="<c:out value='${no}' />" class="form-control" maxlength="10" placeholder="学生番号を入力してください" required>
+				<input type="text" name="no" value="<c:out value='${student.no}' />" class="form-control" maxlength="10" placeholder="学生番号を入力してください" required>
 				<my:error message="${errors.no}" />
 			</div>
 			<div class="mb-3">
 				<label class="form-label">氏名</label>
-				<input type="text" name="name" value="<c:out value='${name}' />" class="form-control" placeholder="氏名を入力してください" required>
+				<input type="text" name="name" value="<c:out value='${student.name}' />" class="form-control" placeholder="氏名を入力してください" required>
 				<my:error message="${errors.name}" />
 			</div>
 			<div class="mb-3">
@@ -31,7 +31,7 @@
 				<select name="class_num" class="form-select" required>
 					<option value="">--------</option>
 					<c:forEach var="c" items="${class_num_list}">
-						<option value="<c:out value='${c}' />" <c:if test="${c == class_num}">selected</c:if>><c:out value="${c}" /></option>
+						<option value="<c:out value='${c}' />" <c:if test="${c == student.classNum}">selected</c:if>><c:out value="${c}" /></option>
 					</c:forEach>
 				</select>
 				<my:error message="${errors.class_num}" />

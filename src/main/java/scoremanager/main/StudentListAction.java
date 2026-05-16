@@ -33,7 +33,7 @@ public class StudentListAction extends Action {
 		if (classNum == null)
 			classNum = "";
 		String isAttendStr = req.getParameter("is_attend");
-		String searched = req.getParameter("searched");
+		String submitted = req.getParameter("submitted");
 
 		boolean isEntYearSelected = !entYearStr.isEmpty();
 		boolean isClassNumSelected = !classNum.isEmpty();
@@ -50,7 +50,7 @@ public class StudentListAction extends Action {
 		req.setAttribute("class_num", classNum);
 		req.setAttribute("is_attend", isAttendStr);
 
-		if (!"true".equals(searched) || (entYearStr.isEmpty() && classNum.isEmpty())) {
+		if (!"true".equals(submitted) || (entYearStr.isEmpty() && classNum.isEmpty())) {
 			studentList = studentDao.filter(school, isAttend);
 		} else {
 			// バリデーション

@@ -1,15 +1,12 @@
 package scoremanager.main;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
 import bean.School;
 import bean.Staff;
 import dao.ClassNumDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
+import tool.StudentUtil;
 
 public class StudentCreateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -27,18 +24,6 @@ public class StudentCreateAction extends Action {
 
 	private void prepareViewData(HttpServletRequest req, School school, ClassNumDao classNumDao) throws Exception {
 		req.setAttribute("class_num_list", classNumDao.filter(school));
-
-		int currentYear = Year.now().getValue();
-		req.setAttribute("ent_year_list", createEntYearList(currentYear - 10, currentYear + 1));
-	}
-
-	private List<Integer> createEntYearList(int from, int to) {
-		List<Integer> list = new ArrayList<>();
-
-		for (int i = from; i <= to; i++) {
-			list.add(i);
-		}
-
-		return list;
+		req.setAttribute("ent_year_list", StudentUtil.createEntYearList(req));
 	}
 }

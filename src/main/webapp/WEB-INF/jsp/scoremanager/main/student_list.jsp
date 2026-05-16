@@ -11,7 +11,7 @@
 			<a href="StudentCreate.action">新規登録</a>
 		</div>
 		<form method="get">
-			<input type="hidden" name="searched" value="true">
+			<input type="hidden" name="submitted" value="true">
 			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
 				<div class="col-4">
 					<label class="form-label" for="ent_year">入学年度</label>

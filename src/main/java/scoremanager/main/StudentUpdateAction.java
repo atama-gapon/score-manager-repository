@@ -1,49 +1,38 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import bean.School;
 import bean.Staff;
-import bean.Student;
 import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
+import tool.StudentUtil;
 
 public class StudentUpdateAction extends Action {
 	public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// 変更したい学生の番号を取る
-		String no = req.getParameter("no");
+		String targetNo = req.getParameter("no");
+		String submitted = req.getParameter("submitted");
 
-		// 学生情報を1件取ってくる
-		StudentDao sDao = new StudentDao();
-		Student student = sDao.get(no);
+		// インスタンス化
+		StudentDao studentDao = new StudentDao();
+		ClassNumDao classNumDao = new ClassNumDao();
 
-		// 入学年度のリストを作る（プルダウン用）
-		LocalDate todaysDate = LocalDate.now();
-		int year = todaysDate.getYear();
-
-		List<Integer> entYearList = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearList.add(i);
+		if (!"true".equals(submitted)) {
+			req.setAttribute("student", studentDao.get(targetNo));
 		}
-		req.setAttribute("ent_year_list", entYearList);
 
-		// クラス一覧を取ってセット
-		ClassNumDao cNumDao = new ClassNumDao();
-		List<String> classNumList = cNumDao.filter(school);
-		req.setAttribute("class_num_list", classNumList);
+		// データの準備
+		prepareViewData(req, school, classNumDao);
 
-		// 画面に表示する学生データ
-		req.setAttribute("student", student);
-
-		// 更新画面へ
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_update.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school, ClassNumDao classNumDao) throws Exception {
+		req.setAttribute("class_num_list", classNumDao.filter(school));
+		req.setAttribute("ent_year_list", StudentUtil.createEntYearList(req));
 	}
 }
