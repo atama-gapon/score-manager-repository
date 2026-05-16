@@ -1,6 +1,6 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +16,29 @@ public class StudentCreateAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// セレクトボックス用のクラスデータを取得
-		ClassNumDao cNumDao = new ClassNumDao();
-		List<String> classNumList = cNumDao.filter(school);
+		// インスタンス化
+		ClassNumDao classNumDao = new ClassNumDao();
 
-		// 入学年度の選択肢を作成
-		LocalDate today = LocalDate.now();
-		int year = today.getYear();
-		List<Integer> entYearList = new ArrayList<>();
-		for (int i = year - 10; i <= year + 1; i++) {
-			entYearList.add(i);
-		}
-
-		req.setAttribute("ent_year_list", entYearList);
-		req.setAttribute("class_num_list", classNumList);
+		// データの準備
+		prepareViewData(req, school, classNumDao);
 
 		req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_create.jsp").forward(req, res);
+	}
+
+	private void prepareViewData(HttpServletRequest req, School school, ClassNumDao classNumDao) throws Exception {
+		req.setAttribute("class_num_list", classNumDao.filter(school));
+
+		int currentYear = Year.now().getValue();
+		req.setAttribute("ent_year_list", createEntYearList(currentYear - 10, currentYear + 1));
+	}
+
+	private List<Integer> createEntYearList(int from, int to) {
+		List<Integer> list = new ArrayList<>();
+
+		for (int i = from; i <= to; i++) {
+			list.add(i);
+		}
+
+		return list;
 	}
 }

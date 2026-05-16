@@ -1,15 +1,11 @@
 package scoremanager.main;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import bean.School;
 import bean.Staff;
 import bean.Student;
-import dao.ClassNumDao;
 import dao.StudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,16 +17,17 @@ public class StudentCreateExecuteAction extends Action {
 		Staff staff = (Staff) req.getAttribute("staff");
 		School school = staff.getSchool();
 
-		// リクエストパラメータを取得
+		// インスタンス化
+		StudentDao studentDao = new StudentDao();
+		Map<String, String> errors = new HashMap<>();
+
+		// リクエストパラメータの取得
 		String entYear = req.getParameter("ent_year");
 		String no = req.getParameter("no");
 		String name = req.getParameter("name");
 		String classNum = req.getParameter("class_num");
 
-		StudentDao studentDao = new StudentDao();
-		Map<String, String> errors = new HashMap<>();
-
-		// バリデーションチェック
+		// バリデーション
 		Validator.required(entYear, "ent_year", "入学年度を選択してください", errors);
 		if (!errors.containsKey("ent_year")) {
 			Validator.integer(entYear, "ent_year", "入学年度を選択してください", errors);
@@ -44,26 +41,16 @@ public class StudentCreateExecuteAction extends Action {
 		Validator.required(name, "name", "氏名を入力してください", errors);
 		Validator.required(classNum, "class_num", "クラスを選択してください", errors);
 
-		// 入力エラーがある場合は入力画面へ戻す
+		// エラーがある場合は入力画面へ戻す
 		if (!errors.isEmpty()) {
-			LocalDate today = LocalDate.now();
-			int year = today.getYear();
-			List<Integer> entYearList = new ArrayList<>();
-			for (int i = year - 10; i <= year + 1; i++) {
-				entYearList.add(i);
-			}
-
-			ClassNumDao cNumDao = new ClassNumDao();
-			List<String> classNumList = cNumDao.filter(school);
-
+			// データの準備
 			req.setAttribute("ent_year", entYear);
 			req.setAttribute("no", no);
 			req.setAttribute("name", name);
 			req.setAttribute("class_num", classNum);
-			req.setAttribute("ent_year_list", entYearList);
-			req.setAttribute("class_num_list", classNumList);
 			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("/WEB-INF/jsp/scoremanager/main/student_create.jsp").forward(req, res);
+
+			req.getRequestDispatcher("StudentCreate.action").forward(req, res);
 			return;
 		}
 
