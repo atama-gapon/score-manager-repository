@@ -33,7 +33,8 @@ public class LoginAction extends Action {
 	}
 
 	private void prepareViewData(HttpServletRequest req, String timeout) throws Exception {
-		if (timeout != null && !timeout.isEmpty()) {
+		// timeoutが null でもなく、空でもなく、かつ確実に "true" という文字列の時だけメッセージを出す
+		if (timeout != null && timeout.equalsIgnoreCase("true")) {
 			req.setAttribute("message", "セッションが終了しました。再度ログインをお願いします。");
 		}
 	}
