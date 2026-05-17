@@ -28,13 +28,17 @@
 							<tr>
 								<td><c:out value="${position.name}" /></td>
 								<td><c:out value="${position.sortOrder}" /></td>
-								<c:if test="${staff.position.name eq '管理者' and position.name ne '管理者'}">
-									<td><a href="PositionUpdate.action?id=<c:out value='${position.id}' />"> 変更 </a></td>
-									<td><a class="text-danger" href="PositionDelete.action?id=<c:out value='${position.id}' />"> 削除 </a></td>
-								</c:if>
-								<c:if test="${staff.position.name eq '管理者' and position.name eq '管理者'}">
-									<td></td>
-									<td></td>
+								<c:if test="${staff.position.name eq '管理者'}">
+									<c:choose>
+										<c:when test="${position.name eq '管理者'}">
+											<td></td>
+											<td></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href="PositionUpdate.action?id=${position.id}">変更</a></td>
+											<td><a class="text-danger" href="PositionDelete.action?id=${position.id}">削除</a></td>
+										</c:otherwise>
+									</c:choose>
 								</c:if>
 							</tr>
 						</c:forEach>

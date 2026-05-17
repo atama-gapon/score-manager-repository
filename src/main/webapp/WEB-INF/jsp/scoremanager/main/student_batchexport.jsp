@@ -48,8 +48,5 @@
 				</div>
 			</form>
 		</div>
-		<div class="mt-3">
-			<a class="text-decoration-underline" href="StudentList.action">戻る</a>
-		</div>
 	</c:param>
 </c:import>

@@ -218,12 +218,12 @@ public class StudentDao extends Dao {
 					String[] data = line.split(",", -1);
 
 					if (data.length < 5) {
-						throw new Exception("CSVの形式が正しくありません。");
+						throw new Exception("CSVの形式が正しくありません");
 					}
 
 					String attend = data[4].trim().toLowerCase();
 					if (!attend.equals("true") && !attend.equals("false")) {
-						throw new Exception("在学フラグを正しい形で入力してください。(true/false)");
+						throw new Exception("在学フラグを正しい形で入力してください(true/false)");
 					}
 
 					// クラスの重複チェック挿入を実行
@@ -260,10 +260,10 @@ public class StudentDao extends Dao {
 			String errorMsg = e.getMessage();
 			if (errorMsg != null) {
 				if (errorMsg.contains("Duplicate") || errorMsg.contains("PRIMARY")) {
-					errorMsg = "既に登録されている学生が含まれています。";
+					errorMsg = "既に登録されている学生が含まれています";
 				}
 			} else if (e instanceof NumberFormatException) {
-				errorMsg = "入学年度に数値以外の値が含まれています。";
+				errorMsg = "入学年度に数値以外の値が含まれています";
 			}
 			throw new Exception(errorMsg);
 		} finally {

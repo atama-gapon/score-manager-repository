@@ -1,9 +1,13 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.School;
 import bean.Staff;
 import bean.Subject;
 import dao.SubjectDao;
+import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
@@ -18,10 +22,25 @@ public class SubjectDeleteExecuteAction extends Action {
 		School school = staff.getSchool();
 		String cd = req.getParameter("cd");
 
-		// バリデーション（不正なパラメータによる誤削除・クラッシュ防止）
+		// インスタンス化
+		TestDao testDao = new TestDao();
+		Map<String, String> errors = new HashMap<>();
+
+		// バリデーション
 		if (cd == null || cd.isEmpty()) {
-			req.setAttribute("error", "削除対象の科目コードが不正です。");
+			req.setAttribute("error", "削除対象の科目コードが不正です");
 			req.getRequestDispatcher("SubjectList.action").forward(req, res);
+			return;
+		}
+
+		if (testDao.hasTestInSubject(school, cd)) {
+			errors.put("cd", "この科目を用いている成績が存在しているため削除できません");
+		}
+
+		// エラーがある場合は入力画面へ戻す
+		if (!errors.isEmpty()) {
+			req.setAttribute("errors", errors);
+			req.getRequestDispatcher("SubjectDelete.action").forward(req, res);
 			return;
 		}
 

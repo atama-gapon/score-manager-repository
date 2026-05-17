@@ -34,7 +34,7 @@ public class TestRegistExecuteAction extends Action {
 				classNum == null || classNum.isEmpty() ||
 				subjectCd == null || subjectCd.isEmpty() ||
 				numStr == null || numStr.isEmpty()) {
-			req.setAttribute("error", "登録に必要なパラメータが不足しています。");
+			req.setAttribute("error", "登録に必要なパラメータが不足しています");
 			req.getRequestDispatcher("TestList.action").forward(req, res);
 			return;
 		}
@@ -46,7 +46,7 @@ public class TestRegistExecuteAction extends Action {
 			entYear = Integer.parseInt(entYearStr);
 			num = Integer.parseInt(numStr);
 		} catch (NumberFormatException e) {
-			req.setAttribute("error", "パラメータの数値変換に失敗しました。");
+			req.setAttribute("error", "パラメータの数値変換に失敗しました");
 			req.getRequestDispatcher("TestList.action").forward(req, res);
 			return;
 		}

@@ -5,10 +5,10 @@
 	<c:param name="title">成績登録</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
-		<form class="px-0" method="post">
-			<div class="row border mx-3 mb-3 py-2 align-items-end rounded" id="filter">
+		<form class="px-0 mt-5" method="post">
+			<div class="row border mx-3 mb-3 py-3 align-items-end rounded bg-white shadow-sm" id="filter">
 				<div class="col-2">
-					<label class="form-label" for="student-ent_year-select">入学年度</label>
+					<label class="form-label mb-1" for="student-ent_year-select">入学年度</label>
 					<select class="form-select" id="student-ent_year-select" name="ent_year" required>
 						<option value="">----------</option>
 						<c:forEach var="year" items="${ ent_year_list }">
@@ -17,7 +17,7 @@
 					</select>
 				</div>
 				<div class="col-2">
-					<label class="form-label" for="student-class_num-select">クラス</label>
+					<label class="form-label mb-1" for="student-class_num-select">クラス</label>
 					<select class="form-select" id="student-class_num-select" name="class_num" required>
 						<option value="">----------</option>
 						<c:forEach var="num" items="${ class_num_list }">
@@ -25,8 +25,8 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-3">
-					<label class="form-label" for="student-subject_cd-select">科目</label>
+				<div class="col-4">
+					<label class="form-label mb-1" for="student-subject_cd-select">科目</label>
 					<select class="form-select" id="student-subject_cd-select" name="subject_cd" required>
 						<option value="">----------</option>
 						<c:forEach var="subject" items="${ subject_list }">
@@ -35,30 +35,28 @@
 					</select>
 				</div>
 				<div class="col-2">
-					<label class="form-label" for="student-num-select">回数</label>
+					<label class="form-label mb-1" for="student-num-select">回数</label>
 					<select class="form-select" id="student-num-select" name="num" required>
 						<option value="">----------</option>
 						<option value="1" <c:if test="${num == 1}">selected</c:if>>1</option>
 						<option value="2" <c:if test="${num == 2}">selected</c:if>>2</option>
 					</select>
 				</div>
-				<div class="col-2">
-					<button class="btn btn-secondary" type="submit" name="search" value="true">検索</button>
+				<div class="col-2 text-end">
+					<button class="btn btn-secondary w-100" type="submit" name="search" value="true">検索</button>
 				</div>
-				<div class="col-12 mt-2">
-					<my:error message="${errors.ent_year}" />
-				</div>
+				<c:if test="${not empty errors.ent_year}">
+					<div class="col-12 mt-2">
+						<my:error message="${errors.ent_year}" />
+					</div>
+				</c:if>
 			</div>
 		</form>
 		<my:error message="${message}" />
 		<c:choose>
 			<c:when test="${not empty tests}">
 				<div class="mb-2 px-3">
-					科目：
-					<c:out value="${subject.name}" />
-					（
-					<c:out value="${num}" />
-					回）
+					科目：<c:out value="${subject.name}" />（<c:out value="${num}" />回）
 				</div>
 				<form class="px-3" action="TestRegistExecute.action" method="post">
 					<table class="table table-hover">
@@ -90,7 +88,7 @@
 						</tbody>
 					</table>
 					<div class="mt-4">
-						<button class="btn btn-primary px-3" type="submit" name="regist">登録して終了</button>
+						<button class="btn btn-primary px-3" type="submit" name="regist">登録</button>
 					</div>
 					<input type="hidden" name="ent_year" value="<c:out value='${ent_year}' />">
 					<input type="hidden" name="class_num" value="<c:out value='${class_num}' />">

@@ -28,7 +28,7 @@ public class TestDeleteExecuteAction extends Action {
 		if (studentNo == null || studentNo.isEmpty() ||
 				subjectCd == null || subjectCd.isEmpty() ||
 				numStr == null || numStr.isEmpty()) {
-			req.setAttribute("error", "削除対象の指定が不正です。");
+			req.setAttribute("error", "削除対象の指定が不正です");
 			req.getRequestDispatcher("TestList.action").forward(req, res);
 			return;
 		}
@@ -37,7 +37,7 @@ public class TestDeleteExecuteAction extends Action {
 		try {
 			num = Integer.parseInt(numStr);
 		} catch (NumberFormatException e) {
-			req.setAttribute("error", "テスト回数の指定が不正です。");
+			req.setAttribute("error", "テスト回数の指定が不正です");
 			req.getRequestDispatcher("TestList.action").forward(req, res);
 			return;
 		}

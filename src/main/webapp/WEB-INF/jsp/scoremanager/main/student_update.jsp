@@ -9,12 +9,7 @@
 			<input type="hidden" name="submitted" value="true">
 			<div class="mb-3">
 				<label class="form-label">入学年度</label>
-				<select class="form-select" name="ent_year" required>
-					<option value="">--------</option>
-					<c:forEach var="y" items="${ent_year_list}">
-						<option value="<c:out value='${y}' />" <c:if test="${y == student.entYear}">selected</c:if>><c:out value="${y}" /></option>
-					</c:forEach>
-				</select>
+				<input class="form-control-plaintext" type="text" name="ent_year" value="<c:out value='${student.entYear}' />" readonly>
 				<my:error message="${errors.ent_year}" />
 			</div>
 			<div class="mb-3">

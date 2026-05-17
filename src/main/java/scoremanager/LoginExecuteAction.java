@@ -39,7 +39,7 @@ public class LoginExecuteAction extends Action {
 				|| !PasswordHasher.verify(password, storedPasswordHash)) {
 
 			// 画面表示用のデータを準備（入力値を維持して復帰）
-			req.setAttribute("message", "ログインに失敗しました。学校コードまたは職員番号またはパスワードが正しくありません");
+			req.setAttribute("message", "ログインに失敗しました。学校コードまたは職員番号またはパスワードが正しくありません。");
 			req.setAttribute("school_cd", schoolCd);
 			req.setAttribute("no", no);
 			// ログイン画面（LoginAction）側のセッション再判定等をスキップさせる制御フラグ

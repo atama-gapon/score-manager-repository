@@ -5,6 +5,7 @@
 	<c:param name="title">ログアウト</c:param>
 	<c:param name="scripts"></c:param>
 	<c:param name="content">
+		<h2 class="h3 mb-3 fw-bold bg-secondary bg-opacity-10 py-2 px-4">ログアウト</h2>
 		<my:done message="ログアウトしました">
 			<a class="text-decoration-underline" href="../Login.action">ログイン</a>
 		</my:done>

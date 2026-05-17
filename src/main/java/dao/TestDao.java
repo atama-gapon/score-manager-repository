@@ -42,6 +42,25 @@ public class TestDao extends Dao {
 		return test;
 	}
 
+	// 指定された科目に所属するテストが存在するかチェック
+	public boolean hasTestInSubject(School school, String subjectCd) throws Exception {
+		String sql = "SELECT * FROM test WHERE school_cd = ? AND subject_cd = ?";
+		boolean isFound = false;
+
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, school.getCd());
+			statement.setString(2, subjectCd);
+
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					isFound = true;
+				}
+			}
+		}
+		return isFound;
+	}
+
 	// 検索結果を走査し、学生情報と得点情報を組み合わせたテストリストに変換
 	private List<Test> postFilter(ResultSet rSet, School school) throws Exception {
 		List<Test> list = new ArrayList<>();

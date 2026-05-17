@@ -25,7 +25,7 @@ public class StudentBulkExecuteAction extends Action {
 
 		// バリデーション
 		if (csv == null || csv.getSize() <= 0) {
-			req.setAttribute("error", "ファイルを選択してください。");
+			req.setAttribute("error", "ファイルを選択してください");
 			req.getRequestDispatcher("StudentBulk.action").forward(req, res);
 			return;
 		}

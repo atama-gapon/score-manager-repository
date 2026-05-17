@@ -70,7 +70,7 @@ public class TestSubjectListExecuteAction extends Action {
 		try {
 			entYear = Integer.parseInt(entYearStr);
 		} catch (NumberFormatException e) {
-			req.setAttribute("message", "入学年度の数値変換に失敗しました。");
+			req.setAttribute("message", "入学年度の数値変換に失敗しました");
 			return;
 		}
 
