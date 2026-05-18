@@ -100,10 +100,7 @@ public class TestDao extends Dao {
 	// 入学年度、クラス番号、科目、回数、学校情報を条件に、学生情報と得点（成績）の一覧を取得
 	public List<Test> filter(int entYear, String classNum, Subject subject, int num, School school) throws Exception {
 		List<Test> list = new ArrayList<>();
-		String sql = "SELECT s.no AS student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no AS test_no, t.point, t.marker_staff_no, ? AS filter_sub, ? AS filter_num "
-				+ "FROM student s LEFT JOIN test t ON s.no = t.student_no AND s.school_cd = t.school_cd "
-				+ "AND t.subject_cd = ? AND t.no = ? AND t.no >= 0 "
-				+ "WHERE s.school_cd = ? AND s.ent_year = ? AND s.class_num = ? AND s.is_attend = true ORDER BY s.no ASC";
+		String sql = "SELECT s.no AS student_no, s.name, s.ent_year, s.class_num, t.subject_cd, t.no AS test_no, t.point, t.marker_staff_no, ? AS filter_sub, ? AS filter_num FROM student s LEFT JOIN test t ON s.no = t.student_no AND s.school_cd = t.school_cd AND t.subject_cd = ? AND t.no = ? AND t.no >= 0 WHERE s.school_cd = ? AND s.ent_year = ? AND s.class_num = ? AND s.is_attend = true ORDER BY s.no ASC";
 
 		try (Connection connection = getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
